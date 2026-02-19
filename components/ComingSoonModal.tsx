@@ -97,7 +97,7 @@ export default function ComingSoonModal({ isOpen, onClose, toolName }: ComingSoo
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <p className="text-white/90 text-lg">You're in the grid.</p>
+                    <p className="text-white/90 text-lg">{`You're in the grid.`}</p>
                   </motion.div>
                 )}
               </div>
