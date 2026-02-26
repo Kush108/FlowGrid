@@ -17,14 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          data-website-id="dfid_0XtNYfkptwLKftXYSIiG3"
-          data-domain="flowgrid.ca"
-          src="https://datafa.st/js/script.js"
-          //strategy="afterInteractive"
-        />
-      </head>
+      <script
+        defer
+        data-website-id="dfid_0XtNYfkptwLKftXYSIiG3"
+        data-domain="flowgrid.ca"
+        src="https://datafa.st/js/script.js">
+      </script>
       <body>{children}</body>
     </html>
   );
