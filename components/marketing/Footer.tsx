@@ -1,5 +1,7 @@
 'use client';
 
+import { FlowMark, FlowWordmark } from '@/components/marketing/FlowBrand';
+
 export default function Footer() {
   return (
     <footer className="bg-[#060e1a] border-t border-brand-border py-14">
@@ -7,18 +9,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-brand-green/15 border border-brand-green/25 flex items-center justify-center">
-                <div className="grid grid-cols-2 gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-text/90" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-text/90" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-text/90" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                </div>
-              </div>
-              <div className="font-[var(--font-display)] text-lg">
-                <span className="text-brand-text">Flow</span>
-                <span className="text-brand-green">Grid</span>
-              </div>
+              <FlowMark />
+              <FlowWordmark />
             </div>
             <p className="mt-4 text-brand-muted leading-relaxed">Operational software for businesses that move.</p>
             <p className="mt-3 text-brand-muted text-sm">

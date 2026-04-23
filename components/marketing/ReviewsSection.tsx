@@ -1,29 +1,47 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { useOnceInView } from '@/components/marketing/useOnceInView';
 
-function Avatar({ name }: { name: string }) {
+function Avatar({ name, variant }: { name: string; variant: 'green' | 'blue' | 'purple' }) {
   const initials = name
     .split(' ')
     .slice(0, 2)
     .map((p) => p[0]?.toUpperCase())
     .join('');
 
+  const styles =
+    variant === 'green'
+      ? 'bg-brand-green/15 border-brand-green/25 text-brand-text shadow-[0_0_0_1px_rgba(34,197,94,0.12)]'
+      : variant === 'blue'
+        ? 'bg-brand-blue/15 border-brand-blue/25 text-brand-text shadow-[0_0_0_1px_rgba(14,165,233,0.12)]'
+        : 'bg-purple-500/15 border-purple-400/25 text-brand-text shadow-[0_0_0_1px_rgba(168,85,247,0.12)]';
+
   return (
-    <div className="w-10 h-10 rounded-full bg-white/5 border border-brand-border flex items-center justify-center text-sm text-brand-text/85">
+    <div
+      className={[
+        'w-10 h-10 rounded-full border flex items-center justify-center text-sm font-semibold tracking-wide',
+        styles,
+      ].join(' ')}
+    >
       {initials || 'FG'}
     </div>
   );
 }
 
 function Counter({ to, label, prefix = '' }: { to: number; label: string; prefix?: string }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: '-120px' });
+  const { ref, inView } = useOnceInView<HTMLDivElement>({ threshold: 0.12, rootMargin: '0px 0px -12% 0px' });
   const [v, setV] = useState(0);
 
   useEffect(() => {
     if (!inView) return;
+
+    if (to === 0) {
+      setV(0);
+      return;
+    }
+
     const duration = 900;
     const t0 = performance.now();
     const tick = (t: number) => {
@@ -84,7 +102,7 @@ export default function ReviewsSection() {
               org: 'HVAC Service Company',
               tag: 'FieldTrack · 18 technicians',
             },
-          ].map((r) => (
+          ].map((r, idx) => (
             <motion.div
               key={r.quote}
               initial={{ opacity: 0, y: 16 }}
@@ -96,7 +114,7 @@ export default function ReviewsSection() {
               <div className="text-brand-green text-sm">{r.stars}</div>
               <div className="mt-3 text-brand-text/90 leading-relaxed">“{r.quote}”</div>
               <div className="mt-5 flex items-center gap-3">
-                <Avatar name={r.name} />
+                <Avatar name={r.name} variant={idx === 0 ? 'green' : idx === 1 ? 'blue' : 'purple'} />
                 <div className="text-sm text-brand-muted">
                   <div className="text-brand-text/85 font-medium">{r.name}</div>
                   <div>{r.org}</div>

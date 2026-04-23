@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { FlowMark, FlowWordmark } from '@/components/marketing/FlowBrand';
 
 const links = [
   { href: '#services', label: 'Services' },
@@ -37,18 +38,8 @@ export default function NavBar() {
       >
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
           <a href="#top" className="flex items-center gap-3 select-none">
-            <div className="w-9 h-9 rounded-xl bg-brand-green/15 border border-brand-green/25 flex items-center justify-center">
-              <div className="grid grid-cols-2 gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-text/90" />
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-text/90" />
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-text/90" />
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-              </div>
-            </div>
-            <div className="font-[var(--font-display)] text-lg">
-              <span className="text-brand-text">Flow</span>
-              <span className="text-brand-green">Grid</span>
-            </div>
+            <FlowMark />
+            <FlowWordmark />
           </a>
 
           <nav className="hidden md:flex items-center gap-6 text-sm text-brand-muted">
@@ -88,9 +79,9 @@ export default function NavBar() {
           <div className="absolute inset-0 p-5">
             <div className="h-full rounded-2xl border border-brand-border bg-brand-bg shadow-[0_12px_30px_rgba(0,0,0,.35)] overflow-hidden">
               <div className="p-5 flex items-center justify-between border-b border-brand-border">
-                <div className="font-[var(--font-display)] text-lg">
-                  <span className="text-brand-text">Flow</span>
-                  <span className="text-brand-green">Grid</span>
+                <div className="flex items-center gap-3">
+                  <FlowMark />
+                  <FlowWordmark />
                 </div>
                 <button
                   className="w-10 h-10 rounded-xl border border-brand-border bg-white/5 inline-flex items-center justify-center"
