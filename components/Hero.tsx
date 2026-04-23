@@ -47,7 +47,7 @@ export default function Hero() {
           className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-6 px-4"
         >
           <span className="bg-gradient-to-r from-white via-neon-blue to-neon-violet bg-clip-text text-transparent">
-            Welcome to FlowGrid
+            FlowGrid builds operational systems.
           </span>
         </motion.h1>
 
@@ -58,7 +58,17 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
           className="text-lg sm:text-xl md:text-2xl text-white/70 mb-12 px-4"
         >
-          A grid of intelligent utilities.
+          Edmonton + Calgary. Booking, staff tracking, dashboards.
+        </motion.p>
+
+        {/* Secondary line */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
+          className="text-sm sm:text-base text-white/55 px-6 max-w-2xl mx-auto"
+        >
+          Calm builds. Clean workflows. Delivered fast, maintained long-term.
         </motion.p>
 
         {/* Grid preview fade-in with animated tiles */}
@@ -120,11 +130,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: showGrid ? 1 : 0, y: showGrid ? 0 : 10 }}
           transition={{ duration: 0.6, delay: 1.4 }}
-          className="mt-10 flex justify-center"
+          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4"
         >
           <motion.button
             type="button"
-            className="relative inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm sm:text-base font-medium text-white/90"
+            className="relative inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm sm:text-base font-medium text-white/90 w-full sm:w-auto justify-center"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             animate={{
@@ -141,13 +151,13 @@ export default function Hero() {
               repeatDelay: 2,
             }}
             onClick={() => {
-              const targetY = window.innerHeight * 0.9;
-              window.scrollTo({ top: targetY, behavior: 'smooth' });
+              const el = document.getElementById('systems');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
           >
             <span className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-blue to-neon-violet opacity-70" />
             <span className="absolute inset-[1px] rounded-full bg-background" />
-            <span className="relative z-10">Explore the grid</span>
+            <span className="relative z-10">See systems</span>
             <span className="relative z-10 hidden sm:inline-flex">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                 <path
@@ -159,6 +169,20 @@ export default function Hero() {
                 />
               </svg>
             </span>
+          </motion.button>
+
+          <motion.button
+            type="button"
+            className="relative inline-flex items-center justify-center rounded-full px-6 py-3 text-sm sm:text-base font-medium text-white/80 w-full sm:w-auto"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('flowgrid:intake-open', { detail: { source: 'hero' } }));
+            }}
+          >
+            <span className="absolute inset-0 rounded-full bg-white/[0.04]" />
+            <span className="absolute inset-0 rounded-full border border-white/10" />
+            <span className="relative">Get a build plan</span>
           </motion.button>
         </motion.div>
       </div>

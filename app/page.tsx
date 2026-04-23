@@ -4,9 +4,8 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import CursorTrail from '@/components/CursorTrail';
 import Hero from '@/components/Hero';
-import ToolGrid from '@/components/ToolGrid';
-import WhySection from '@/components/WhySection';
-import FutureExpansion from '@/components/FutureExpansion';
+import SystemsGrid from '@/components/SystemsGrid';
+import ProofAndProcess from '@/components/ProofAndProcess';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -34,8 +33,8 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
       
-      {/* Interactive Grid Section */}
-      <section className="py-24 px-4 md:px-8 relative">
+      {/* Systems Grid Section */}
+      <section id="systems" className="py-24 px-4 md:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -43,17 +42,16 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-neon-blue to-neon-violet bg-clip-text text-transparent"
           >
-            The Grid
+            Systems
           </motion.h2>
-          <ToolGrid />
+          <p className="text-center text-white/60 max-w-2xl mx-auto -mt-8 mb-12 px-4">
+            Productized modules you can deploy fast — or customize into a full operational platform.
+          </p>
+          <SystemsGrid />
         </div>
       </section>
 
-      {/* Why FlowGrid Exists */}
-      <WhySection />
-
-      {/* Future Expansion */}
-      <FutureExpansion />
+      <ProofAndProcess />
 
       {/* Footer */}
       <Footer />
