@@ -68,60 +68,83 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
           className="text-sm sm:text-base text-white/55 px-6 max-w-2xl mx-auto"
         >
-          Calm builds. Clean workflows. Delivered fast, maintained long-term.
+          Built like a demo first. If you like it, we ship the real version for your business.
         </motion.p>
 
-        {/* Grid preview fade-in with animated tiles */}
+        {/* Mini proof module (subtle, not salesy) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: showGrid ? 1 : 0, scale: showGrid ? 1 : 0.9 }}
           transition={{ duration: 1, delay: 0.6 }}
-          className="mt-16"
+          className="mt-10"
         >
-          <div className="grid grid-cols-3 gap-3 max-w-xs sm:max-w-md mx-auto">
-            {Array.from({ length: 9 }).map((_, i) => {
-              const row = Math.floor(i / 3);
-              const col = i % 3;
-              const baseDelay = (row + col) * 0.15;
+          <div className="glass border border-white/10 rounded-2xl max-w-xl mx-auto overflow-hidden">
+            <div className="px-5 py-4 sm:px-6 sm:py-5 flex items-center justify-between gap-4">
+              <div className="text-left">
+                <div className="text-white/80 text-sm">What you get</div>
+                <div className="text-white/55 text-xs mt-0.5">A working prototype before any big commitment.</div>
+              </div>
+              <div className="text-white/40 text-xs">Live module preview</div>
+            </div>
 
-              return (
-                <motion.div
-                  // Simulated tiles activating across the grid
-                  key={i}
-                  className="aspect-square rounded-lg border border-white/10 bg-white/[0.03] overflow-hidden"
-                  initial={{ opacity: 0.18, scale: 1 }}
-                  animate={{
-                    opacity: [0.18, 0.85, 0.18],
-                    scale: [1, 1.02, 1],
-                    boxShadow: [
-                      '0 0 0px rgba(0,212,255,0)',
-                      '0 0 18px rgba(0,212,255,0.5)',
-                      '0 0 0px rgba(0,212,255,0)',
-                    ],
-                  }}
-                  transition={{
-                    duration: 1.8,
-                    ease: 'easeInOut',
-                    delay: 0.6 + baseDelay,
-                    repeat: Infinity,
-                    repeatDelay: 1.4,
-                  }}
-                >
-                  <motion.div
-                    className="h-full w-full bg-gradient-to-br from-neon-blue/30 via-neon-violet/20 to-transparent"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: [0, 0.6, 0] }}
-                    transition={{
-                      duration: 1.8,
-                      ease: 'easeInOut',
-                      delay: 0.6 + baseDelay,
-                      repeat: Infinity,
-                      repeatDelay: 1.4,
-                    }}
-                  />
-                </motion.div>
-              );
-            })}
+            <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+              <div className="grid grid-cols-3 gap-2 max-w-sm mx-auto">
+                {Array.from({ length: 9 }).map((_, i) => {
+                  const row = Math.floor(i / 3);
+                  const col = i % 3;
+                  const baseDelay = (row + col) * 0.14;
+
+                  return (
+                    <motion.div
+                      key={i}
+                      className="aspect-square rounded-lg border border-white/10 bg-white/[0.03] overflow-hidden"
+                      initial={{ opacity: 0.16, scale: 1 }}
+                      animate={{
+                        opacity: [0.16, 0.7, 0.16],
+                        boxShadow: [
+                          '0 0 0px rgba(0,212,255,0)',
+                          '0 0 14px rgba(0,212,255,0.35)',
+                          '0 0 0px rgba(0,212,255,0)',
+                        ],
+                      }}
+                      transition={{
+                        duration: 1.7,
+                        ease: 'easeInOut',
+                        delay: 0.6 + baseDelay,
+                        repeat: Infinity,
+                        repeatDelay: 1.6,
+                      }}
+                    >
+                      <motion.div
+                        className="h-full w-full bg-gradient-to-br from-neon-blue/25 via-neon-violet/15 to-transparent"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: [0, 0.5, 0] }}
+                        transition={{
+                          duration: 1.7,
+                          ease: 'easeInOut',
+                          delay: 0.6 + baseDelay,
+                          repeat: Infinity,
+                          repeatDelay: 1.6,
+                        }}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                {[
+                  { k: 'Demo first', v: 'See it working' },
+                  { k: 'Build fast', v: '1st version quickly' },
+                  { k: 'Scale later', v: 'Add modules' },
+                ].map((x) => (
+                  <div key={x.k} className="rounded-xl border border-white/10 bg-white/[0.02] px-3 py-3">
+                    <div className="text-white/70">{x.k}</div>
+                    <div className="text-white/45 mt-0.5">{x.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
 

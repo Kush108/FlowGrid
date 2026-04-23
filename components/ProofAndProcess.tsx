@@ -48,6 +48,9 @@ export default function ProofAndProcess() {
           <p className="text-white/60 mt-3 max-w-2xl mx-auto">
             No hype. Just clean tools that reduce friction in day-to-day operations.
           </p>
+          <p className="text-white/50 mt-3 max-w-2xl mx-auto text-sm">
+            We start with a working demo. If it fits your workflow, we finalize and deploy it for your team.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
@@ -110,6 +113,13 @@ export default function ProofAndProcess() {
                 <div className="text-xl sm:text-2xl font-semibold text-white/90">{activeStep.headline}</div>
                 <div className="text-white/60 mt-2 leading-relaxed">{activeStep.body}</div>
               </motion.div>
+
+              <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                <div className="text-white/80 text-sm font-medium">Pricing posture</div>
+                <div className="text-white/55 text-sm mt-1 leading-relaxed">
+                  Not expensive by design: start small, prove value, then expand. You’re not locked into a huge upfront build.
+                </div>
+              </div>
 
               <div className="mt-7 grid grid-cols-3 gap-2">
                 {steps.map((_, i) => (

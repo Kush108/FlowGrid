@@ -26,11 +26,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (min-width: 768px) {
-  body {
-    cursor: none;
-  }
-}
+/* Keep default cursor on desktop (premium + familiar). */
 
 @layer utilities {
   .text-balance {
