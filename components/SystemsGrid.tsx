@@ -10,7 +10,7 @@ const systems: SystemTileData[] = [
     title: 'FieldTrack',
     description: 'Time, mileage, jobs, live status — payroll-ready exports.',
     status: 'live-demo',
-    href: 'https://fieldtrack-demo.netlify.app/',
+    href: 'https://sphinx-healing-demo.netlify.app',
     icon: '📍',
     highlights: ['One-tap punch in/out', 'Per-job mileage logs', 'Manager dashboard + exports'],
   },
@@ -72,7 +72,7 @@ export default function SystemsGrid() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {systems.map((s) => (
           <SystemTile key={s.id} data={s} onRequest={request} />
         ))}

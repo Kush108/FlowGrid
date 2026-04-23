@@ -27,12 +27,12 @@ export default function SystemTile({
   const badge = useMemo(() => {
     switch (data.status) {
       case 'live-demo':
-        return { text: '● Live demo', className: 'bg-neon-green/15 text-neon-green border-neon-green/25' };
+        return { text: '● LIVE', className: 'bg-brand-green/10 text-brand-green border-brand-green/25' };
       case 'available':
-        return { text: '● Available', className: 'bg-neon-blue/15 text-neon-blue border-neon-blue/25' };
+        return { text: '◎ AVAILABLE', className: 'bg-brand-blue/10 text-brand-blue border-brand-blue/25' };
       case 'build':
       default:
-        return { text: '○ Build', className: 'bg-white/8 text-white/60 border-white/10' };
+        return { text: '○ COMING SOON', className: 'bg-white/5 text-brand-muted border-brand-border' };
     }
   }, [data.status]);
 
@@ -61,9 +61,9 @@ export default function SystemTile({
       }}
     >
       <motion.div
-        whileHover={{ scale: 1.015, rotateY: 5, rotateX: -4 }}
+        whileHover={{ scale: 1.012, y: -3 }}
         transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-        className="glass rounded-xl p-6 h-full border border-white/10 relative overflow-hidden"
+        className="rounded-2xl p-6 h-full border border-brand-border bg-brand-surface relative overflow-hidden shadow-[0_12px_30px_rgba(0,0,0,.25)]"
       >
         <motion.div
           aria-hidden="true"
@@ -71,28 +71,25 @@ export default function SystemTile({
             opacity: isHovered ? 0.55 : 0,
             scale: isHovered ? 1.08 : 1,
           }}
-          className="absolute inset-0 bg-gradient-to-br from-neon-blue/25 via-neon-violet/25 to-neon-green/15 blur-xl -z-10"
+          className="absolute inset-0 bg-gradient-to-br from-brand-blue/20 via-brand-green/12 to-transparent blur-xl -z-10"
         />
 
-        <motion.div
+        <div
           aria-hidden="true"
-          animate={{
-            borderColor: isHovered
-              ? ['rgba(0, 212, 255, 0.45)', 'rgba(139, 92, 246, 0.45)', 'rgba(0, 212, 255, 0.45)']
-              : 'rgba(255, 255, 255, 0.10)',
-          }}
-          transition={{ duration: 2.2, repeat: isHovered ? Infinity : 0 }}
-          className="absolute inset-0 rounded-xl border-2 pointer-events-none"
+          className={[
+            'absolute inset-0 rounded-2xl pointer-events-none border',
+            isHovered ? 'border-brand-green/25' : 'border-transparent',
+          ].join(' ')}
         />
 
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="text-3xl select-none">{data.icon}</div>
             <div>
-              <h3 className="text-lg sm:text-xl font-semibold text-white/90 group-hover:text-neon-blue transition-colors">
+              <h3 className="text-lg sm:text-xl font-semibold text-brand-text/90 group-hover:text-brand-text transition-colors">
                 {data.title}
               </h3>
-              <p className="text-white/60 text-sm mt-1">{data.description}</p>
+              <p className="text-brand-muted text-sm mt-1">{data.description}</p>
             </div>
           </div>
         </div>
@@ -100,8 +97,8 @@ export default function SystemTile({
         {data.highlights?.length ? (
           <ul className="mt-4 space-y-2">
             {data.highlights.slice(0, 3).map((h) => (
-              <li key={h} className="text-xs text-white/55 flex items-center gap-2">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-neon-violet/60" />
+              <li key={h} className="text-xs text-brand-muted flex items-center gap-2">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-green/70" />
                 <span>{h}</span>
               </li>
             ))}
@@ -113,8 +110,8 @@ export default function SystemTile({
             {badge.text}
           </div>
 
-          <div className="text-white/40 text-xs">
-            {data.status === 'live-demo' ? 'Open demo →' : 'Request →'}
+          <div className="text-brand-muted text-xs">
+            {data.status === 'live-demo' ? 'See live demo →' : 'Request demo →'}
           </div>
         </div>
       </motion.div>

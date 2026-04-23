@@ -1,59 +1,49 @@
 'use client';
 
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import CursorTrail from '@/components/CursorTrail';
-import Hero from '@/components/Hero';
+import AnnouncementBar from '@/components/marketing/AnnouncementBar';
+import NavBar from '@/components/marketing/NavBar';
+import Hero from '@/components/marketing/Hero';
+import SocialProofStrip from '@/components/marketing/SocialProofStrip';
+import ProblemSection from '@/components/marketing/ProblemSection';
+import HowItWorks from '@/components/marketing/HowItWorks';
 import SystemsGrid from '@/components/SystemsGrid';
-import ProofAndProcess from '@/components/ProofAndProcess';
-import Footer from '@/components/Footer';
+import PricingSection from '@/components/marketing/PricingSection';
+import ReviewsSection from '@/components/marketing/ReviewsSection';
+import ContactSection from '@/components/marketing/ContactSection';
+import Footer from '@/components/marketing/Footer';
 
 export default function Home() {
-  useEffect(() => {
-    // Add parallax effect on scroll
-    const handleScroll = () => {
-      const scrolled = window.scrollY;
-      const parallaxElements = document.querySelectorAll('[data-parallax]');
-      
-      parallaxElements.forEach((el) => {
-        const speed = parseFloat(el.getAttribute('data-speed') || '0.5');
-        const yPos = -(scrolled * speed);
-        (el as HTMLElement).style.transform = `translateY(${yPos}px)`;
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <main className="relative min-h-screen">
-      <CursorTrail />
-      
-      {/* Hero Section */}
+    <main className="relative min-h-screen bg-brand-bg text-brand-text">
+      <AnnouncementBar />
+      <NavBar />
       <Hero />
-      
-      {/* Systems Grid Section */}
-      <section id="systems" className="py-24 px-4 md:px-8 relative">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-neon-blue to-neon-violet bg-clip-text text-transparent"
-          >
-            Systems
-          </motion.h2>
-          <p className="text-center text-white/60 max-w-2xl mx-auto -mt-8 mb-12 px-4">
-            Productized modules you can deploy fast — or customize into a full operational platform.
-          </p>
-          <SystemsGrid />
+      <SocialProofStrip />
+      <ProblemSection />
+      <HowItWorks />
+
+      {/* SERVICES SECTION (keep existing services) */}
+      <section id="services" className="py-20">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center">
+            <div className="text-xs tracking-[0.18em] uppercase text-brand-muted">WHAT WE BUILD</div>
+            <h2 className="font-[var(--font-display)] mt-3 leading-tight" style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}>
+              Operational software for businesses that move.
+            </h2>
+            <p className="mt-4 text-brand-muted max-w-3xl mx-auto">
+              Productized systems — fast to deploy, easy to customize, built for field teams not office workers.
+            </p>
+          </div>
+
+          <div className="mt-10">
+            <SystemsGrid />
+          </div>
         </div>
       </section>
 
-      <ProofAndProcess />
-
-      {/* Footer */}
+      <PricingSection />
+      <ReviewsSection />
+      <ContactSection />
       <Footer />
     </main>
   );
