@@ -1,0 +1,1384 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0a1628" />
+    <title>FlowGrid — Operational software for field teams (demo first)</title>
+    <meta
+      name="description"
+      content="FlowGrid builds operational software for businesses with field teams. Staff tracking, mileage, scheduling, dashboards. We build your working demo first — you only pay when you love it."
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,400..700,0..100&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                bg: '#0a1628',
+                surface: '#0f1f35',
+                surface2: '#0b172c',
+                border: 'rgba(255,255,255,.08)',
+                text: '#f1f5f9',
+                muted: 'rgba(255,255,255,.45)',
+                green: '#22c55e',
+                blue: '#0ea5e9',
+              },
+            },
+            fontFamily: {
+              display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
+              body: ['DM Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+            },
+            boxShadow: {
+              soft: '0 12px 30px rgba(0,0,0,.35)',
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Lucide icons -->
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      :root {
+        --bg: #0a1628;
+        --surface: #0f1f35;
+        --surface2: #0b172c;
+        --border: rgba(255, 255, 255, 0.08);
+        --text: #f1f5f9;
+        --muted: rgba(255, 255, 255, 0.45);
+        --green: #22c55e;
+        --blue: #0ea5e9;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      /* Subtle animated grid */
+      .hero-grid {
+        background-image: linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px);
+        background-size: 56px 56px;
+        animation: gridDrift 28s linear infinite;
+        opacity: 0.22;
+        mask-image: radial-gradient(circle at 50% 35%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 72%);
+      }
+
+      .hero-grid2 {
+        background-image: linear-gradient(rgba(34, 197, 94, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(34, 197, 94, 0.06) 1px, transparent 1px);
+        background-size: 72px 72px;
+        animation: gridDrift2 40s linear infinite;
+        opacity: 0.16;
+        mask-image: radial-gradient(circle at 50% 35%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 74%);
+      }
+
+      @keyframes gridDrift {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 56px 56px;
+        }
+      }
+      @keyframes gridDrift2 {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -72px -72px;
+        }
+      }
+
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--green);
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0.5);
+        animation: pulse 1.8s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.45);
+          opacity: 0.9;
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+          opacity: 1;
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+          opacity: 0.9;
+        }
+      }
+
+      .fade-up {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 700ms ease, transform 700ms ease;
+      }
+      .fade-up.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .stat-card {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      .stat-card.in {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 700ms ease, transform 700ms ease;
+      }
+
+      .nav-solid {
+        background: rgba(10, 22, 40, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+
+      .card-hover {
+        transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-3px);
+        border-color: rgba(34, 197, 94, 0.3);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.12), 0 18px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .green-divider {
+        background: linear-gradient(90deg, rgba(34, 197, 94, 0), rgba(34, 197, 94, 0.45), rgba(34, 197, 94, 0));
+        height: 1px;
+        opacity: 0.75;
+      }
+
+      /* Mobile bottom CTA */
+      .mobile-cta {
+        transform: translateY(120%);
+        transition: transform 260ms ease;
+      }
+      .mobile-cta.show {
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .hero-grid,
+        .hero-grid2,
+        .pulse-dot {
+          animation: none !important;
+        }
+        .fade-up,
+        .stat-card {
+          transition: none !important;
+          transform: none !important;
+          opacity: 1 !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-brand-bg text-brand-text">
+    <!-- SECTION 0 — ANNOUNCEMENT BAR -->
+    <div id="announce" class="w-full bg-brand-bg border-b border-[color:var(--border)]">
+      <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 text-xs sm:text-sm">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <div class="text-brand-muted">
+            <span class="text-brand-text/90">New client demo built in 48 hours</span>
+            <span class="hidden sm:inline"> — </span>
+            <span class="hidden sm:inline">FieldTrack now live for an Edmonton organization</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a
+            class="text-xs sm:text-sm text-brand-green hover:text-brand-green/90 transition-colors"
+            href="https://sphinx-healing-demo.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            >See the demo →</a
+          >
+          <button id="announceClose" class="text-brand-muted hover:text-brand-text/90 transition-colors" aria-label="Dismiss">
+            <span class="text-lg leading-none">×</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1 — NAVIGATION -->
+    <header id="nav" class="sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+        <a href="#top" class="flex items-center gap-3 select-none">
+          <div class="w-9 h-9 rounded-xl bg-brand-green/15 border border-brand-green/25 flex items-center justify-center">
+            <div class="grid grid-cols-2 gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-text/90"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-text/90"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-text/90"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+            </div>
+          </div>
+          <div class="font-display text-lg">
+            <span class="text-brand-text">Flow</span><span class="text-brand-green">Grid</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm text-brand-muted">
+          <a class="hover:text-brand-text transition-colors" href="#services">Services</a>
+          <a class="hover:text-brand-text transition-colors" href="#how">How It Works</a>
+          <a class="hover:text-brand-text transition-colors" href="#pricing">Pricing</a>
+          <a class="hover:text-brand-text transition-colors" href="#demo">Demo</a>
+        </nav>
+
+        <div class="hidden md:flex items-center gap-4">
+          <a class="text-sm text-brand-muted hover:text-brand-text transition-colors" href="mailto:hello@flowgrid.ca"
+            >hello@flowgrid.ca</a
+          >
+          <a
+            class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-brand-green text-brand-bg font-medium text-sm hover:bg-brand-green/90 transition-colors"
+            href="#contact"
+            >Book a Free Demo Call</a
+          >
+        </div>
+
+        <button
+          id="menuBtn"
+          class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl border border-[color:var(--border)] bg-white/5"
+          aria-label="Open menu"
+        >
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile menu overlay -->
+    <div id="mobileMenu" class="fixed inset-0 z-[60] hidden">
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+      <div class="absolute inset-0 p-5">
+        <div class="h-full rounded-2xl border border-[color:var(--border)] bg-brand-bg shadow-soft overflow-hidden">
+          <div class="p-5 flex items-center justify-between border-b border-[color:var(--border)]">
+            <div class="font-display text-lg">
+              <span class="text-brand-text">Flow</span><span class="text-brand-green">Grid</span>
+            </div>
+            <button
+              id="menuClose"
+              class="w-10 h-10 rounded-xl border border-[color:var(--border)] bg-white/5 inline-flex items-center justify-center"
+              aria-label="Close menu"
+            >
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+          <div class="p-5">
+            <div class="space-y-3 text-brand-text/90">
+              <a class="block py-2 text-lg" href="#services" data-close-menu>Services</a>
+              <a class="block py-2 text-lg" href="#how" data-close-menu>How It Works</a>
+              <a class="block py-2 text-lg" href="#pricing" data-close-menu>Pricing</a>
+              <a class="block py-2 text-lg" href="#demo" data-close-menu>Demo</a>
+              <a class="block py-2 text-lg" href="#contact" data-close-menu>Get Free Demo</a>
+            </div>
+            <div class="mt-6 pt-6 border-t border-[color:var(--border)]">
+              <a class="text-brand-muted hover:text-brand-text transition-colors" href="mailto:hello@flowgrid.ca"
+                >hello@flowgrid.ca</a
+              >
+              <div class="mt-4">
+                <a
+                  class="inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-medium hover:bg-brand-green/90 transition-colors"
+                  href="#contact"
+                  data-close-menu
+                  >Book a Free Demo Call</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 — HERO -->
+    <main id="top">
+      <section class="relative min-h-[92vh] flex items-center">
+        <!-- Background -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute inset-0 hero-grid"></div>
+          <div class="absolute inset-0 hero-grid2"></div>
+          <div
+            class="absolute -top-24 -right-24 w-[480px] h-[480px] rounded-full"
+            style="background: radial-gradient(circle at 30% 30%, rgba(34,197,94,.09), rgba(34,197,94,0) 62%);"
+          ></div>
+        </div>
+
+        <div class="relative w-full max-w-6xl mx-auto px-4 py-16">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div class="fade-up" data-animate>
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-green/25 bg-brand-green/10 text-brand-green text-xs tracking-[0.18em] uppercase"
+              >
+                <span class="pulse-dot" aria-hidden="true" style="width: 6px; height: 6px;"></span>
+                Demo first. Pay after. No risk.
+              </div>
+
+              <h1 class="font-display mt-5 leading-[0.95]" style="font-size: clamp(36px, 7.5vw, 72px);">
+                Your field team,<br />
+                running like<br />
+                it <span class="text-brand-green italic">should</span>.
+              </h1>
+
+              <p class="mt-5 text-brand-muted leading-relaxed" style="font-size: clamp(16px, 2.2vw, 20px);">
+                FlowGrid builds operational software for businesses with field teams —
+                staff tracking, mileage, scheduling, dashboards.
+                <span class="text-brand-text/80">We build your working demo first.</span>
+                You only pay when you love it.
+              </p>
+
+              <div class="mt-7 flex flex-col sm:flex-row gap-3">
+                <a
+                  class="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+                  href="https://sphinx-healing-demo.netlify.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  See a Live Demo →
+                </a>
+                <a
+                  class="inline-flex items-center justify-center px-6 py-3.5 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
+                  href="#contact"
+                >
+                  Get Your Free Demo Built
+                </a>
+              </div>
+
+              <div class="mt-4 text-sm text-brand-muted">
+                No credit card. No contract. Demo delivered in 48 hours.
+              </div>
+
+              <div class="mt-10 green-divider"></div>
+
+              <div class="mt-6 flex flex-wrap gap-2 text-xs text-brand-muted">
+                <span class="px-3 py-1.5 rounded-full border border-[color:var(--border)] bg-white/5">🇨🇦 Alberta</span>
+                <span class="px-3 py-1.5 rounded-full border border-[color:var(--border)] bg-white/5">🏥 Home Care</span>
+                <span class="px-3 py-1.5 rounded-full border border-[color:var(--border)] bg-white/5">🔧 HVAC</span>
+                <span class="px-3 py-1.5 rounded-full border border-[color:var(--border)] bg-white/5">🧹 Cleaning</span>
+                <span class="px-3 py-1.5 rounded-full border border-[color:var(--border)] bg-white/5">🔒 Security</span>
+                <span class="px-3 py-1.5 rounded-full border border-[color:var(--border)] bg-white/5">🌿 Landscaping</span>
+              </div>
+            </div>
+
+            <!-- Floating stats -->
+            <div class="relative">
+              <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
+                <div class="stat-card border border-brand-green/25 bg-brand-surface/60 rounded-2xl p-5 shadow-soft" data-stat style="transition-delay: 0.2s;">
+                  <div class="font-mono text-brand-green" style="font-size: 40px; line-height: 1;">48h</div>
+                  <div class="mt-1 text-sm text-brand-muted">Average demo delivery</div>
+                </div>
+                <div class="stat-card border border-white/10 bg-brand-surface/60 rounded-2xl p-5 shadow-soft" data-stat style="transition-delay: 0.4s;">
+                  <div class="font-mono text-brand-text" style="font-size: 40px; line-height: 1;">0</div>
+                  <div class="mt-1 text-sm text-brand-muted">Upfront payment to see a demo</div>
+                </div>
+                <div class="stat-card border border-brand-blue/25 bg-brand-surface/60 rounded-2xl p-5 shadow-soft" data-stat style="transition-delay: 0.6s;">
+                  <div class="font-mono text-brand-green" style="font-size: 40px; line-height: 1;">↑ 100%</div>
+                  <div class="mt-1 text-sm text-brand-muted">Mileage accuracy after FlowGrid</div>
+                </div>
+              </div>
+
+              <div class="absolute -z-10 -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl"
+                style="background: radial-gradient(circle at 30% 30%, rgba(14,165,233,.18), rgba(14,165,233,0) 60%);">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3 — THE PROBLEM -->
+      <section id="problem" class="bg-brand-surface py-20">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="fade-up" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">WHY FLOWGRID EXISTS</div>
+            <h2 class="font-display mt-3 leading-tight" style="font-size: clamp(28px, 4vw, 40px);">
+              Running a field team on<br />
+              WhatsApp and paper<br />
+              is costing you money.
+            </h2>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="fade-up border border-[color:var(--border)] bg-brand-bg/40 rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                  <i data-lucide="clock" class="w-5 h-5 text-red-300"></i>
+                </div>
+                <div class="font-semibold">You don’t know who’s actually on site</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                When staff call in hours at the end of the week, how accurate is it really? You’re trusting people you can’t see.
+              </p>
+            </div>
+
+            <div class="fade-up border border-[color:var(--border)] bg-brand-bg/40 rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                  <i data-lucide="car" class="w-5 h-5 text-red-300"></i>
+                </div>
+                <div class="font-semibold">Mileage goes untracked — or unclaimed</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Every kilometre your team drives is either a tax deduction or a reimbursable expense. Most businesses recover less than 60% of what they’re owed.
+              </p>
+            </div>
+
+            <div class="fade-up border border-[color:var(--border)] bg-brand-bg/40 rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                  <i data-lucide="sheet" class="w-5 h-5 text-red-300"></i>
+                </div>
+                <div class="font-semibold">Payroll takes hours it shouldn’t</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Chasing timesheets, checking mileage receipts, manually calculating hours — every pay period. That time is worth more than the software costs.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-10 text-center italic text-brand-green fade-up" data-animate>
+            → FlowGrid solves all three. Built for your specific workflow. Working demo in 48 hours.
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4 — HOW IT WORKS -->
+      <section id="how" class="py-20">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="fade-up" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">THE PROCESS</div>
+            <h2 class="font-display mt-3 leading-tight" style="font-size: clamp(28px, 4vw, 40px);">
+              Demo first.<br />
+              Always.
+            </h2>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            <div class="hidden md:block absolute left-0 right-0 top-16 border-t border-dashed border-[color:var(--border)]"></div>
+
+            <div class="fade-up" data-animate>
+              <div class="border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover">
+                <div class="font-display text-brand-green/20" style="font-size: 72px; line-height: 0.9;">01</div>
+                <div class="mt-3 flex items-center gap-3">
+                  <i data-lucide="message-circle" class="w-5 h-5 text-brand-blue"></i>
+                  <div class="font-semibold">Tell us your problem</div>
+                </div>
+                <p class="mt-3 text-brand-muted leading-relaxed">
+                  15-minute call or a quick email. Tell us how your team works today — the chaos, the workarounds, what breaks every week.
+                </p>
+              </div>
+            </div>
+
+            <div class="fade-up" data-animate>
+              <div class="border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover">
+                <div class="font-display text-brand-green/20" style="font-size: 72px; line-height: 0.9;">02</div>
+                <div class="mt-3 flex items-center gap-3">
+                  <i data-lucide="monitor" class="w-5 h-5 text-brand-blue"></i>
+                  <div class="font-semibold">We build your demo</div>
+                </div>
+                <p class="mt-3 text-brand-muted leading-relaxed">
+                  Within 48 hours, you have a working prototype with your team’s real job types, your branding, your workflow. Not a mockup. A working app.
+                </p>
+              </div>
+            </div>
+
+            <div class="fade-up" data-animate>
+              <div class="border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover">
+                <div class="font-display text-brand-green/20" style="font-size: 72px; line-height: 0.9;">03</div>
+                <div class="mt-3 flex items-center gap-3">
+                  <i data-lucide="check-circle" class="w-5 h-5 text-brand-green"></i>
+                  <div class="font-semibold">You decide</div>
+                </div>
+                <p class="mt-3 text-brand-muted leading-relaxed">
+                  If the demo solves your problem, we finalize and deploy it. If not — you walk away owing nothing. No invoice. No awkward conversation.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 fade-up" data-animate>
+            <div class="border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6">
+              <div class="border-l-4 border-brand-green pl-4 italic text-brand-text/85">
+                “Most software companies make you pay before you see anything real. We think that’s backwards.”
+                <span class="not-italic text-brand-muted">— FlowGrid</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5 — SERVICES / SYSTEMS -->
+      <section id="services" class="py-20">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="fade-up text-center" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">WHAT WE BUILD</div>
+            <h2 class="font-display mt-3 leading-tight" style="font-size: clamp(28px, 4vw, 40px);">
+              Operational software<br />
+              for businesses that move.
+            </h2>
+            <p class="mt-4 text-brand-muted max-w-3xl mx-auto">
+              Each system is productized — fast to deploy, easy to customize, built for field teams not office workers.
+            </p>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- FieldTrack -->
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-start justify-between gap-3">
+                <div class="w-11 h-11 rounded-xl bg-brand-blue/15 border border-brand-blue/25 flex items-center justify-center">
+                  <i data-lucide="map-pin" class="w-5 h-5 text-brand-blue"></i>
+                </div>
+                <div class="text-xs px-3 py-1 rounded-full border border-brand-green/30 bg-brand-green/10 text-brand-green">● LIVE</div>
+              </div>
+              <div class="mt-4">
+                <div class="font-display text-xl">FieldTrack</div>
+                <div class="text-brand-muted mt-1">Staff tracking & mileage management</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Real-time punch in/out, automatic GPS mileage per job, live manager dashboard, weekly payroll-ready exports.
+              </p>
+              <div class="mt-4 text-xs text-brand-muted">Home care · HVAC · Cleaning · Security</div>
+              <a
+                class="mt-5 inline-flex items-center text-brand-green hover:text-brand-green/90 transition-colors"
+                href="https://sphinx-healing-demo.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                >See Live Demo →</a
+              >
+            </div>
+
+            <!-- BookingFlow -->
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-start justify-between gap-3">
+                <div class="w-11 h-11 rounded-xl bg-purple-500/15 border border-purple-400/20 flex items-center justify-center">
+                  <i data-lucide="calendar" class="w-5 h-5 text-purple-200"></i>
+                </div>
+                <div class="text-xs px-3 py-1 rounded-full border border-brand-blue/30 bg-brand-blue/10 text-brand-blue">◎ AVAILABLE</div>
+              </div>
+              <div class="mt-4">
+                <div class="font-display text-xl">BookingFlow</div>
+                <div class="text-brand-muted mt-1">Booking, payments & reminders</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Online booking with Stripe payments, automated SMS/email reminders, no app download needed.
+              </p>
+              <div class="mt-4 text-xs text-brand-muted">Clinics · Salons · Contractors · Coaches</div>
+              <a class="mt-5 inline-flex items-center text-brand-green hover:text-brand-green/90 transition-colors" href="#contact"
+                >Request a Demo →</a
+              >
+            </div>
+
+            <!-- OpsDash -->
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-start justify-between gap-3">
+                <div class="w-11 h-11 rounded-xl bg-orange-500/15 border border-orange-400/20 flex items-center justify-center">
+                  <i data-lucide="bar-chart-2" class="w-5 h-5 text-orange-200"></i>
+                </div>
+                <div class="text-xs px-3 py-1 rounded-full border border-brand-blue/30 bg-brand-blue/10 text-brand-blue">◎ AVAILABLE</div>
+              </div>
+              <div class="mt-4">
+                <div class="font-display text-xl">OpsDash</div>
+                <div class="text-brand-muted mt-1">Operations dashboard & reporting</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                KPI snapshots, scheduled reports, role-based access — see your whole business in one view.
+              </p>
+              <div class="mt-4 text-xs text-brand-muted">Any business with weekly reporting</div>
+              <a class="mt-5 inline-flex items-center text-brand-green hover:text-brand-green/90 transition-colors" href="#contact"
+                >Request a Demo →</a
+              >
+            </div>
+
+            <!-- StaffHub -->
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-start justify-between gap-3">
+                <div class="w-11 h-11 rounded-xl bg-brand-green/15 border border-brand-green/25 flex items-center justify-center">
+                  <i data-lucide="users" class="w-5 h-5 text-brand-green"></i>
+                </div>
+                <div class="text-xs px-3 py-1 rounded-full border border-brand-blue/30 bg-brand-blue/10 text-brand-blue">◎ AVAILABLE</div>
+              </div>
+              <div class="mt-4">
+                <div class="font-display text-xl">StaffHub</div>
+                <div class="text-brand-muted mt-1">Scheduling, shifts & approvals</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Shift scheduling with staff notifications, time edit audit trail, no more spreadsheet chaos.
+              </p>
+              <div class="mt-4 text-xs text-brand-muted">Restaurants · Retail · Field orgs</div>
+              <a class="mt-5 inline-flex items-center text-brand-green hover:text-brand-green/90 transition-colors" href="#contact"
+                >Request a Demo →</a
+              >
+            </div>
+
+            <!-- ClientPortal -->
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-start justify-between gap-3">
+                <div class="w-11 h-11 rounded-xl bg-brand-blue/15 border border-brand-blue/25 flex items-center justify-center">
+                  <i data-lucide="briefcase" class="w-5 h-5 text-brand-blue"></i>
+                </div>
+                <div class="text-xs px-3 py-1 rounded-full border border-brand-blue/30 bg-brand-blue/10 text-brand-blue">◎ AVAILABLE</div>
+              </div>
+              <div class="mt-4">
+                <div class="font-display text-xl">ClientPortal</div>
+                <div class="text-brand-muted mt-1">Invoices, documents & approvals</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Send invoices, collect approvals, share documents — one clean place for client communication.
+              </p>
+              <div class="mt-4 text-xs text-brand-muted">Agencies · Contractors · Consultants</div>
+              <a class="mt-5 inline-flex items-center text-brand-green hover:text-brand-green/90 transition-colors" href="#contact"
+                >Request a Demo →</a
+              >
+            </div>
+
+            <!-- Custom Build -->
+            <div class="fade-up border border-dashed border-white/20 bg-brand-surface2 rounded-2xl p-6 card-hover" data-animate>
+              <div class="flex items-start justify-between gap-3">
+                <div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+                  <i data-lucide="code-2" class="w-5 h-5 text-brand-text/80"></i>
+                </div>
+                <div class="text-xs px-3 py-1 rounded-full border border-white/15 bg-white/5 text-brand-muted">Custom</div>
+              </div>
+              <div class="mt-4">
+                <div class="font-display text-xl">Custom Build</div>
+                <div class="text-brand-muted mt-1">Something else entirely</div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Have a unique operational problem that doesn’t fit a template? We build from scratch. You describe it, we prototype it in 48 hours.
+              </p>
+              <div class="mt-5">
+                <a class="inline-flex items-center text-brand-green hover:text-brand-green/90 transition-colors" href="#contact"
+                  >Tell Us Your Problem →</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6 — LIVE DEMO SHOWCASE -->
+      <section id="demo" class="py-20 relative">
+        <div
+          class="absolute inset-0 pointer-events-none"
+          style="background: radial-gradient(circle at 70% 25%, rgba(34,197,94,.08), rgba(34,197,94,0) 55%);"
+        ></div>
+        <div class="max-w-6xl mx-auto px-4 relative">
+          <div class="fade-up text-center" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">SEE IT WORKING</div>
+            <h2 class="font-display mt-3 leading-tight italic text-brand-green" style="font-size: clamp(28px, 4vw, 40px);">
+              This isn’t a screenshot.<br />
+              It’s actually running.
+            </h2>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            <div class="fade-up" data-animate>
+              <p class="text-brand-muted leading-relaxed">
+                The demo below is a live working prototype of FieldTrack — our staff tracking system. Built in 48 hours for a real organization.
+                <span class="text-brand-text/80">Click anything. It all works.</span>
+              </p>
+
+              <ul class="mt-6 space-y-3 text-brand-text/85">
+                <li class="flex gap-3">
+                  <i data-lucide="check" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                  <span>Staff punch in/out updates the dashboard live</span>
+                </li>
+                <li class="flex gap-3">
+                  <i data-lucide="check" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                  <span>Mileage logging calculates and saves in real time</span>
+                </li>
+                <li class="flex gap-3">
+                  <i data-lucide="check" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                  <span>Manager dashboard updates as staff interact</span>
+                </li>
+                <li class="flex gap-3">
+                  <i data-lucide="check" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                  <span>Reports tab shows real exportable data</span>
+                </li>
+                <li class="flex gap-3">
+                  <i data-lucide="check" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                  <span>Works on any phone without app download</span>
+                </li>
+              </ul>
+
+              <p class="mt-6 text-brand-muted leading-relaxed">
+                This exact system — renamed, rebranded, built around <span class="text-brand-text/80">your</span> team — is what you’d receive.
+              </p>
+
+              <div class="mt-6">
+                <a
+                  class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+                  href="https://sphinx-healing-demo.netlify.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Open Full Demo →</a
+                >
+              </div>
+            </div>
+
+            <div class="fade-up" data-animate>
+              <div class="rounded-2xl border border-brand-green/25 overflow-hidden bg-brand-surface shadow-soft">
+                <iframe
+                  title="FlowGrid Live Demo"
+                  src="https://sphinx-healing-demo.netlify.app"
+                  class="w-full"
+                  style="height: 520px;"
+                  loading="lazy"
+                ></iframe>
+              </div>
+              <div class="mt-3 text-xs text-brand-muted">↑ This is interactive — click the tabs above</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7 — WHO IT'S FOR -->
+      <section id="for" class="bg-brand-surface py-20">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="fade-up" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">BUILT FOR</div>
+            <h2 class="font-display mt-3 leading-tight" style="font-size: clamp(28px, 4vw, 40px);">
+              If your team leaves<br />
+              the building to do work —<br />
+              this is for you.
+            </h2>
+          </div>
+
+          <div class="mt-10 flex flex-wrap gap-2 justify-center fade-up" data-animate>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🏥 Home Care & Disability Support</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🔧 HVAC & Plumbing</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🧹 Commercial Cleaning</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🔒 Security Services</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🌿 Landscaping & Grounds</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">📦 Delivery & Courier</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🔨 Construction & Trades</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">⚡ Electrical Contractors</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🚗 Mobile Auto Services</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">🏗️ Property Maintenance</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">💉 Mobile Health Services</span>
+            <span class="px-4 py-2 rounded-full border border-[color:var(--border)] bg-white/5">📋 Inspection Services</span>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="fade-up border border-brand-green/20 bg-brand-bg/40 rounded-2xl p-6" data-animate>
+              <div class="text-brand-green font-semibold">Small teams (5–30 staff)</div>
+              <div class="mt-2 text-brand-muted leading-relaxed">
+                Simple setup. Live in days. Starting at <span class="text-brand-text/85">$500 + $18/staff/month</span>.
+              </div>
+            </div>
+            <div class="fade-up border border-brand-blue/20 bg-brand-bg/40 rounded-2xl p-6" data-animate>
+              <div class="text-brand-blue font-semibold">Larger organizations (30–200 staff)</div>
+              <div class="mt-2 text-brand-muted leading-relaxed">Custom workflow. Full onboarding. Pricing based on your team size.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 8 — PRICING -->
+      <section id="pricing" class="py-20">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="fade-up text-center" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">TRANSPARENT PRICING</div>
+            <h2 class="font-display mt-3 leading-tight" style="font-size: clamp(28px, 4vw, 40px);">
+              Start for less than<br />
+              you spend on coffee<br />
+              for your team.
+            </h2>
+            <p class="mt-4 text-brand-muted max-w-3xl mx-auto">
+              No surprise invoices. No per-feature upsells. One setup fee. One monthly seat price.
+            </p>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="text-xs text-brand-muted tracking-[0.18em] uppercase">DEMO</div>
+              <div class="mt-3 font-mono text-4xl text-brand-text">$0</div>
+              <div class="mt-2 text-brand-muted">See before you pay</div>
+              <ul class="mt-5 space-y-2 text-sm text-brand-text/85">
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Working prototype in 48 hours</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Your branding and job types</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Full click-through demo</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>No credit card</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>No commitment</li>
+              </ul>
+              <a class="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors" href="#contact"
+                >Get My Free Demo</a
+              >
+            </div>
+
+            <div class="fade-up border border-brand-green/25 bg-brand-surface rounded-2xl p-6 card-hover relative" data-animate>
+              <div class="absolute -top-3 right-4 text-xs px-3 py-1 rounded-full bg-brand-green text-brand-bg font-semibold">MOST POPULAR</div>
+              <div class="text-xs text-brand-muted tracking-[0.18em] uppercase">LAUNCH</div>
+              <div class="mt-3 font-mono text-4xl text-brand-text">$500</div>
+              <div class="mt-2 text-brand-muted">setup, then <span class="text-brand-text/85">$18/staff + $85/manager</span> per month</div>
+              <div class="mt-2 text-xs text-brand-muted">Minimum $299/month</div>
+              <ul class="mt-5 space-y-2 text-sm text-brand-text/85">
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Full working application</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>All staff accounts created</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>GPS mileage tracking</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Live manager dashboard</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Weekly Excel reports</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Custom domain setup</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>30-day support included</li>
+              </ul>
+              <a class="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors" href="#contact"
+                >Start with Demo First</a
+              >
+            </div>
+
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="text-xs text-brand-muted tracking-[0.18em] uppercase">LARGE TEAMS</div>
+              <div class="mt-3 font-mono text-4xl text-brand-text">Custom</div>
+              <div class="mt-2 text-brand-muted">Based on team size and features</div>
+              <ul class="mt-5 space-y-2 text-sm text-brand-text/85">
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Everything in Launch</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Shift scheduling</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Government/funder reports</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Multi-location support</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Payroll system integration</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-green mt-0.5"></i>Dedicated support</li>
+              </ul>
+              <a class="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors" href="#contact"
+                >Get a Custom Quote</a
+              >
+            </div>
+          </div>
+
+          <div class="mt-8 text-center text-sm text-brand-muted fade-up" data-animate>
+            By comparison: QuickBooks Time costs $8/user + $20 base. Deputy costs $4.90/user. Neither handles GPS mileage per job or builds around your workflow.
+            FlowGrid does both.
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 9 — SOCIAL PROOF -->
+      <section id="proof" class="py-20">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="fade-up" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">REAL RESULTS</div>
+            <h2 class="font-display mt-3 leading-tight" style="font-size: clamp(28px, 4vw, 40px);">
+              Built for real<br />
+              operations.<br />
+              Not demos.
+            </h2>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="text-brand-green text-sm">★★★★★</div>
+              <p class="mt-3 text-brand-text/90 leading-relaxed">
+                “We were managing 60 staff on WhatsApp and paper. Within a week we had a live dashboard showing everyone’s status, hours and mileage. Payroll went from 3 hours to 20 minutes.”
+              </p>
+              <div class="mt-4 text-sm text-brand-muted">
+                <div class="text-brand-text/85 font-medium">Operations Manager</div>
+                <div>Edmonton Home Care Organization</div>
+                <div class="mt-2 text-xs">FieldTrack · 60 staff</div>
+              </div>
+            </div>
+
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="text-brand-green text-sm">★★★★★</div>
+              <p class="mt-3 text-brand-text/90 leading-relaxed">
+                “The demo was built before I even agreed to anything. That alone told me this was different from every other software company I’d talked to.”
+              </p>
+              <div class="mt-4 text-sm text-brand-muted">
+                <div class="text-brand-text/85 font-medium">Executive Director</div>
+                <div>Alberta Community Services</div>
+                <div class="mt-2 text-xs">FieldTrack · 35 staff</div>
+              </div>
+            </div>
+
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 card-hover" data-animate>
+              <div class="text-brand-green text-sm">★★★★★</div>
+              <p class="mt-3 text-brand-text/90 leading-relaxed">
+                “Our mileage reimbursement was all over the place. Now it’s automatic, accurate, and exports to Excel every week. CRA audit would be fine — everything’s documented.”
+              </p>
+              <div class="mt-4 text-sm text-brand-muted">
+                <div class="text-brand-text/85 font-medium">Business Owner</div>
+                <div>HVAC Service Company</div>
+                <div class="mt-2 text-xs">FieldTrack · 18 technicians</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 italic text-center text-xs text-brand-muted fade-up" data-animate>
+            * Reviews represent the type of results FlowGrid clients experience. Demo available to verify the product before any commitment.
+          </div>
+
+          <div class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6" data-animate>
+              <div class="font-mono text-brand-green text-3xl" data-count="48">0</div>
+              <div class="text-sm text-brand-muted mt-1">Average demo delivery time (hours)</div>
+            </div>
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6" data-animate>
+              <div class="font-mono text-brand-green text-3xl" data-count="0">0</div>
+              <div class="text-sm text-brand-muted mt-1">Cost to see a working demo</div>
+            </div>
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6" data-animate>
+              <div class="font-mono text-brand-green text-3xl" data-count="7">0</div>
+              <div class="text-sm text-brand-muted mt-1">Average time from yes to live (days)</div>
+            </div>
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6" data-animate>
+              <div class="font-mono text-brand-green text-3xl" data-count="200">0</div>
+              <div class="text-sm text-brand-muted mt-1">Staff range we’ve built for</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 10 — CONTACT / GET DEMO -->
+      <section id="contact" class="py-20 relative">
+        <div
+          class="absolute inset-0 pointer-events-none"
+          style="background: radial-gradient(circle at 30% 25%, rgba(34,197,94,.08), rgba(34,197,94,0) 55%);"
+        ></div>
+        <div class="max-w-6xl mx-auto px-4 relative">
+          <div class="fade-up text-center" data-animate>
+            <div class="text-xs tracking-[0.18em] uppercase text-brand-muted">GET STARTED</div>
+            <h2 class="font-display mt-3 leading-tight" style="font-size: clamp(32px, 5vw, 48px);">
+              Your demo is<br />
+              48 hours away.
+            </h2>
+            <p class="mt-4 text-brand-muted max-w-3xl mx-auto">
+              Tell us about your team. We’ll build something real before you spend a dollar.
+            </p>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            <!-- Form -->
+            <div class="fade-up border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 shadow-soft" data-animate>
+              <div class="font-semibold text-brand-text/90">Request Your Free Demo</div>
+              <form
+                id="demoForm"
+                class="mt-5 space-y-3"
+                action="https://formspree.io/f/YOUR_ID"
+                method="POST"
+              >
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input
+                    class="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-[color:var(--border)] focus:outline-none focus:border-brand-green/50"
+                    name="name"
+                    placeholder="Your Name *"
+                    required
+                  />
+                  <input
+                    class="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-[color:var(--border)] focus:outline-none focus:border-brand-green/50"
+                    name="company"
+                    placeholder="Organization / Company *"
+                    required
+                  />
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input
+                    type="email"
+                    class="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-[color:var(--border)] focus:outline-none focus:border-brand-green/50"
+                    name="email"
+                    placeholder="Email Address *"
+                    required
+                  />
+                  <input
+                    class="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-[color:var(--border)] focus:outline-none focus:border-brand-green/50"
+                    name="phone"
+                    placeholder="Phone (optional)"
+                  />
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <select
+                    class="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-[color:var(--border)] focus:outline-none focus:border-brand-green/50"
+                    name="industry"
+                    required
+                  >
+                    <option value="" disabled selected>Industry *</option>
+                    <option>Home Care</option>
+                    <option>HVAC & Plumbing</option>
+                    <option>Cleaning Services</option>
+                    <option>Security</option>
+                    <option>Landscaping</option>
+                    <option>Construction</option>
+                    <option>Other Field Service</option>
+                  </select>
+                  <select
+                    class="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-[color:var(--border)] focus:outline-none focus:border-brand-green/50"
+                    name="staffCount"
+                    required
+                  >
+                    <option value="" disabled selected>Number of field staff *</option>
+                    <option>1–10</option>
+                    <option>11–30</option>
+                    <option>31–60</option>
+                    <option>61–100</option>
+                    <option>100+</option>
+                  </select>
+                </div>
+                <textarea
+                  class="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-[color:var(--border)] focus:outline-none focus:border-brand-green/50"
+                  name="message"
+                  rows="5"
+                  placeholder="Describe your biggest operational headache right now (optional)&#10;e.g. We manage 40 care workers and can’t track their mileage properly for reimbursement..."
+                ></textarea>
+
+                <button
+                  id="formSubmit"
+                  type="submit"
+                  class="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+                >
+                  Build My Free Demo →
+                </button>
+
+                <div id="formNote" class="text-xs text-brand-muted text-center">
+                  We’ll respond within 4 business hours. Demo delivered within 48 hours. No spam. No sales pressure.
+                </div>
+
+                <div id="formSuccess" class="hidden text-sm text-brand-green text-center">
+                  ✅ Request received! Check your email — we’ll be in touch within 4 hours.
+                </div>
+              </form>
+            </div>
+
+            <!-- Details -->
+            <div class="fade-up space-y-4" data-animate>
+              <div class="border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 shadow-soft">
+                <div class="font-semibold text-brand-text/90">Quick contact</div>
+                <div class="mt-4 space-y-2 text-brand-muted">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="mail" class="w-4 h-4 text-brand-green"></i>
+                    <a class="hover:text-brand-text transition-colors" href="mailto:hello@flowgrid.ca">hello@flowgrid.ca</a>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="phone" class="w-4 h-4 text-brand-green"></i>
+                    <span>(Add your Google Voice number)</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="globe" class="w-4 h-4 text-brand-green"></i>
+                    <span>flowgrid.ca</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="border border-[color:var(--border)] bg-brand-surface rounded-2xl p-6 shadow-soft">
+                <div class="space-y-4">
+                  <div class="flex gap-3">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                    <div>
+                      <div class="font-semibold">No payment to see the demo</div>
+                      <div class="text-brand-muted mt-1">You’ll have a working prototype in your hands in 48 hours. Not a PDF. Not a mockup. A real app.</div>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                    <div>
+                      <div class="font-semibold">Built around your team</div>
+                      <div class="text-brand-muted mt-1">We use your job types, team structure, reporting needs. The demo feels like yours because it is.</div>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-brand-green mt-0.5"></i>
+                    <div>
+                      <div class="font-semibold">No lock-in</div>
+                      <div class="text-brand-muted mt-1">Month-to-month after launch. Cancel anytime with 30 days notice. Your data is always yours to export.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center text-sm text-brand-muted">
+                Or just email us directly: <a class="text-brand-text/85 hover:text-brand-text transition-colors" href="mailto:hello@flowgrid.ca">hello@flowgrid.ca</a><br />
+                We answer within 4 hours on business days.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 11 — FOOTER -->
+      <footer class="bg-[#060e1a] border-t border-[color:var(--border)] py-14">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div>
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-brand-green/15 border border-brand-green/25 flex items-center justify-center">
+                  <div class="grid grid-cols-2 gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-text/90"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-text/90"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-text/90"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+                  </div>
+                </div>
+                <div class="font-display text-lg">
+                  <span class="text-brand-text">Flow</span><span class="text-brand-green">Grid</span>
+                </div>
+              </div>
+              <p class="mt-4 text-brand-muted leading-relaxed">
+                Operational software for businesses that move.
+              </p>
+              <p class="mt-3 text-brand-muted text-sm">
+                Built in Edmonton, Alberta.<br />
+                Serving businesses everywhere.
+              </p>
+              <div class="mt-4 flex items-center gap-3 text-brand-muted">
+                <a class="hover:text-brand-text transition-colors" href="#" aria-label="Instagram">
+                  <i data-lucide="instagram" class="w-5 h-5"></i>
+                </a>
+                <a class="hover:text-brand-text transition-colors" href="#" aria-label="LinkedIn">
+                  <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <div class="font-semibold text-brand-text/90">Services</div>
+              <div class="mt-4 space-y-2 text-brand-muted">
+                <a class="block hover:text-brand-text transition-colors" href="#services">FieldTrack</a>
+                <a class="block hover:text-brand-text transition-colors" href="#services">BookingFlow</a>
+                <a class="block hover:text-brand-text transition-colors" href="#services">OpsDash</a>
+                <a class="block hover:text-brand-text transition-colors" href="#services">StaffHub</a>
+                <a class="block hover:text-brand-text transition-colors" href="#services">ClientPortal</a>
+                <a class="block hover:text-brand-text transition-colors" href="#services">Custom Build</a>
+              </div>
+            </div>
+
+            <div>
+              <div class="font-semibold text-brand-text/90">Company</div>
+              <div class="mt-4 space-y-2 text-brand-muted">
+                <a class="block hover:text-brand-text transition-colors" href="#how">How It Works</a>
+                <a class="block hover:text-brand-text transition-colors" href="#pricing">Pricing</a>
+                <a class="block hover:text-brand-text transition-colors" href="#contact">Free Demo</a>
+                <a class="block hover:text-brand-text transition-colors" href="#contact">Contact</a>
+                <a class="block hover:text-brand-text transition-colors" href="mailto:hello@flowgrid.ca">hello@flowgrid.ca</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-12 pt-6 border-t border-[color:var(--border)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-brand-muted">
+            <div>© 2026 FlowGrid. All rights reserved.</div>
+            <div class="flex items-center gap-3">
+              <a class="hover:text-brand-text transition-colors" href="#">Privacy Policy</a>
+              <span>·</span>
+              <a class="hover:text-brand-text transition-colors" href="#">Terms</a>
+              <span>·</span>
+              <span>Built in Edmonton, CA</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Mobile bottom CTA -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-[55] p-3 mobile-cta" id="mobileCta">
+      <div class="max-w-6xl mx-auto">
+        <a
+          href="#contact"
+          class="w-full inline-flex items-center justify-center px-6 py-4 rounded-2xl bg-brand-green text-brand-bg font-semibold shadow-soft"
+        >
+          Get Free Demo
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // Lucide icons
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) window.lucide.createIcons();
+      });
+
+      // Announcement bar dismiss (localStorage)
+      (function () {
+        const key = 'flowgrid_announce_dismissed_v1';
+        const bar = document.getElementById('announce');
+        const close = document.getElementById('announceClose');
+        if (!bar || !close) return;
+
+        try {
+          const dismissed = localStorage.getItem(key);
+          if (dismissed === '1') bar.style.display = 'none';
+        } catch {}
+
+        close.addEventListener('click', () => {
+          bar.style.display = 'none';
+          try {
+            localStorage.setItem(key, '1');
+          } catch {}
+        });
+      })();
+
+      // Sticky nav: transparent -> solid on scroll
+      (function () {
+        const nav = document.getElementById('nav');
+        if (!nav) return;
+        const onScroll = () => {
+          if (window.scrollY > 8) nav.classList.add('nav-solid');
+          else nav.classList.remove('nav-solid');
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+
+      // Mobile menu
+      (function () {
+        const btn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('mobileMenu');
+        const close = document.getElementById('menuClose');
+        if (!btn || !overlay || !close) return;
+
+        const openMenu = () => {
+          overlay.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        };
+        const closeMenu = () => {
+          overlay.classList.add('hidden');
+          document.body.style.overflow = '';
+        };
+
+        btn.addEventListener('click', openMenu);
+        close.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay.firstElementChild) closeMenu();
+        });
+
+        overlay.querySelectorAll('[data-close-menu]').forEach((a) => {
+          a.addEventListener('click', closeMenu);
+        });
+      })();
+
+      // Hero stats cards animate in on load (staggered)
+      (function () {
+        const cards = document.querySelectorAll('[data-stat]');
+        if (!cards.length) return;
+        window.requestAnimationFrame(() => {
+          cards.forEach((c) => c.classList.add('in'));
+        });
+      })();
+
+      // Section animations via IntersectionObserver
+      (function () {
+        const els = document.querySelectorAll('[data-animate]');
+        if (!els.length) return;
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+        els.forEach((el, idx) => {
+          if (el.classList.contains('fade-up')) el.style.transitionDelay = `${Math.min(idx * 0.06, 0.3)}s`;
+          io.observe(el);
+        });
+      })();
+
+      // Number counter animation (social proof)
+      (function () {
+        const counters = document.querySelectorAll('[data-count]');
+        if (!counters.length) return;
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target;
+              const target = Number(el.getAttribute('data-count') || '0');
+              const start = 0;
+              const duration = 900;
+              const t0 = performance.now();
+
+              const tick = (t) => {
+                const p = Math.min(1, (t - t0) / duration);
+                const v = Math.round(start + (target - start) * (1 - Math.pow(1 - p, 3)));
+                el.textContent = String(v);
+                if (p < 1) requestAnimationFrame(tick);
+              };
+              requestAnimationFrame(tick);
+              io.unobserve(el);
+            });
+          },
+          { threshold: 0.4 }
+        );
+        counters.forEach((c) => io.observe(c));
+      })();
+
+      // Form UX: loading + success message
+      (function () {
+        const form = document.getElementById('demoForm');
+        const btn = document.getElementById('formSubmit');
+        const note = document.getElementById('formNote');
+        const success = document.getElementById('formSuccess');
+        if (!form || !btn || !note || !success) return;
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          btn.setAttribute('disabled', 'true');
+          const original = btn.textContent;
+          btn.textContent = 'Sending...';
+
+          try {
+            const data = new FormData(form);
+            const res = await fetch(form.action, {
+              method: 'POST',
+              body: data,
+              headers: { Accept: 'application/json' },
+            });
+
+            if (res.ok) {
+              success.classList.remove('hidden');
+              note.classList.add('hidden');
+              form.reset();
+            } else {
+              alert('Something went wrong. Please email hello@flowgrid.ca');
+            }
+          } catch {
+            alert('Network error. Please email hello@flowgrid.ca');
+          } finally {
+            btn.removeAttribute('disabled');
+            btn.textContent = original;
+          }
+        });
+      })();
+
+      // Mobile floating CTA: show after hero
+      (function () {
+        const cta = document.getElementById('mobileCta');
+        if (!cta) return;
+        const hero = document.querySelector('section');
+        if (!hero) return;
+
+        const onScroll = () => {
+          const heroBottom = hero.getBoundingClientRect().bottom;
+          if (heroBottom < 80) cta.classList.add('show');
+          else cta.classList.remove('show');
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
+  </body>
+</html>
+
