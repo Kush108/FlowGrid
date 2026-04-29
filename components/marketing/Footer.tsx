@@ -1,6 +1,6 @@
 'use client';
 
-import { FlowMark } from '@/components/marketing/FlowBrand';
+import { FlowWordmark } from '@/components/marketing/FlowBrand';
 
 export default function Footer() {
   return (
@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
             <div className="flex items-center gap-3">
-              <FlowMark className="h-10 w-auto" />
+              <FlowWordmark />
             </div>
             <p className="mt-4 text-brand-muted leading-relaxed">Operational software for businesses that move.</p>
             <p className="mt-3 text-brand-muted text-sm">

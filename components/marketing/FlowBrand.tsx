@@ -1,7 +1,7 @@
 export function FlowMark({ className = '' }: { className?: string }) {
   return (
     <img
-      src="/logo.svg"
+      src="/logo-icon.svg"
       alt="FlowGrid"
       className={className || 'h-9 w-auto'}
       loading="eager"
@@ -11,5 +11,13 @@ export function FlowMark({ className = '' }: { className?: string }) {
 }
 
 export function FlowWordmark() {
-  return null;
+  return (
+    <img
+      src="/logo.svg"
+      alt="FlowGrid"
+      className="h-10 w-auto"
+      loading="eager"
+      decoding="async"
+    />
+  );
 }

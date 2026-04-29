@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   description:
     "FlowGrid builds operational software for businesses with field teams. We build a working demo in 48 hours before you pay anything.",
   icons: {
-    icon: "/logo.svg",
-    shortcut: "/logo.svg",
-    apple: "/logo.svg",
+    icon: "/logo-icon.svg",
+    shortcut: "/logo-icon.svg",
+    apple: "/logo-icon.svg",
   },
 };
 
