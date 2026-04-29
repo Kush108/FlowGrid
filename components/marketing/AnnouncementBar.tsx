@@ -6,6 +6,7 @@ const STORAGE_KEY = 'flowgrid_announce_dismissed_v1';
 
 export default function AnnouncementBar() {
   const [visible, setVisible] = useState(false);
+  const demoUrl = 'https://fieldtrack-demo.netlify.app/';
 
   useEffect(() => {
     try {
@@ -35,7 +36,7 @@ export default function AnnouncementBar() {
             FieldTrack now live for an Edmonton home care organization with 60+ staff —{' '}
             <a
               className="text-brand-green hover:text-brand-green/90 transition-colors"
-              href="https://sphinx-healing-demo.netlify.app"
+              href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
             >

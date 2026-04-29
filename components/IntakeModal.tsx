@@ -17,6 +17,7 @@ export default function IntakeModal({ isOpen, onClose, systemName }: IntakeModal
   const [city, setCity] = useState<City>('Edmonton');
   const [businessType, setBusinessType] = useState('');
   const [need, setNeed] = useState('');
+  const [website, setWebsite] = useState(''); // honeypot
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -28,6 +29,7 @@ export default function IntakeModal({ isOpen, onClose, systemName }: IntakeModal
     setCity('Edmonton');
     setBusinessType('');
     setNeed('');
+    setWebsite('');
     setSubmitting(false);
     setSubmitted(false);
   };
@@ -47,6 +49,7 @@ export default function IntakeModal({ isOpen, onClose, systemName }: IntakeModal
           city,
           businessType,
           need,
+          website,
           systemName: systemName ?? null,
           source: 'modal',
         }),
@@ -113,6 +116,15 @@ export default function IntakeModal({ isOpen, onClose, systemName }: IntakeModal
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-3">
+                      <input
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                        className="hidden"
+                        aria-hidden="true"
+                        placeholder="Website"
+                      />
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <input
                           value={name}

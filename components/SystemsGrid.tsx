@@ -10,7 +10,7 @@ const systems: SystemTileData[] = [
     title: 'FieldTrack',
     description: 'Time, mileage, jobs, live status — payroll-ready exports.',
     status: 'live-demo',
-    href: 'https://sphinx-healing-demo.netlify.app',
+    href: 'https://fieldtrack-demo.netlify.app/',
     icon: '📍',
     highlights: ['One-tap punch in/out', 'Per-job mileage logs', 'Manager dashboard + exports'],
   },

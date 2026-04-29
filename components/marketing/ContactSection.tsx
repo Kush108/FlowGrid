@@ -6,6 +6,9 @@ import { useState } from 'react';
 export default function ContactSection() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || 'mailto:hello@flowgrid.ca';
+  const bookingIsExternal = bookingUrl.startsWith('http://') || bookingUrl.startsWith('https://');
 
   return (
     <section id="contact" className="py-20 relative overflow-hidden">
@@ -37,35 +40,91 @@ export default function ContactSection() {
             className="rounded-2xl p-6 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]"
           >
             <div className="font-semibold text-brand-text/90">Request Your Free Demo</div>
+            <div className="mt-3 flex flex-col sm:flex-row gap-2">
+              <a
+                className="inline-flex items-center justify-center px-4 py-2 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
+                href={bookingUrl}
+                target={bookingIsExternal ? '_blank' : undefined}
+                rel={bookingIsExternal ? 'noopener noreferrer' : undefined}
+              >
+                Book a 15-min call
+              </a>
+              <a
+                className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-brand-green/10 text-brand-green border border-brand-green/25"
+                href="mailto:hello@flowgrid.ca"
+              >
+                Or email us
+              </a>
+            </div>
             <form
               className="mt-5 space-y-3"
-              action="https://formspree.io/f/YOUR_FORMSPREE_ID"
-              method="POST"
               onSubmit={async (e) => {
                 e.preventDefault();
                 if (sending) return;
                 setSending(true);
                 setSent(false);
+                setError(null);
                 const form = e.currentTarget;
                 try {
-                  const res = await fetch(form.action, {
+                  const formData = new FormData(form);
+                  const name = String(formData.get('name') ?? '').trim();
+                  const company = String(formData.get('company') ?? '').trim();
+                  const email = String(formData.get('email') ?? '').trim();
+                  const phone = String(formData.get('phone') ?? '').trim();
+                  const industry = String(formData.get('industry') ?? '').trim();
+                  const staffCount = String(formData.get('staffCount') ?? '').trim();
+                  const message = String(formData.get('message') ?? '').trim();
+                  const website = String(formData.get('website') ?? '').trim(); // honeypot
+
+                  if (!name || !company || !email || !industry || !staffCount) {
+                    setError('Please fill in the required fields.');
+                    return;
+                  }
+
+                  const res = await fetch('/api/intake', {
                     method: 'POST',
-                    body: new FormData(form),
-                    headers: { Accept: 'application/json' },
+                    headers: { 'content-type': 'application/json' },
+                    body: JSON.stringify({
+                      name,
+                      email,
+                      phone: phone || null,
+                      company,
+                      industry,
+                      staffCount,
+                      message: message || null,
+                      website: website || null,
+                      systemName: 'FieldTrack',
+                      source: 'contact',
+                    }),
                   });
+
                   if (res.ok) {
                     form.reset();
                     setSent(true);
                   } else {
-                    alert('Something went wrong. Please email hello@flowgrid.ca');
+                    const data = (await res.json().catch(() => null)) as { error?: string } | null;
+                    if (res.status === 429 || data?.error === 'rate_limited') {
+                      setError('Too many requests. Please wait a minute and try again, or email hello@flowgrid.ca.');
+                    } else {
+                      setError('Something went wrong. Please email hello@flowgrid.ca.');
+                    }
                   }
                 } catch {
-                  alert('Network error. Please email hello@flowgrid.ca');
+                  setError('Network error. Please email hello@flowgrid.ca.');
                 } finally {
                   setSending(false);
                 }
               }}
             >
+              {/* Honeypot (bots fill, humans don’t) */}
+              <input
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                className="hidden"
+                aria-hidden="true"
+                defaultValue=""
+              />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   className="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-brand-border focus:outline-none focus:border-brand-green/50 text-brand-text"
@@ -143,7 +202,9 @@ export default function ContactSection() {
                 {sending ? 'Sending…' : 'Build My Free Demo →'}
               </button>
 
-              {!sent ? (
+              {error ? (
+                <div className="text-sm text-red-200/90 text-center">{error}</div>
+              ) : !sent ? (
                 <div className="text-xs text-brand-muted text-center">
                   We’ll respond within 4 hours and have your demo ready in 48. No spam. No sales pressure.
                 </div>

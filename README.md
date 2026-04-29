@@ -1,25 +1,44 @@
-# FlowGrid — A Grid of Intelligent Utilities
+# FlowGrid.ca — FieldTrack (flagship) marketing site
 
-A futuristic, mobile-first homepage for FlowGrid.ca - a collection of AI-powered micro-tools.
+This repo contains the Next.js (App Router) marketing site deployed at `flowgrid.ca`.
 
-## Features
+- **FlowGrid** is the company/studio.
+- **FieldTrack** is the flagship product demo used for sales/outreach.
 
-- 🎨 **Futuristic Design**: Dark theme with neon accents, glassmorphism effects, and smooth animations
-- 📱 **Mobile-First**: Fully responsive design optimized for all devices
-- ✨ **Interactive Grid**: Animated tool tiles with hover effects and 3D transforms
-- 🎮 **Gamified Elements**: Cursor trail effects and hidden easter eggs
-- 🚀 **Smooth Animations**: Powered by Framer Motion for fluid transitions
-- 🎯 **Modern Stack**: Next.js 14+ with App Router, TypeScript, and TailwindCSS
-
-## Getting Started
+## Local development
 
 ### Prerequisites
 
-- Node.js 18+ 
-- npm or yarn
+- Node.js 18+
 
-### Installation
+### Install
 
-1. Install dependencies:
 ```bash
 npm install
+```
+
+### Run
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` and fill what you have.
+
+- `NEXT_PUBLIC_BOOKING_URL`: optional (book-a-call CTA). If unset, CTAs fall back to `mailto:hello@flowgrid.ca`.
+- `MAKE_WEBHOOK_URL`: optional (server-side intake webhook). If unset, submissions still succeed but won’t forward anywhere.
+- `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`: optional (footer socials).
+
+## Key routes
+
+- `/` marketing homepage
+- `/api/intake` intake submission endpoint
+- `/privacy`, `/terms` legal pages

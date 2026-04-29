@@ -1,23 +1,27 @@
+import Image from 'next/image';
+
 export function FlowMark({ className = '' }: { className?: string }) {
   return (
-    <img
+    <Image
       src="/logo-icon.svg"
       alt="FlowGrid"
+      width={36}
+      height={36}
+      priority
       className={className || 'h-9 w-auto'}
-      loading="eager"
-      decoding="async"
     />
   );
 }
 
 export function FlowWordmark() {
   return (
-    <img
+    <Image
       src="/logo.svg"
       alt="FlowGrid"
+      width={140}
+      height={40}
+      priority
       className="h-10 w-auto"
-      loading="eager"
-      decoding="async"
     />
   );
 }

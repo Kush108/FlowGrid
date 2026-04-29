@@ -16,6 +16,8 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  const demoUrl = 'https://fieldtrack-demo.netlify.app/';
+
   return (
     <section id="top" className="relative min-h-[92vh] flex items-center overflow-hidden">
       {/* Animated background (subtle city grid / mesh) */}
@@ -120,7 +122,7 @@ export default function Hero() {
             >
               <a
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
-                href="https://sphinx-healing-demo.netlify.app"
+                href={demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -187,7 +189,7 @@ export default function Hero() {
             <div className="bg-brand-surface">
               <iframe
                 title="FlowGrid live demo"
-                src="https://sphinx-healing-demo.netlify.app"
+                src={demoUrl}
                 className="w-full"
                 style={{ height: 520 }}
                 loading="lazy"
