@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   title: "FlowGrid — Operational software for field teams (demo first)",
   description:
     "FlowGrid builds operational software for businesses with field teams. We build a working demo in 48 hours before you pay anything.",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 const bodyFont = DM_Sans({
