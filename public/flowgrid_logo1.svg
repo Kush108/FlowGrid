@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 84" role="img" aria-label="FlowGrid logo alt 1">
+  <defs>
+    <linearGradient id="fg-bg-b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1628" />
+      <stop offset="100%" stop-color="#0d2038" />
+    </linearGradient>
+    <linearGradient id="fg-node-b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(2 10)">
+    <rect x="0" y="0" width="64" height="64" rx="14" fill="url(#fg-bg-b)" stroke="rgba(255,255,255,0.14)" stroke-width="2" />
+    <path d="M16 20l16 12 16-12M16 44l16-12 16 12" stroke="url(#fg-node-b)" stroke-width="1.8" fill="none" stroke-linecap="round" />
+    <circle cx="16" cy="20" r="3.4" fill="#22c55e" />
+    <circle cx="32" cy="32" r="3.8" fill="#0ea5e9" />
+    <circle cx="48" cy="20" r="3.4" fill="#22c55e" />
+    <circle cx="16" cy="44" r="3.4" fill="#22c55e" />
+    <circle cx="48" cy="44" r="3.4" fill="#0ea5e9" />
+  </g>
+  <text x="82" y="52" font-family="Fraunces, Georgia, serif" font-size="42" font-weight="650" fill="#f1f5f9">Flow</text>
+  <text x="180" y="52" font-family="Fraunces, Georgia, serif" font-size="42" font-weight="650" fill="#22c55e">Grid</text>
+</svg>
