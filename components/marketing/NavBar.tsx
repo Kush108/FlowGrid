@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { FlowWordmark } from '@/components/marketing/FlowBrand';
 
 const links = [
@@ -8,13 +8,25 @@ const links = [
   { href: '#how', label: 'How It Works' },
   { href: '#pricing', label: 'Pricing' },
   { href: '#demo', label: 'Demo' },
+  { href: '/fieldtrack-demo/', label: 'Live Demo' },
+  { href: '/sphinx-proposal/', label: 'Proposal' },
 ];
 
 export default function NavBar() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
-  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || 'mailto:hello@flowgrid.ca';
-  const bookingIsExternal = bookingUrl.startsWith('http://') || bookingUrl.startsWith('https://');
+  const calendlyUrl =
+    process.env.NEXT_PUBLIC_CALENDLY_URL || process.env.NEXT_PUBLIC_BOOKING_URL || 'https://calendly.com/flowgrid/15min';
+
+  const openCalendly = (e?: MouseEvent<HTMLAnchorElement>) => {
+    if (e) e.preventDefault();
+    const w = window as unknown as { Calendly?: { initPopupWidget: (opts: { url: string }) => void } };
+    if (w.Calendly?.initPopupWidget) {
+      w.Calendly.initPopupWidget({ url: calendlyUrl });
+      return;
+    }
+    window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
+  };
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 8);
@@ -57,9 +69,8 @@ export default function NavBar() {
             </a>
             <a
               className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-brand-green text-brand-bg font-medium text-sm hover:bg-brand-green/90 transition-colors"
-              href={bookingUrl}
-              target={bookingIsExternal ? '_blank' : undefined}
-              rel={bookingIsExternal ? 'noopener noreferrer' : undefined}
+              href={calendlyUrl}
+              onClick={openCalendly}
             >
               Book a 15-min call
             </a>
@@ -117,10 +128,11 @@ export default function NavBar() {
                   <div className="mt-4">
                     <a
                       className="inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-medium hover:bg-brand-green/90 transition-colors"
-                      href={bookingUrl}
-                      target={bookingIsExternal ? '_blank' : undefined}
-                      rel={bookingIsExternal ? 'noopener noreferrer' : undefined}
-                      onClick={() => setOpen(false)}
+                      href={calendlyUrl}
+                      onClick={(e) => {
+                        openCalendly(e);
+                        setOpen(false);
+                      }}
                     >
                       Book a 15-min call
                     </a>

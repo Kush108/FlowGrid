@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sphinx Field — Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#0a1628;
+  --teal:#0b5c63;
+  --teal-bright:#3ecfda;
+  --teal-pale:#edf9fa;
+  --slate:#4a6070;
+  --border:#dde6ea;
+  --off:#f5f8fa;
+  --gold:#c4912e;
+  --gold-pale:#fdf6e6;
+  --white:#fff;
+  --green:#166534;
+  --green-pale:#f0fdf4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#d8e2e8;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.wrap{max-width:780px;margin:44px auto;background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 20px 70px rgba(10,22,40,.18)}
+
+/* ── COVER ── */
+.cover{
+  background:var(--ink);
+  padding:52px 56px 0;
+  position:relative;overflow:hidden;
+}
+.cover-glow{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 65% 80% at 100% 0%, rgba(11,92,99,.7) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 45% at 0% 100%, rgba(62,207,218,.05) 0%, transparent 55%);
+}
+.cover-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(62,207,218,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(62,207,218,.05) 1px,transparent 1px);
+  background-size:36px 36px;
+}
+.cover-z{position:relative;z-index:2}
+
+.toprow{display:flex;justify-content:space-between;align-items:center;margin-bottom:44px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--teal-bright));display:flex;align-items:center;justify-content:center;font-size:15px}
+.logo-name{font-family:'Fraunces',serif;font-size:18px;color:#fff;letter-spacing:-.2px}
+.logo-name b{color:var(--teal-bright);font-weight:600}
+.pill{
+  background:rgba(62,207,218,.1);border:1px solid rgba(62,207,218,.2);
+  color:var(--teal-bright);font-size:10px;font-weight:600;letter-spacing:.9px;text-transform:uppercase;
+  padding:5px 12px;border-radius:20px;display:flex;align-items:center;gap:5px;
+}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:var(--teal-bright);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+.cover-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--teal-bright);margin-bottom:14px}
+h1{font-family:'Fraunces',serif;font-size:42px;font-weight:600;line-height:1.1;color:#fff;margin-bottom:14px;letter-spacing:-.5px}
+h1 i{font-style:italic;color:var(--teal-bright);font-weight:300}
+.cover-desc{font-size:15px;color:rgba(255,255,255,.45);line-height:1.65;max-width:460px;font-weight:300;margin-bottom:44px}
+
+.meta-row{display:flex;gap:0;border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:40px}
+.mc{padding:11px 22px;border-right:1px solid rgba(255,255,255,.07)}
+.mc:last-child{border-right:none}
+.mc label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.25);margin-bottom:3px;font-weight:600}
+.mc span{font-size:12.5px;font-weight:500;color:rgba(255,255,255,.75)}
+
+.cover-foot{
+  background:rgba(62,207,218,.05);
+  border-top:1px solid rgba(62,207,218,.1);
+  margin:0 -56px;padding:16px 56px;
+  display:flex;gap:36px;
+}
+.cf{display:flex;align-items:center;gap:10px}
+.cf-val{font-family:'Fraunces',serif;font-size:20px;color:var(--teal-bright)}
+.cf-label{font-size:11px;color:rgba(255,255,255,.3);line-height:1.3;font-weight:300}
+
+/* ── BODY ── */
+.body{padding:52px 56px}
+.ey{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:1.8px;color:var(--teal);display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.ey::before{content:'';width:16px;height:1.5px;background:var(--teal);border-radius:2px}
+.sh{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:22px}
+.sh i{font-style:italic;color:var(--teal);font-weight:300}
+hr{border:none;height:1px;background:linear-gradient(to right,var(--border),transparent);margin:44px 0}
+
+/* PROBLEM */
+.prob{
+  background:var(--gold-pale);border-left:3px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:18px 22px;margin-bottom:38px;
+}
+.prob p{font-size:14px;line-height:1.75;color:#6b4c10}
+.prob strong{color:#8a5f0a}
+
+/* FEATURES */
+.fgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:36px}
+.fc{border:1.5px solid var(--border);border-radius:12px;padding:18px 16px;transition:.18s}
+.fc:hover{border-color:var(--teal);box-shadow:0 3px 16px rgba(11,92,99,.08)}
+.fc-i{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,rgba(11,92,99,.07),rgba(62,207,218,.1));display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
+.fc h4{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.fc p{font-size:11.5px;color:var(--slate);line-height:1.55}
+
+/* DEMO */
+.demo{
+  background:var(--ink);border-radius:12px;
+  padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin-bottom:38px;
+}
+.demo-l{display:flex;align-items:center;gap:12px}
+.demo-ico{width:38px;height:38px;flex-shrink:0;border-radius:9px;background:linear-gradient(135deg,var(--teal),var(--teal-bright));display:flex;align-items:center;justify-content:center;font-size:16px}
+.demo-t h4{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.demo-t a{color:var(--teal-bright);font-size:12px;font-weight:500;text-decoration:none}
+.demo-btn{background:linear-gradient(135deg,var(--teal),#0d7a84);color:#fff;padding:9px 20px;border-radius:7px;font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:.18s}
+.demo-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(11,92,99,.4)}
+
+/* ── PRICING ── */
+.price-banner{
+  background:linear-gradient(140deg,var(--ink),#162438);
+  border-radius:16px;padding:32px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.price-banner::after{content:'';position:absolute;right:-50px;bottom:-50px;width:200px;height:200px;border-radius:50%;background:rgba(62,207,218,.04)}
+.pb-z{position:relative;z-index:2}
+.pb-z h3{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:5px}
+.pb-z h3 i{font-style:italic;color:var(--teal-bright);font-weight:300}
+.pb-z p{font-size:13px;color:rgba(255,255,255,.38);line-height:1.6;max-width:480px;margin-bottom:24px;font-weight:300}
+.seats{display:flex;gap:10px;flex-wrap:wrap}
+.seat{
+  background:rgba(62,207,218,.08);border:1px solid rgba(62,207,218,.18);
+  border-radius:10px;padding:14px 20px;min-width:140px;
+}
+.seat-p{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:500;color:var(--teal-bright);line-height:1;margin-bottom:4px}
+.seat-p small{font-size:12px;font-weight:400;color:rgba(255,255,255,.3)}
+.seat-l{font-size:11px;color:rgba(255,255,255,.38);line-height:1.4}
+.seat-l strong{color:rgba(255,255,255,.7);display:block;margin-bottom:1px}
+.min{margin-top:18px;font-size:11.5px;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:6px}
+.min b{color:rgba(255,255,255,.6)}
+
+/* CALC */
+.ctable{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:13px}
+.chead{background:var(--ink);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.chead h4{font-size:12.5px;font-weight:600;color:#fff}
+.chead span{font-size:11px;color:rgba(255,255,255,.3)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--off);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--slate);padding:8px 18px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:10px 18px;font-size:12.5px;border-bottom:1px solid #f3f6f8}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:rgba(11,92,99,.04);font-weight:600}
+.mono{font-family:'JetBrains Mono',monospace;color:var(--teal);font-weight:500;font-size:13px}
+.tag-g{display:inline-block;background:rgba(22,101,52,.08);border:1px solid rgba(22,101,52,.18);color:var(--green);font-size:9.5px;font-weight:600;padding:1px 7px;border-radius:6px;margin-left:5px}
+.pnote{font-size:11.5px;color:var(--slate);text-align:center;background:var(--off);border-radius:8px;padding:10px 14px;margin-bottom:38px;line-height:1.55}
+.comp-intro{font-size:14px;color:var(--slate);line-height:1.7;margin-bottom:18px}
+.comp-intro strong{color:var(--ink)}
+.comp-table-wrap{border:1.5px solid var(--border);border-radius:13px;overflow:hidden;margin-bottom:14px}
+table.comp-table{width:100%;border-collapse:collapse}
+table.comp-table th{background:var(--ink);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.45);padding:10px 16px;text-align:left}
+table.comp-table td{padding:11px 16px;font-size:12.5px;border-bottom:1px solid #f0f4f6;vertical-align:top;line-height:1.5}
+table.comp-table tr:last-child td{border-bottom:none}
+.comp-sub{font-size:10.5px;color:var(--slate);font-weight:400;display:block;margin-top:1px}
+.comp-price{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink);white-space:nowrap}
+.comp-price.red{color:#c0392b}
+.comp-price.green{color:var(--teal)}
+.comp-x{font-size:11px;color:#999;line-height:1.4;display:block}
+.comp-yes{font-size:11.5px;color:var(--teal);font-weight:600;display:block;line-height:1.5}
+tr.comp-total td{background:rgba(192,57,43,.04);border-top:2px solid rgba(192,57,43,.1)}
+tr.comp-us td{background:rgba(11,92,99,.04);border-top:2px solid rgba(11,92,99,.15)}
+tr.comp-us td strong{color:var(--teal)}
+.comp-callout{background:linear-gradient(135deg,rgba(11,92,99,.05),rgba(62,207,218,.04));border:1.5px solid rgba(11,92,99,.12);border-radius:11px;padding:16px 20px;display:flex;gap:12px;align-items:flex-start;margin-bottom:38px;font-size:13px;color:var(--slate);line-height:1.65}
+.comp-callout-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.comp-callout strong{color:var(--ink);display:block;margin-bottom:3px}
+
+/* WHAT'S INCLUDED */
+.incl{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  background:var(--off);border:1.5px solid var(--border);
+  border-radius:14px;padding:24px;margin-bottom:38px;
+}
+.incl-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--ink)}
+.incl-item::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* NEXT STEPS */
+.nxt{background:linear-gradient(145deg,var(--ink),#152336);border-radius:14px;padding:32px;margin-bottom:30px}
+.nxt h3{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:22px}
+.nxt h3 i{font-style:italic;color:var(--teal-bright);font-weight:300}
+.nr{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.nr:last-child{margin-bottom:0}
+.nn{width:26px;height:26px;flex-shrink:0;border-radius:50%;background:rgba(62,207,218,.1);border:1px solid rgba(62,207,218,.22);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--teal-bright)}
+.nr p{font-size:13.5px;color:rgba(255,255,255,.5);line-height:1.6;padding-top:3px}
+.nr p strong{color:#fff}
+
+/* GUARANTEE */
+.guar{background:var(--green-pale);border:1.5px solid rgba(22,101,52,.16);border-radius:11px;padding:18px 22px;display:flex;gap:12px;align-items:flex-start}
+.guar-ico{font-size:22px;flex-shrink:0;margin-top:1px}
+.guar h4{font-size:13px;font-weight:600;color:var(--green);margin-bottom:3px}
+.guar p{font-size:12.5px;color:#374151;line-height:1.6}
+
+/* FOOTER */
+.footer{
+  background:linear-gradient(135deg,var(--teal) 0%,#094448 100%);
+  padding:40px 56px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;
+}
+.footer::before{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:rgba(62,207,218,.06)}
+.fl{position:relative;z-index:2}
+.fl h3{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:#fff;margin-bottom:5px;line-height:1.2}
+.fl h3 i{font-style:italic;color:var(--teal-bright);font-weight:300}
+.fl p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.55}
+.fr{display:flex;flex-direction:column;gap:8px;position:relative;z-index:2}
+.ba{background:#fff;color:var(--teal);padding:12px 26px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;text-align:center;transition:.18s}
+.ba:hover{background:var(--teal-bright);color:#fff}
+.bb{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.7);padding:10px 26px;border-radius:8px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;transition:.18s}
+.bb:hover{background:rgba(255,255,255,.13)}
+.ffine{background:var(--ink);padding:12px 56px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.ffine p{font-size:10px;color:rgba(255,255,255,.18)}
+
+/* PRINT / RESPONSIVE */
+@media print{body{background:#fff}.wrap{box-shadow:none;margin:0;border-radius:0;max-width:100%}}
+@media(max-width:640px){
+  .cover,.body,.footer,.ffine{padding-left:24px;padding-right:24px}
+  .cover-foot{margin:0 -24px;padding:16px 24px;flex-wrap:wrap;gap:20px}
+  h1{font-size:30px}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .incl{grid-template-columns:1fr}
+  .meta-row{flex-direction:column}
+  .mc{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}
+  .mc:last-child{border-bottom:none}
+  .seats{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-glow"></div>
+  <div class="cover-grid"></div>
+  <div class="cover-z">
+    <div class="toprow">
+      <div class="logo">
+        <div class="logo-icon">📍</div>
+        <div class="logo-name">Sphinx <b>Field</b></div>
+      </div>
+      <div class="pill"><div class="pill-dot"></div>Confidential</div>
+    </div>
+
+    <div class="cover-tag">Custom Software Proposal · Edmonton, AB</div>
+    <h1>Field Staff &amp; Mileage<br/><i>Management App</i></h1>
+    <p class="cover-desc">A purpose-built mobile + web application for Sphinx Healing's field team. Real-time punch in/out, automatic GPS mileage, live dashboard, and payroll-ready reports — subscription based, no large upfront.</p>
+
+    <div class="meta-row">
+      <div class="mc"><label>For</label><span>Eddie — Sphinx Healing Services</span></div>
+      <div class="mc"><label>By</label><span>FlowGrid</span></div>
+      <div class="mc"><label>Email</label><span>kushal@flowgrid.ca</span></div>
+      <div class="mc"><label>Date</label><span>April 2026</span></div>
+    </div>
+  </div>
+
+  <div class="cover-foot">
+    <div class="cf"><div class="cf-val">$500</div><div class="cf-label">one-time<br/>setup fee</div></div>
+    <div class="cf"><div class="cf-val">$18/seat</div><div class="cf-label">per field staff<br/>per month</div></div>
+    <div class="cf"><div class="cf-val">iOS + Android</div><div class="cf-label">no App Store<br/>needed</div></div>
+    <div class="cf"><div class="cf-val">~1 week</div><div class="cf-label">from approval<br/>to live</div></div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- PROBLEM -->
+  <div class="ey">The Problem</div>
+  <div class="prob">
+    <p>Managing a field team without the right tools means <strong>paper timesheets, manual mileage logs, and no visibility into where staff are mid-shift.</strong> For an organization accountable to funders and clients, that creates errors, liability, and hours of admin work every week that shouldn't exist.</p>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="ey">What You Get</div>
+  <h2 class="sh">Every Feature Your Team Needs, <i>In One App</i></h2>
+  <div class="fgrid">
+    <div class="fc"><div class="fc-i">📱</div><h4>Staff Mobile App</h4><p>Punch in/out, confirm job arrivals, and log notes — from any phone. Works on iOS and Android without an App Store install.</p></div>
+    <div class="fc"><div class="fc-i">🛰️</div><h4>Auto GPS Mileage</h4><p>Tracks distance driven per job automatically. Staff just tap start — the app handles the rest, like Google Maps running quietly.</p></div>
+    <div class="fc"><div class="fc-i">🖥️</div><h4>Live Manager Dashboard</h4><p>Real-time view of every staff member — status, hours, mileage, and current location. Accessible from any browser, anywhere.</p></div>
+    <div class="fc"><div class="fc-i">📊</div><h4>Payroll-Ready Reports</h4><p>Weekly hours and mileage exported to Excel automatically — formatted for payroll and government reimbursement with one click.</p></div>
+    <div class="fc"><div class="fc-i">🔔</div><h4>Alerts &amp; Notifications</h4><p>Instant alerts for missed punch-ins, late arrivals, and staff who go offline mid-shift. Nothing falls through the cracks.</p></div>
+    <div class="fc"><div class="fc-i">📅</div><h4>Shift Scheduling</h4><p>Assign shifts and client visits from the dashboard. Staff see their schedule automatically in the app — no separate system needed.</p></div>
+  </div>
+
+  <!-- DEMO -->
+  <div class="demo">
+    <div class="demo-l">
+      <div class="demo-ico">🚀</div>
+      <div class="demo-t">
+        <h4>Working Prototype — Built Specifically for Sphinx Healing</h4>
+        <a href="https://demo.flowgrid.ca" target="_blank">demo.flowgrid.ca →</a>
+      </div>
+    </div>
+    <a href="https://demo.flowgrid.ca" target="_blank" class="demo-btn">View Demo</a>
+  </div>
+
+  <hr/>
+
+  <!-- PRICING -->
+  <div class="ey">Investment</div>
+  <h2 class="sh">Simple Pricing. <i>Scales With Your Team.</i></h2>
+
+  <div class="price-banner">
+    <div class="pb-z">
+      <h3>One small setup fee. Then <i>pay only for who's active.</i></h3>
+      <p>No surprises. No renegotiating as you grow. Your monthly bill reflects exactly how many staff are active — nothing more.</p>
+      <div class="seats">
+        <div class="seat">
+          <div class="seat-p">$500<small> once</small></div>
+          <div class="seat-l"><strong>Setup Fee</strong>Paid once to get started</div>
+        </div>
+        <div class="seat">
+          <div class="seat-p">$18<small>/mo</small></div>
+          <div class="seat-l"><strong>Field Staff Seat</strong>Per active worker</div>
+        </div>
+        <div class="seat">
+          <div class="seat-p">$85<small>/mo</small></div>
+          <div class="seat-l"><strong>Manager Seat</strong>Full dashboard + admin access</div>
+        </div>
+      </div>
+      <div class="min">Minimum monthly: <b>$299/month</b> &nbsp;·&nbsp; No contracts &nbsp;·&nbsp; Cancel anytime with 30 days notice</div>
+    </div>
+  </div>
+
+  <div class="ctable">
+    <div class="chead">
+      <h4>What Does Sphinx Healing Actually Pay?</h4>
+      <span>Based on real team sizes</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Team Size</th>
+          <th>Field Staff</th>
+          <th>Managers</th>
+          <th>Monthly</th>
+          <th>Annual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Growing team</td>
+          <td>30 staff</td>
+          <td>1–2</td>
+          <td><span class="mono">$710/mo</span></td>
+          <td>$8,520/yr</td>
+        </tr>
+        <tr class="hl">
+          <td>Mid-size <span class="tag-g">Likely your range</span></td>
+          <td>50 staff</td>
+          <td>2</td>
+          <td><span class="mono">$1,070/mo</span></td>
+          <td>$12,840/yr</td>
+        </tr>
+        <tr class="hl">
+          <td>Larger org <span class="tag-g">Likely your range</span></td>
+          <td>80 staff</td>
+          <td>2</td>
+          <td><span class="mono">$1,610/mo</span></td>
+          <td>$19,320/yr</td>
+        </tr>
+        <tr>
+          <td>Full org</td>
+          <td>100 staff</td>
+          <td>2</td>
+          <td><span class="mono">$1,970/mo</span></td>
+          <td>$23,640/yr</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pnote">Add or remove staff any month — bill adjusts automatically. $500 setup due on agreement. Monthly billing begins when the app goes live.</p>
+
+  <!-- MARKET COMPARISON -->
+  <div class="ey">How It Compares</div>
+  <h2 class="sh">What Other Organizations Are <i>Already Paying</i></h2>
+  <div class="comp-intro">
+    To do what Sphinx Field does, most organizations stitch together <strong>3 or 4 separate tools</strong> — and still end up with gaps. Here's what those tools cost in the real market:
+  </div>
+
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Tool / Solution</th>
+          <th>What It Does</th>
+          <th>Real Market Price</th>
+          <th>At 80 Staff</th>
+          <th>Missing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>QuickBooks Time</strong><br/><span class="comp-sub">Time tracking only</span></td>
+          <td>Punch in/out, basic timesheets</td>
+          <td>$8/user + $20 base</td>
+          <td class="comp-price">$660/mo</td>
+          <td><span class="comp-x">No GPS. No mileage. No dashboard.</span></td>
+        </tr>
+        <tr>
+          <td><strong>Samsara GPS</strong><br/><span class="comp-sub">Fleet tracking only</span></td>
+          <td>Vehicle GPS + mileage</td>
+          <td>$27–45/vehicle/mo</td>
+          <td class="comp-price">$350/mo+</td>
+          <td><span class="comp-x">Tracks vehicles, not individual staff jobs.</span></td>
+        </tr>
+        <tr>
+          <td><strong>Deputy</strong><br/><span class="comp-sub">Scheduling only</span></td>
+          <td>Shift scheduling, basic attendance</td>
+          <td>$4.90/user/mo</td>
+          <td class="comp-price">$392/mo</td>
+          <td><span class="comp-x">No mileage. No GPS. No funder reports.</span></td>
+        </tr>
+        <tr class="comp-total">
+          <td colspan="3"><strong>Total if using all three — still missing mileage per job</strong></td>
+          <td class="comp-price red"><strong>$1,400+/mo</strong></td>
+          <td><span class="comp-x">3 apps. 3 logins. Data never lines up.</span></td>
+        </tr>
+        <tr class="comp-us">
+          <td><strong>Sphinx Field</strong><br/><span class="comp-sub" style="color:var(--teal-bright)">All-in-one, custom built</span></td>
+          <td>Everything above + GPS mileage per job + funder reports + custom workflow</td>
+          <td>$18/staff + $85/mgr</td>
+          <td class="comp-price green"><strong>$1,610/mo</strong></td>
+          <td><span class="comp-yes">✓ Nothing missing. Built for your org.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="comp-callout">
+    <div class="comp-callout-icon">💡</div>
+    <div>
+      <strong>The real difference isn't price — it's fit.</strong> Generic tools aren't built for social services. They don't understand job-based mileage, funder reporting, or the way your staff actually work in the field. Sphinx Field is built specifically for Sphinx Healing — your workflows, your team, your reporting requirements. No workarounds.
+    </div>
+  </div>
+
+  <!-- WHAT'S INCLUDED -->
+  <div class="ey">Everything Included</div>
+  <div class="incl">
+    <div class="incl-item">iOS + Android app for all field staff</div>
+    <div class="incl-item">Automatic GPS mileage per job</div>
+    <div class="incl-item">Live manager dashboard (web)</div>
+    <div class="incl-item">Real-time staff status + location</div>
+    <div class="incl-item">Weekly payroll + mileage Excel export</div>
+    <div class="incl-item">Shift scheduling + job assignment</div>
+    <div class="incl-item">Push alerts for missed punch-ins</div>
+    <div class="incl-item">Onboarding for your full team</div>
+    <div class="incl-item">Your branding + custom domain</div>
+    <div class="incl-item">30-day post-launch support</div>
+  </div>
+
+  <hr/>
+
+  <!-- NEXT STEPS -->
+  <div class="nxt">
+    <h3><i>Getting Started</i> is Simple</h3>
+    <div class="nr">
+      <div class="nn">1</div>
+      <p><strong>You say go.</strong> $500 setup fee and a confirmation from you — that's all it takes. We start building immediately. The app will be live and in your hands within approximately one week.</p>
+    </div>
+    <div class="nr">
+      <div class="nn">2</div>
+      <p><strong>Send us your staff list.</strong> Names and emails for each field worker and manager. We set up every account — your team logs in on day one and sees their own name, their own shifts, their own jobs.</p>
+    </div>
+    <div class="nr">
+      <div class="nn">3</div>
+      <p><strong>We walk through it together.</strong> A 30-minute session with you and your managers. Your staff start punching in the same day. The paper timesheets stop that week.</p>
+    </div>
+  </div>
+
+  <!-- GUARANTEE -->
+  <div class="guar">
+    <div class="guar-ico">🛡️</div>
+    <div>
+      <h4>Our Commitment</h4>
+      <p>If the app isn't working exactly as described when we hand it over — GPS mileage, live dashboard, reports, punch in/out — we keep building until it is, at no extra charge. You don't pay the first monthly invoice until you're satisfied with what you see.</p>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="fl">
+    <h3>Ready to put your<br/><i>team on the map?</i></h3>
+    <p>Questions or want to talk it through?<br/>Reach out and we can start this week.</p>
+  </div>
+  <div class="fr">
+    <a href="mailto:kushal@flowgrid.ca" class="ba">📩 Email Kushal to Start</a>
+    <a href="https://demo.flowgrid.ca" target="_blank" class="bb">🚀 View Working Demo</a>
+  </div>
+</div>
+<div class="ffine">
+  <p>© 2026 FlowGrid · Built by Kushal Grover · Confidential</p>
+</div>
+</body>
+</html>

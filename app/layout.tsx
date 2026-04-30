@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 import { DM_Sans, Fraunces, JetBrains_Mono } from 'next/font/google';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://flowgrid.ca'),
@@ -79,6 +80,9 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${bodyFont.variable} ${displayFont.variable} ${monoFont.variable}`}>
+      <head>
+        <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+      </head>
       <script
         defer
         data-website-id="dfid_0XtNYfkptwLKftXYSIiG3"
@@ -86,6 +90,7 @@ export default function RootLayout({
         src="https://datafa.st/js/script.js"
       ></script>
       <body>
+        <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}

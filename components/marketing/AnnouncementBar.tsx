@@ -6,7 +6,7 @@ const STORAGE_KEY = 'flowgrid_announce_dismissed_v1';
 
 export default function AnnouncementBar() {
   const [visible, setVisible] = useState(false);
-  const demoUrl = 'https://fieldtrack-demo.netlify.app/';
+  const demoUrl = '/fieldtrack-demo/';
 
   useEffect(() => {
     try {

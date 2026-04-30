@@ -7,8 +7,18 @@ export default function ContactSection() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || 'mailto:hello@flowgrid.ca';
-  const bookingIsExternal = bookingUrl.startsWith('http://') || bookingUrl.startsWith('https://');
+  const calendlyUrl =
+    process.env.NEXT_PUBLIC_CALENDLY_URL || process.env.NEXT_PUBLIC_BOOKING_URL || 'https://calendly.com/flowgrid/15min';
+
+  const openCalendly = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const w = window as unknown as { Calendly?: { initPopupWidget: (opts: { url: string }) => void } };
+    if (w.Calendly?.initPopupWidget) {
+      w.Calendly.initPopupWidget({ url: calendlyUrl });
+      return;
+    }
+    window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <section id="contact" className="py-20 relative overflow-hidden">
@@ -43,9 +53,8 @@ export default function ContactSection() {
             <div className="mt-3 flex flex-col sm:flex-row gap-2">
               <a
                 className="inline-flex items-center justify-center px-4 py-2 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
-                href={bookingUrl}
-                target={bookingIsExternal ? '_blank' : undefined}
-                rel={bookingIsExternal ? 'noopener noreferrer' : undefined}
+                href={calendlyUrl}
+                onClick={openCalendly}
               >
                 Book a 15-min call
               </a>
@@ -232,7 +241,6 @@ export default function ContactSection() {
                     hello@flowgrid.ca
                   </a>
                 </div>
-                <div>📞 (Add Google Voice number here)</div>
                 <div>🌐 flowgrid.ca</div>
               </div>
             </div>

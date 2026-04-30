@@ -62,7 +62,7 @@ export default function Home() {
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <a
                   className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
-                  href="https://fieldtrack-demo.netlify.app/"
+                  href="/fieldtrack-demo/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -70,7 +70,7 @@ export default function Home() {
                 </a>
                 <a
                   className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
-                  href="https://sphinx-proposal.netlify.app/"
+                  href="/sphinx-proposal/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -86,7 +86,7 @@ export default function Home() {
             <div className="rounded-2xl border border-brand-green/25 overflow-hidden bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.35)]">
               <iframe
                 title="FieldTrack live demo"
-                src="https://fieldtrack-demo.netlify.app/"
+                src="/fieldtrack-demo/"
                 className="w-full"
                 style={{ height: 520 }}
                 loading="lazy"

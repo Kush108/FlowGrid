@@ -34,6 +34,7 @@ npm run build
 Copy `.env.example` to `.env.local` and fill what you have.
 
 - `NEXT_PUBLIC_BOOKING_URL`: optional (book-a-call CTA). If unset, CTAs fall back to `mailto:hello@flowgrid.ca`.
+- `NEXT_PUBLIC_CALENDLY_URL`: recommended (Calendly popup). If set, “Book a call” opens a Calendly widget.
 - `MAKE_WEBHOOK_URL`: optional (server-side intake webhook). If unset, submissions still succeed but won’t forward anywhere.
 - `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`: optional (footer socials).
 

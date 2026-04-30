@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FieldTrack — Live Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   ⚙️  CUSTOMIZE HERE — change these for each lead
+   ============================================================ */
+:root {
+  --company:        "Acme Field Services";   /* Company name */
+  --brand:          #0ea5e9;                 /* Brand accent color */
+  --brand-dark:     #0284c7;
+  --brand-glow:     rgba(14,165,233,.18);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:#080e1a;
+  color:#e2e8f0;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* NOISE TEXTURE */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4;
+}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,14,26,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.tb-logo{display:flex;align-items:center;gap:10px}
+.tb-icon{
+  width:30px;height:30px;border-radius:7px;
+  background:linear-gradient(135deg,var(--brand-dark),var(--brand));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+}
+.tb-name{
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:700;
+  color:#fff;letter-spacing:-.3px;
+}
+.tb-name span{color:var(--brand)}
+.tb-center{display:flex;align-items:center;gap:6px}
+.live-badge{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);
+  color:#4ade80;padding:3px 10px;border-radius:20px;
+  font-size:11px;font-weight:600;letter-spacing:.5px;
+}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:livepulse 1.5s ease infinite}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.company-tag{
+  font-size:12px;color:rgba(255,255,255,.35);
+  font-family:'IBM Plex Mono',monospace;
+}
+.tb-right{display:flex;align-items:center;gap:16px}
+.tb-time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--brand);font-weight:500}
+.tb-contact{
+  background:var(--brand);color:#fff;
+  padding:6px 16px;border-radius:6px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  border:none;transition:.15s;
+  font-family:'IBM Plex Sans',sans-serif;
+}
+.tb-contact:hover{background:var(--brand-dark);transform:translateY(-1px)}
+
+/* ============================================================
+   HERO STRIP
+   ============================================================ */
+.hero{
+  background:linear-gradient(180deg,rgba(14,165,233,.06) 0%,transparent 100%);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  padding:28px 32px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.hero-left h1{
+  font-family:'Syne',sans-serif;font-size:26px;font-weight:800;
+  color:#fff;letter-spacing:-.5px;margin-bottom:4px;
+}
+.hero-left h1 em{font-style:italic;color:var(--brand);font-weight:600}
+.hero-left p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.5;font-weight:300}
+.hero-stats{display:flex;gap:0}
+.hs{
+  padding:10px 24px;border-left:1px solid rgba(255,255,255,.06);
+  text-align:center;
+}
+.hs:first-child{border-left:none}
+.hs-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--brand);line-height:1}
+.hs-label{font-size:10px;color:rgba(255,255,255,.3);margin-top:3px;text-transform:uppercase;letter-spacing:.8px}
+
+/* ============================================================
+   MAIN LAYOUT — TABS
+   ============================================================ */
+.tabs{
+  display:flex;gap:4px;padding:20px 32px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.tab{
+  padding:10px 20px;border-radius:8px 8px 0 0;
+  font-size:13px;font-weight:600;cursor:pointer;
+  border:1px solid transparent;border-bottom:none;
+  transition:.15s;color:rgba(255,255,255,.4);
+  background:transparent;font-family:'IBM Plex Sans',sans-serif;
+}
+.tab.active{
+  background:rgba(14,165,233,.1);
+  border-color:rgba(14,165,233,.2);
+  color:var(--brand);
+}
+.tab:hover:not(.active){color:rgba(255,255,255,.7);background:rgba(255,255,255,.03)}
+
+.view{display:none;padding:24px 32px 40px;animation:fadein .2s ease}
+.view.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============================================================
+   SPLIT LAYOUT
+   ============================================================ */
+.split{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:20px;
+  align-items:start;
+}
+
+/* ============================================================
+   PHONE FRAME
+   ============================================================ */
+.phone-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  position:sticky;top:76px;
+}
+.phone-label{
+  font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:1.5px;color:rgba(255,255,255,.25);
+}
+.phone{
+  width:300px;
+  background:#0f1624;
+  border-radius:36px;
+  border:2px solid rgba(255,255,255,.1);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04),
+    0 40px 80px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  overflow:hidden;
+  position:relative;
+}
+.phone-notch{
+  background:#080e1a;
+  height:28px;display:flex;align-items:center;justify-content:center;
+  gap:8px;position:relative;
+}
+.phone-notch::after{
+  content:'';width:80px;height:18px;
+  background:#0f1624;border-radius:0 0 14px 14px;
+  position:absolute;top:0;
+}
+.phone-screen{padding:16px;min-height:580px;position:relative}
+
+/* PHONE HEADER */
+.app-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.app-logo{
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  color:#fff;
+}
+.app-logo span{color:var(--brand)}
+.app-user{display:flex;align-items:center;gap:8px}
+.avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--brand-dark),var(--brand));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;
+  flex-shrink:0;
+}
+.app-user-name{font-size:12px;font-weight:600;color:#fff}
+.app-user-role{font-size:10px;color:rgba(255,255,255,.35)}
+
+/* STATUS */
+.status-pill{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px;border-radius:14px;margin-bottom:14px;
+  transition:.3s;
+}
+.status-pill.on{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25)}
+.status-pill.off{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.status-dot{width:8px;height:8px;border-radius:50%;animation:livepulse 1.5s infinite}
+.status-pill.on .status-dot{background:#4ade80}
+.status-pill.off .status-dot{background:#f87171;animation:none}
+.status-text{font-size:14px;font-weight:700}
+.status-pill.on .status-text{color:#4ade80}
+.status-pill.off .status-text{color:#f87171}
+.status-time{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.4)}
+
+/* CLOCK */
+.phone-clock{text-align:center;margin-bottom:14px}
+.clock-time{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:700;
+  color:#fff;letter-spacing:-1px;
+}
+.clock-date{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+
+/* JOB CARD */
+.job-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:14px;margin-bottom:14px;
+}
+.job-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.job-card-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.3)}
+.job-status-tag{
+  background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.25);
+  color:#fbbf24;font-size:9px;font-weight:700;
+  padding:2px 8px;border-radius:6px;letter-spacing:.3px;
+}
+.job-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+.job-row:last-child{margin-bottom:0}
+.job-icon{font-size:12px;margin-top:1px;flex-shrink:0;width:16px;text-align:center}
+.job-info label{display:block;font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:1px}
+.job-info span{font-size:12px;color:#fff;font-weight:500}
+
+/* BUTTONS */
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.btn-row.full{grid-template-columns:1fr}
+.app-btn{
+  padding:12px 8px;border-radius:12px;border:none;cursor:pointer;
+  font-size:12px;font-weight:600;font-family:'IBM Plex Sans',sans-serif;
+  transition:.15s;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.app-btn:active{transform:scale(.97)}
+.btn-punch{
+  background:linear-gradient(135deg,#16a34a,#15803d);
+  color:#fff;grid-column:1/-1;font-size:13px;padding:14px;
+  box-shadow:0 4px 20px rgba(22,163,74,.3);
+}
+.btn-punch.punch-out{
+  background:linear-gradient(135deg,#dc2626,#b91c1c);
+  box-shadow:0 4px 20px rgba(220,38,38,.3);
+}
+.btn-arrive{background:rgba(14,165,233,.15);border:1px solid rgba(14,165,233,.25);color:var(--brand)}
+.btn-arrive:hover{background:rgba(14,165,233,.25)}
+.btn-mileage{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.2);color:#c084fc}
+.btn-mileage:hover{background:rgba(168,85,247,.22)}
+
+/* MILEAGE FORM */
+.mileage-form{
+  background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);
+  border-radius:12px;padding:12px;margin-bottom:12px;
+  display:none;
+}
+.mileage-form.open{display:block;animation:fadein .2s ease}
+.mileage-form label{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:4px}
+.mileage-form input{
+  width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:8px 10px;font-size:13px;color:#fff;
+  font-family:'IBM Plex Mono',monospace;margin-bottom:8px;outline:none;
+}
+.mileage-form input:focus{border-color:rgba(168,85,247,.5)}
+.btn-save-trip{
+  width:100%;background:rgba(168,85,247,.2);border:1px solid rgba(168,85,247,.3);
+  color:#c084fc;padding:8px;border-radius:8px;cursor:pointer;
+  font-weight:600;font-size:12px;font-family:'IBM Plex Sans',sans-serif;
+  transition:.15s;
+}
+.btn-save-trip:hover{background:rgba(168,85,247,.35)}
+
+/* SUMMARY */
+.phone-summary{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;
+}
+.ps-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:10px 8px;text-align:center;
+}
+.ps-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--brand);line-height:1}
+.ps-label{font-size:9px;color:rgba(255,255,255,.3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+/* TOAST */
+.toast{
+  position:absolute;bottom:16px;left:12px;right:12px;
+  background:#1e293b;border:1px solid rgba(34,197,94,.3);
+  border-radius:10px;padding:10px 14px;
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;color:#4ade80;
+  transform:translateY(80px);opacity:0;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  z-index:10;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{color:#f87171;border-color:rgba(239,68,68,.3)}
+.toast.info{color:var(--brand);border-color:rgba(14,165,233,.3)}
+
+/* ============================================================
+   DASHBOARD PANEL
+   ============================================================ */
+.dash{display:flex;flex-direction:column;gap:16px}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;padding:16px;
+  transition:.2s;position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--brand),transparent);
+  opacity:.5;
+}
+.stat-card:hover{border-color:rgba(14,165,233,.2);background:rgba(14,165,233,.04)}
+.stat-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:8px}
+.stat-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;color:#fff;line-height:1;margin-bottom:4px}
+.stat-val span{color:var(--brand)}
+.stat-sub{font-size:11px;color:rgba(255,255,255,.25)}
+
+/* TABLE */
+.panel{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;overflow:hidden;
+}
+.panel-head{
+  padding:14px 18px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.panel-head h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff}
+.panel-head-right{font-size:11px;color:rgba(255,255,255,.25);font-family:'IBM Plex Mono',monospace}
+
+table.staff-table{width:100%;border-collapse:collapse}
+table.staff-table th{
+  padding:10px 16px;
+  font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:1px;
+  color:rgba(255,255,255,.25);text-align:left;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.02);
+}
+table.staff-table td{
+  padding:11px 16px;font-size:12.5px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  vertical-align:middle;
+}
+table.staff-table tr:last-child td{border-bottom:none}
+table.staff-table tr{transition:.15s}
+table.staff-table tr:hover td{background:rgba(255,255,255,.02)}
+table.staff-table tr.highlight-row td{background:rgba(14,165,233,.05)}
+
+.staff-name{display:flex;align-items:center;gap:10px}
+.staff-av{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;
+}
+.staff-av-name{font-size:12.5px;font-weight:600;color:#fff}
+.staff-av-id{font-size:10px;color:rgba(255,255,255,.3);font-family:'IBM Plex Mono',monospace}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-dot{width:5px;height:5px;border-radius:50%}
+.badge.on{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);color:#4ade80}
+.badge.on .badge-dot{background:#4ade80;animation:livepulse 1.5s infinite}
+.badge.break{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);color:#fbbf24}
+.badge.break .badge-dot{background:#fbbf24}
+.badge.off{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35)}
+.badge.off .badge-dot{background:rgba(255,255,255,.2)}
+
+.mono{font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(255,255,255,.5)}
+.mono.brand{color:var(--brand);font-weight:500}
+
+/* BOTTOM GRID */
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* ACTIVITY FEED */
+.activity-list{padding:4px 0;max-height:220px;overflow-y:auto}
+.activity-list::-webkit-scrollbar{width:3px}
+.activity-list::-webkit-scrollbar-track{background:transparent}
+.activity-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+.activity-item{
+  display:flex;gap:12px;padding:10px 16px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  align-items:flex-start;animation:fadein .3s ease;
+}
+.activity-item:last-child{border-bottom:none}
+.activity-icon{
+  width:28px;height:28px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:12px;
+  margin-top:1px;
+}
+.activity-icon.punch{background:rgba(34,197,94,.1)}
+.activity-icon.arrive{background:rgba(14,165,233,.1)}
+.activity-icon.mile{background:rgba(168,85,247,.1)}
+.activity-icon.out{background:rgba(239,68,68,.1)}
+.activity-text{flex:1}
+.activity-text strong{font-size:12.5px;color:#fff;display:block;margin-bottom:1px}
+.activity-text span{font-size:11px;color:rgba(255,255,255,.35)}
+.activity-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);flex-shrink:0;margin-top:2px}
+
+/* KM CHART */
+.km-chart{padding:16px}
+.km-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.km-row:last-child{margin-bottom:0}
+.km-name{font-size:12px;color:rgba(255,255,255,.6);width:72px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.km-bar-wrap{flex:1;background:rgba(255,255,255,.05);border-radius:4px;height:8px;overflow:hidden}
+.km-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--brand-dark),var(--brand));transition:width .8s cubic-bezier(.34,1.1,.64,1)}
+.km-val{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brand);width:48px;text-align:right;flex-shrink:0}
+
+/* MAP VIEW */
+.map-sim{
+  background:rgba(14,165,233,.03);
+  border:1px solid rgba(14,165,233,.1);
+  border-radius:12px;height:220px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.map-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(14,165,233,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(14,165,233,.06) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.map-roads{position:absolute;inset:0}
+.map-label{
+  position:absolute;bottom:12px;left:12px;
+  font-size:10px;color:rgba(255,255,255,.2);
+  font-family:'IBM Plex Mono',monospace;
+}
+/* Staff dots on map */
+.map-dot{
+  position:absolute;width:12px;height:12px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+.map-dot::before{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1.5px solid currentColor;opacity:.4;
+  animation:ripple 2s ease infinite;
+}
+@keyframes ripple{0%{transform:scale(1);opacity:.4}100%{transform:scale(1.8);opacity:0}}
+.map-dot-inner{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.5)}
+.map-tooltip{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  background:#1e293b;border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:6px 10px;
+  font-size:11px;color:#fff;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:.15s;
+}
+.map-dot:hover .map-tooltip{opacity:1}
+
+/* ============================================================
+   REPORTS VIEW
+   ============================================================ */
+.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.report-card{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;padding:20px;
+}
+.report-card h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:12px}
+.report-big{font-family:'Syne',sans-serif;font-size:36px;font-weight:700;color:#fff;margin-bottom:4px}
+.report-big span{color:var(--brand)}
+.report-sub{font-size:12px;color:rgba(255,255,255,.3)}
+.report-change{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;font-weight:600}
+.report-change.up{color:#4ade80}
+.report-change.down{color:#f87171}
+
+.export-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);
+  color:#4ade80;padding:10px 20px;border-radius:8px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;transition:.15s;
+  margin-bottom:20px;
+}
+.export-btn:hover{background:rgba(34,197,94,.2)}
+
+/* REPORT TABLE */
+table.report-table{width:100%;border-collapse:collapse}
+table.report-table th{
+  padding:10px 16px;font-size:9.5px;font-weight:600;
+  text-transform:uppercase;letter-spacing:1px;
+  color:rgba(255,255,255,.25);text-align:left;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.02);
+}
+table.report-table td{
+  padding:11px 16px;font-size:12.5px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  color:rgba(255,255,255,.7);
+}
+table.report-table tr:last-child td{border-bottom:none}
+.pill-approved{
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);
+  color:#4ade80;font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:6px;
+}
+.pill-pending{
+  background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);
+  color:#fbbf24;font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:6px;
+}
+
+/* ============================================================
+   BOTTOM CTA
+   ============================================================ */
+.bottom-cta{
+  background:linear-gradient(135deg,rgba(14,165,233,.1),rgba(14,165,233,.04));
+  border:1px solid rgba(14,165,233,.2);
+  border-radius:16px;padding:32px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;margin:24px 32px 32px;flex-wrap:wrap;
+}
+.cta-left h2{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:700;
+  color:#fff;margin-bottom:6px;letter-spacing:-.3px;
+}
+.cta-left h2 em{font-style:italic;color:var(--brand)}
+.cta-left p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6}
+.cta-right{display:flex;gap:10px;flex-wrap:wrap}
+.cta-btn-main{
+  background:var(--brand);color:#fff;
+  padding:12px 28px;border-radius:8px;
+  font-size:14px;font-weight:700;cursor:pointer;border:none;
+  font-family:'IBM Plex Sans',sans-serif;transition:.15s;
+  text-decoration:none;display:inline-block;
+}
+.cta-btn-main:hover{background:var(--brand-dark);transform:translateY(-1px)}
+.cta-btn-sec{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.7);padding:12px 28px;border-radius:8px;
+  font-size:14px;font-weight:600;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;transition:.15s;
+  text-decoration:none;display:inline-block;
+}
+.cta-btn-sec:hover{background:rgba(255,255,255,.1)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:900px){
+  .split{grid-template-columns:1fr}
+  .phone-wrap{position:static}
+  .stat-row{grid-template-columns:1fr 1fr}
+  .bottom-grid{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .topbar{padding:0 16px}
+  .hero{padding:20px 16px}
+  .tabs,.view{padding-left:16px;padding-right:16px}
+  .hero-stats{display:none}
+  .stat-row{grid-template-columns:1fr 1fr}
+  .bottom-cta{padding:20px;margin:16px}
+  .report-grid{grid-template-columns:1fr}
+  .tb-center{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP BAR
+     ============================================================ -->
+<div class="topbar">
+  <div class="tb-logo">
+    <div class="tb-icon">📍</div>
+    <div class="tb-name">Field<span>Track</span></div>
+  </div>
+  <div class="tb-center">
+    <div class="live-badge"><div class="live-dot"></div>LIVE DEMO</div>
+    <div class="company-tag" id="companyTag">— Acme Field Services</div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-time" id="topTime">--:--:--</div>
+    <button class="tb-contact" onclick="document.getElementById('ctaSection').scrollIntoView({behavior:'smooth'})">Get This App →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<div class="hero">
+  <div class="hero-left">
+    <h1>Real-Time Staff &amp; Mileage Tracking<br/><em>Built for Your Field Team</em></h1>
+    <p>Click through the tabs below — everything you see is interactive and working right now.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-val" id="heroOnShift">7</div><div class="hs-label">On Shift</div></div>
+    <div class="hs"><div class="hs-val" id="heroKM">284</div><div class="hs-label">KM Today</div></div>
+    <div class="hs"><div class="hs-val" id="heroJobs">12</div><div class="hs-label">Jobs Active</div></div>
+    <div class="hs"><div class="hs-val" id="heroPunch">18</div><div class="hs-label">Punch-Ins</div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TABS
+     ============================================================ -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('staff')">📱 Staff App</button>
+  <button class="tab" onclick="switchTab('dashboard')">🖥️ Manager Dashboard</button>
+  <button class="tab" onclick="switchTab('reports')">📊 Reports & Export</button>
+</div>
+
+<!-- ============================================================
+     VIEW 1 — STAFF APP
+     ============================================================ -->
+<div class="view active" id="view-staff">
+  <div class="split">
+
+    <!-- PHONE -->
+    <div class="phone-wrap">
+      <div class="phone-label">Staff Mobile App — Tap to Interact</div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+
+          <div class="app-header">
+            <div class="app-logo">Field<span>Track</span></div>
+            <div class="app-user">
+              <div>
+                <div class="app-user-name" id="staffName">Sarah M.</div>
+                <div class="app-user-role">Field Worker</div>
+              </div>
+              <div class="avatar" id="staffAvatar">SM</div>
+            </div>
+          </div>
+
+          <div class="phone-clock">
+            <div class="clock-time" id="phoneClock">--:-- --</div>
+            <div class="clock-date" id="phoneDate">Loading...</div>
+          </div>
+
+          <div class="status-pill on" id="statusPill">
+            <div class="status-dot"></div>
+            <div class="status-text" id="statusText">ON SHIFT</div>
+            <div class="status-time" id="statusTime"></div>
+          </div>
+
+          <div class="job-card">
+            <div class="job-card-header">
+              <div class="job-card-title">Today's Job</div>
+              <div class="job-status-tag">IN PROGRESS</div>
+            </div>
+            <div class="job-row">
+              <div class="job-icon">👤</div>
+              <div class="job-info"><label>Client</label><span id="jobClient">Northside Site Visit</span></div>
+            </div>
+            <div class="job-row">
+              <div class="job-icon">📍</div>
+              <div class="job-info"><label>Address</label><span id="jobAddr">142 Kingsway NW, Edmonton</span></div>
+            </div>
+            <div class="job-row">
+              <div class="job-icon">🕐</div>
+              <div class="job-info"><label>Start Time</label><span id="jobStart">9:00 AM</span></div>
+            </div>
+          </div>
+
+          <div class="btn-row full">
+            <button class="app-btn btn-punch" id="punchBtn" onclick="togglePunch()">
+              <span>🟢</span> PUNCH OUT
+            </button>
+          </div>
+          <div class="btn-row">
+            <button class="app-btn btn-arrive" onclick="markArrived()">
+              📍 ARRIVED
+            </button>
+            <button class="app-btn btn-mileage" onclick="toggleMileage()">
+              🚗 MILEAGE
+            </button>
+          </div>
+
+          <div class="mileage-form" id="mileageForm">
+            <label>Start KM</label>
+            <input type="number" id="startKM" placeholder="e.g. 45210"/>
+            <label>End KM</label>
+            <input type="number" id="endKM" placeholder="e.g. 45233"/>
+            <button class="btn-save-trip" onclick="saveTrip()">💾 Save Trip</button>
+          </div>
+
+          <div class="phone-summary">
+            <div class="ps-card">
+              <div class="ps-val" id="hoursToday">6.5</div>
+              <div class="ps-label">Hours</div>
+            </div>
+            <div class="ps-card">
+              <div class="ps-val" id="kmToday">47</div>
+              <div class="ps-label">KM</div>
+            </div>
+            <div class="ps-card">
+              <div class="ps-val" id="jobsDone">2</div>
+              <div class="ps-label">Jobs</div>
+            </div>
+          </div>
+
+          <div class="toast" id="toast"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPLAINER -->
+    <div style="display:flex;flex-direction:column;gap:16px;padding-top:8px">
+      <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:22px">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.3);margin-bottom:14px">What Your Staff Experience</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🟢</div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:2px">One-tap punch in/out</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">Staff clock in the moment they start. Timestamp is locked — no edits after the fact. You see it instantly in the dashboard.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(14,165,233,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📍</div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:2px">Job arrival confirmation</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">Staff tap "Arrived" when they reach a client location. Creates a verified timestamped record — proof of service for billing or compliance.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(168,85,247,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🚗</div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:2px">Mileage per job</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">Manual entry or automatic GPS tracking. Distance calculated per job, logged against each employee — ready for reimbursement or CRA deduction at month end.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(251,191,36,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📱</div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:2px">Works on any phone</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">No App Store download needed. Staff open a link in their browser and it works like a native app. iPhone, Android, old or new — doesn't matter.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.15);border-radius:14px;padding:20px">
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">⚡ Auto GPS Mileage (Full Build)</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.65">In the live version, GPS tracking runs automatically in the background — exactly like Google Maps. Distance is calculated per job without staff entering anything. Manager sees the route taken on a map, total km, and start/end points per shift.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     VIEW 2 — DASHBOARD
+     ============================================================ -->
+<div class="view" id="view-dashboard">
+  <div class="dash">
+
+    <!-- STATS -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">On Shift Now</div>
+        <div class="stat-val"><span id="dashOnShift">7</span> / 12</div>
+        <div class="stat-sub">5 off shift today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total KM Today</div>
+        <div class="stat-val"><span id="dashKM">284</span> km</div>
+        <div class="stat-sub" id="dashKMSub">Across all staff</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Jobs</div>
+        <div class="stat-val"><span id="dashJobs">12</span></div>
+        <div class="stat-sub">4 completed today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Punch-Ins Today</div>
+        <div class="stat-val"><span id="dashPunch">18</span></div>
+        <div class="stat-sub">↑ from yesterday</div>
+      </div>
+    </div>
+
+    <!-- STAFF TABLE -->
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Live Staff Status</h3>
+        <div class="panel-head-right" id="tableUpdate">Updates in real time</div>
+      </div>
+      <table class="staff-table">
+        <thead>
+          <tr>
+            <th>Staff Member</th>
+            <th>Status</th>
+            <th>Current Location</th>
+            <th>Hours Today</th>
+            <th>KM Today</th>
+            <th>Last Update</th>
+          </tr>
+        </thead>
+        <tbody id="staffTableBody">
+          <!-- populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BOTTOM GRID -->
+    <div class="bottom-grid">
+
+      <!-- ACTIVITY FEED -->
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Live Activity Feed</h3>
+          <div class="panel-head-right">Auto-updating</div>
+        </div>
+        <div class="activity-list" id="activityFeed">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- KM CHART + MAP -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="panel">
+          <div class="panel-head"><h3>This Week's KM by Staff</h3></div>
+          <div class="km-chart" id="kmChart"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Live Staff Locations</h3><div class="panel-head-right">Edmonton</div></div>
+          <div class="map-sim" id="mapSim">
+            <div class="map-grid"></div>
+            <svg class="map-roads" viewBox="0 0 400 220" preserveAspectRatio="none">
+              <line x1="0" y1="110" x2="400" y2="110" stroke="rgba(255,255,255,.05)" stroke-width="2"/>
+              <line x1="200" y1="0" x2="200" y2="220" stroke="rgba(255,255,255,.05)" stroke-width="2"/>
+              <line x1="0" y1="55" x2="400" y2="55" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="165" x2="400" y2="165" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="100" y1="0" x2="100" y2="220" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="300" y1="0" x2="300" y2="220" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <path d="M0 140 Q 100 120 200 145 Q 300 170 400 140" stroke="rgba(255,255,255,.04)" fill="none" stroke-width="1.5"/>
+            </svg>
+            <div class="map-label">Edmonton Metropolitan Area</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     VIEW 3 — REPORTS
+     ============================================================ -->
+<div class="view" id="view-reports">
+
+  <div class="report-grid">
+    <div class="report-card">
+      <h4>Total Hours This Week</h4>
+      <div class="report-big"><span id="rptHours">312</span> h</div>
+      <div class="report-sub">Across all active staff</div>
+      <div class="report-change up">↑ 8% vs last week</div>
+    </div>
+    <div class="report-card">
+      <h4>Total KM This Week</h4>
+      <div class="report-big"><span id="rptKM">1,840</span> km</div>
+      <div class="report-sub">Billable + internal</div>
+      <div class="report-change up">↑ 12% vs last week</div>
+    </div>
+    <div class="report-card">
+      <h4>Mileage Reimbursement</h4>
+      <div class="report-big">$<span id="rptCost">1,012</span></div>
+      <div class="report-sub">At $0.55/km (CRA rate)</div>
+      <div class="report-change down">Auto-calculated</div>
+    </div>
+  </div>
+
+  <button class="export-btn" onclick="fakeExport()">
+    📥 Export Weekly Report — Excel / CSV
+  </button>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h3>Weekly Staff Summary — Payroll Ready</h3>
+      <div class="panel-head-right">Auto-generated every Monday</div>
+    </div>
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Staff Member</th>
+          <th>Days Worked</th>
+          <th>Total Hours</th>
+          <th>Total KM</th>
+          <th>Mileage ($)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="reportTableBody">
+        <!-- populated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     BOTTOM CTA
+     ============================================================ -->
+<div class="bottom-cta" id="ctaSection">
+  <div class="cta-left">
+    <h2>Want this running for<br/><em>your team in under a week?</em></h2>
+    <p>Custom built for your organization. Your staff names, your branding, your workflows.<br/>
+    $500 setup · $18/month per field worker · $85/month per manager</p>
+  </div>
+  <div class="cta-right">
+    <a href="mailto:hello@flowgrid.ca" class="cta-btn-main">📩 Let's Talk — Book a Call</a>
+    <a href="mailto:hello@flowgrid.ca?subject=Please%20send%20me%20a%20FieldTrack%20proposal" class="cta-btn-sec">📄 Send Me the Proposal</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ── CONFIG — CHANGE THIS PER LEAD ─────────────────────── */
+const CONFIG = {
+  company:    "Acme Field Services",
+  color:      "#0ea5e9",
+  staffNames: ["Sarah M.", "James T.", "Kezia R.", "Marcus L.", "Priya S.", "Devon W.", "Aisha K."],
+  jobTypes:   ["Site Visit", "Service Call", "Maintenance", "Installation", "Inspection"],
+  city:       "Edmonton"
+};
+/* ──────────────────────────────────────────────────────── */
+
+/* Apply config */
+document.getElementById('companyTag').textContent = `— ${CONFIG.company}`;
+document.documentElement.style.setProperty('--brand', CONFIG.color);
+const hsl = hexToHSL(CONFIG.color);
+document.documentElement.style.setProperty('--brand-dark', shadeColor(CONFIG.color, -15));
+document.documentElement.style.setProperty('--brand-glow', hexToRGBA(CONFIG.color, 0.18));
+
+function hexToRGBA(hex, alpha){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+function shadeColor(hex, pct){
+  const num=parseInt(hex.replace('#',''),16),
+    r=Math.min(255,Math.max(0,(num>>16)+pct)),
+    g=Math.min(255,Math.max(0,(num>>8&0xff)+pct)),
+    b=Math.min(255,Math.max(0,(num&0xff)+pct));
+  return `#${((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}`;
+}
+function hexToHSL(hex){return hex} /* placeholder */
+
+/* ── CLOCK ────────────────────────────────────────────── */
+function updateClocks(){
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const timeStrShort = now.toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',hour12:true});
+  const dateStr = now.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('topTime').textContent = timeStr;
+  document.getElementById('phoneClock').textContent = timeStrShort;
+  document.getElementById('phoneDate').textContent = dateStr;
+  document.getElementById('statusTime').textContent = `Since ${punchTime || timeStrShort}`;
+}
+updateClocks();
+setInterval(updateClocks, 1000);
+
+/* ── PUNCH IN/OUT ─────────────────────────────────────── */
+let punched = true;
+let punchTime = '9:02 AM';
+
+function togglePunch(){
+  punched = !punched;
+  const btn = document.getElementById('punchBtn');
+  const pill = document.getElementById('statusPill');
+  const txt = document.getElementById('statusText');
+  const now = new Date().toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',hour12:true});
+
+  if(punched){
+    btn.innerHTML = '<span>🟢</span> PUNCH OUT';
+    btn.className = 'app-btn btn-punch';
+    pill.className = 'status-pill on';
+    txt.textContent = 'ON SHIFT';
+    punchTime = now;
+    showToast(`✅ Punched in at ${now}`, 'green');
+    updateStat('dashOnShift', +document.getElementById('dashOnShift').textContent + 1);
+    updateStat('dashPunch', +document.getElementById('dashPunch').textContent + 1);
+    updateStat('heroOnShift', +document.getElementById('heroOnShift').textContent + 1);
+    updateStat('heroPunch', +document.getElementById('heroPunch').textContent + 1);
+    addActivity('punch', '✅', `${CONFIG.staffNames[0]} punched in`, now);
+    updateStaffRow(0, 'on');
+  } else {
+    btn.innerHTML = '<span>🔴</span> PUNCH IN';
+    btn.className = 'app-btn btn-punch punch-out';
+    pill.className = 'status-pill off';
+    txt.textContent = 'OFF SHIFT';
+    showToast(`🔴 Punched out at ${now}`, 'red');
+    updateStat('dashOnShift', Math.max(0, +document.getElementById('dashOnShift').textContent - 1));
+    updateStat('heroOnShift', Math.max(0, +document.getElementById('heroOnShift').textContent - 1));
+    addActivity('out', '🔴', `${CONFIG.staffNames[0]} punched out`, now);
+    updateStaffRow(0, 'off');
+  }
+}
+
+function markArrived(){
+  const now = new Date().toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',hour12:true});
+  showToast(`📍 Arrival logged at ${now}`, 'blue');
+  addActivity('arrive', '📍', `${CONFIG.staffNames[0]} arrived at job site`, now);
+}
+
+function toggleMileage(){
+  const form = document.getElementById('mileageForm');
+  form.classList.toggle('open');
+}
+
+function saveTrip(){
+  const s = +document.getElementById('startKM').value;
+  const e = +document.getElementById('endKM').value;
+  if(!s || !e || e <= s){ showToast('⚠️ Check your KM values', 'red'); return; }
+  const km = e - s;
+  const now = new Date().toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',hour12:true});
+  document.getElementById('kmToday').textContent = +document.getElementById('kmToday').textContent + km;
+  updateStat('dashKM', +document.getElementById('dashKM').textContent + km);
+  updateStat('heroKM', +document.getElementById('heroKM').textContent + km);
+  document.getElementById('mileageForm').classList.remove('open');
+  document.getElementById('startKM').value = '';
+  document.getElementById('endKM').value = '';
+  showToast(`🚗 ${km} km logged for this job`, 'purple');
+  addActivity('mile', '🚗', `${CONFIG.staffNames[0]} logged ${km}km trip`, now);
+}
+
+/* ── TOAST ────────────────────────────────────────────── */
+let toastTimer;
+function showToast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type==='red'?' error':type==='blue'?' info':'');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.className='toast', 2800);
+}
+
+/* ── STAT COUNTER ANIMATION ───────────────────────────── */
+function updateStat(id, val){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.style.transform='scale(1.25)';
+  el.style.color='#fff';
+  setTimeout(()=>{
+    el.textContent = val;
+    el.style.transform='scale(1)';
+    el.style.color='';
+  }, 150);
+}
+
+/* ── TAB SWITCHING ────────────────────────────────────── */
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    const names=['staff','dashboard','reports'];
+    t.classList.toggle('active', names[i]===name);
+  });
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+}
+
+/* ── STAFF DATA ───────────────────────────────────────── */
+const STAFF = [
+  {name:'Sarah M.', initials:'SM', color:'#0ea5e9', status:'on',  location:'North Edmonton', hours:'6.5h', km:'47km', ago:'Just now'},
+  {name:'James T.', initials:'JT', color:'#8b5cf6', status:'on',  location:'West Edmonton',  hours:'4.2h', km:'31km', ago:'2 min ago'},
+  {name:'Kezia R.', initials:'KR', color:'#f59e0b', status:'break',location:'Downtown',       hours:'7.1h', km:'62km', ago:'8 min ago'},
+  {name:'Marcus L.',initials:'ML', color:'#10b981', status:'on',  location:'South Edmonton', hours:'3.8h', km:'28km', ago:'1 min ago'},
+  {name:'Priya S.', initials:'PS', color:'#ef4444', status:'off', location:'—',              hours:'8.0h', km:'55km', ago:'1h ago'},
+  {name:'Devon W.', initials:'DW', color:'#06b6d4', status:'on',  location:'Mill Woods',     hours:'5.3h', km:'38km', ago:'3 min ago'},
+  {name:'Aisha K.', initials:'AK', color:'#ec4899', status:'on',  location:'Sherwood Park',  hours:'4.9h', km:'23km', ago:'5 min ago'},
+];
+
+/* Override names from config if provided */
+STAFF.forEach((s,i)=>{ if(CONFIG.staffNames[i]) s.name=CONFIG.staffNames[i]; });
+
+function buildStaffTable(){
+  const tbody = document.getElementById('staffTableBody');
+  tbody.innerHTML = STAFF.map((s,i)=>`
+    <tr id="staffRow${i}">
+      <td>
+        <div class="staff-name">
+          <div class="staff-av" style="background:${s.color}20;color:${s.color};border:1px solid ${s.color}40">${s.initials}</div>
+          <div>
+            <div class="staff-av-name">${s.name}</div>
+            <div class="staff-av-id">EMP-${String(i+101).padStart(4,'0')}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge ${s.status}"><span class="badge-dot"></span>${s.status==='on'?'On Shift':s.status==='break'?'Break':'Off Shift'}</span></td>
+      <td><span class="mono">${s.location}</span></td>
+      <td><span class="mono brand">${s.hours}</span></td>
+      <td><span class="mono brand">${s.km}</span></td>
+      <td><span class="mono">${s.ago}</span></td>
+    </tr>
+  `).join('');
+}
+buildStaffTable();
+
+function updateStaffRow(idx, status){
+  const row = document.getElementById(`staffRow${idx}`);
+  if(!row) return;
+  row.classList.add('highlight-row');
+  const badge = row.querySelector('.badge');
+  badge.className = `badge ${status}`;
+  badge.innerHTML = `<span class="badge-dot"></span>${status==='on'?'On Shift':'Off Shift'}`;
+  setTimeout(()=>row.classList.remove('highlight-row'), 3000);
+}
+
+/* ── ACTIVITY FEED ────────────────────────────────────── */
+const INIT_ACTIVITIES = [
+  {type:'punch', icon:'✅', text:`${STAFF[5].name} punched in`, detail:'West Edmonton', time:''},
+  {type:'arrive', icon:'📍', text:`${STAFF[3].name} arrived at job site`, detail:'South Edmonton', time:''},
+  {type:'mile',  icon:'🚗', text:`${STAFF[1].name} logged 14km trip`, detail:'Mill Woods → Downtown', time:''},
+  {type:'punch', icon:'✅', text:`${STAFF[6].name} punched in`, detail:'Sherwood Park', time:''},
+  {type:'out',   icon:'🔴', text:`${STAFF[4].name} punched out`, detail:'8.0h shift complete', time:''},
+];
+
+function timeAgo(mins){
+  if(mins < 1) return 'Just now';
+  if(mins < 60) return `${Math.round(mins)}m ago`;
+  return `${Math.round(mins/60)}h ago`;
+}
+
+function buildActivityFeed(){
+  const feed = document.getElementById('activityFeed');
+  const now = Date.now();
+  feed.innerHTML = INIT_ACTIVITIES.map((a,i)=>{
+    const mins = (i+1)*6;
+    return activityHTML(a.type, a.icon, a.text, a.detail, timeAgo(mins));
+  }).join('');
+}
+
+function activityHTML(type, icon, text, detail, time){
+  return `<div class="activity-item">
+    <div class="activity-icon ${type}">${icon}</div>
+    <div class="activity-text">
+      <strong>${text}</strong>
+      <span>${detail}</span>
+    </div>
+    <div class="activity-time">${time}</div>
+  </div>`;
+}
+
+function addActivity(type, icon, text, time){
+  const feed = document.getElementById('activityFeed');
+  const div = document.createElement('div');
+  div.innerHTML = activityHTML(type, icon, text, time.replace(':','').replace(' ',''), 'Just now');
+  feed.insertBefore(div.firstChild, feed.firstChild);
+}
+
+buildActivityFeed();
+
+/* ── KM CHART ─────────────────────────────────────────── */
+function buildKMChart(){
+  const data = [
+    {name: STAFF[0].name.split(' ')[0], km:284},
+    {name: STAFF[1].name.split(' ')[0], km:231},
+    {name: STAFF[2].name.split(' ')[0], km:312},
+    {name: STAFF[3].name.split(' ')[0], km:198},
+    {name: STAFF[4].name.split(' ')[0], km:267},
+  ];
+  const max = Math.max(...data.map(d=>d.km));
+  document.getElementById('kmChart').innerHTML = data.map(d=>`
+    <div class="km-row">
+      <div class="km-name">${d.name}</div>
+      <div class="km-bar-wrap"><div class="km-bar" style="width:${(d.km/max)*100}%"></div></div>
+      <div class="km-val">${d.km}km</div>
+    </div>
+  `).join('');
+}
+buildKMChart();
+
+/* ── MAP DOTS ─────────────────────────────────────────── */
+function buildMap(){
+  const map = document.getElementById('mapSim');
+  const positions = [
+    {x:70,y:35,name:STAFF[0].name,loc:'North Edmonton',color:'#4ade80'},
+    {x:25,y:55,name:STAFF[1].name,loc:'West Edmonton',color:'#818cf8'},
+    {x:50,y:50,name:STAFF[2].name,loc:'Downtown',color:'#fbbf24'},
+    {x:55,y:72,name:STAFF[3].name,loc:'South Edmonton',color:'#4ade80'},
+    {x:72,y:62,name:STAFF[5].name,loc:'Mill Woods',color:'#4ade80'},
+  ];
+  positions.forEach(p=>{
+    const dot = document.createElement('div');
+    dot.className = 'map-dot';
+    dot.style.cssText = `left:${p.x}%;top:${p.y}%;color:${p.color}`;
+    dot.innerHTML = `
+      <div class="map-dot-inner" style="background:${p.color};border-color:${p.color}40"></div>
+      <div class="map-tooltip">${p.name} · ${p.loc}</div>
+    `;
+    map.appendChild(dot);
+  });
+}
+buildMap();
+
+/* ── REPORTS TABLE ────────────────────────────────────── */
+function buildReportTable(){
+  const tbody = document.getElementById('reportTableBody');
+  const data = STAFF.map((s,i)=>{
+    const km = [284,231,312,198,267,189,143][i] || 200;
+    const hrs = [32.5,28.0,39.5,22.0,40.0,31.5,27.0][i] || 30;
+    const days = [5,4,5,3,5,5,4][i] || 4;
+    const reimb = (km*0.55).toFixed(2);
+    const approved = i < 4;
+    return `<tr>
+      <td style="color:#fff;font-weight:500">${s.name}</td>
+      <td>${days} days</td>
+      <td class="mono brand">${hrs}h</td>
+      <td class="mono brand">${km} km</td>
+      <td class="mono">$${reimb}</td>
+      <td><span class="${approved?'pill-approved':'pill-pending'}">${approved?'Approved':'Pending'}</span></td>
+    </tr>`;
+  });
+  tbody.innerHTML = data.join('');
+}
+buildReportTable();
+
+/* ── AUTO FEED UPDATES ────────────────────────────────── */
+const autoUpdates = [
+  {type:'punch',icon:'✅',text:`${STAFF[1].name} arrived at job`,detail:'West Edmonton'},
+  {type:'mile', icon:'🚗',text:`${STAFF[3].name} logged 11km trip`,detail:'Downtown → Mill Woods'},
+  {type:'arrive',icon:'📍',text:`${STAFF[6].name} confirmed arrival`,detail:'Sherwood Park site'},
+  {type:'punch',icon:'✅',text:`${STAFF[2].name} started new job`,detail:'Downtown location'},
+  {type:'mile', icon:'🚗',text:`${STAFF[5].name} logged 8km trip`,detail:'Cross-city run'},
+];
+let autoIdx = 0;
+setInterval(()=>{
+  const a = autoUpdates[autoIdx % autoUpdates.length];
+  const now = new Date().toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',hour12:true});
+  addActivity(a.type, a.icon, a.text, a.detail + ' · ' + now);
+  autoIdx++;
+}, 14000);
+
+/* ── FAKE EXPORT ──────────────────────────────────────── */
+function fakeExport(){
+  const btn = document.querySelector('.export-btn');
+  btn.textContent = '⏳ Generating report...';
+  setTimeout(()=>{
+    btn.textContent = '✅ Report ready — would download in live app';
+    setTimeout(()=>btn.textContent='📥 Export Weekly Report — Excel / CSV', 3000);
+  }, 1200);
+}
+
+/* ── ANIMATE STATS ON LOAD ────────────────────────────── */
+setTimeout(()=>{
+  document.querySelectorAll('.km-bar').forEach(b=>{
+    const w = b.style.width;
+    b.style.width = '0';
+    setTimeout(()=>b.style.width=w, 100);
+  });
+}, 300);
+</script>
+
+</body>
+</html>

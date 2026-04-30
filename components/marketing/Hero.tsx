@@ -16,7 +16,7 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const demoUrl = 'https://fieldtrack-demo.netlify.app/';
+  const demoUrl = '/fieldtrack-demo/';
 
   return (
     <section id="top" className="relative min-h-[92vh] flex items-center overflow-hidden">
