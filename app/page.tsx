@@ -70,11 +70,9 @@ export default function Home() {
                 </a>
                 <a
                   className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
-                  href="/sphinx-proposal/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#contact"
                 >
-                  See a real client proposal (example) →
+                  Get your custom proposal →
                 </a>
               </div>
 

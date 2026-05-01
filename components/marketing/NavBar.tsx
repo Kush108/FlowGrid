@@ -9,7 +9,6 @@ const links = [
   { href: '#pricing', label: 'Pricing' },
   { href: '#demo', label: 'Demo' },
   { href: '/fieldtrack-demo/', label: 'Live Demo' },
-  { href: '/sphinx-proposal/', label: 'Proposal' },
 ];
 
 export default function NavBar() {
