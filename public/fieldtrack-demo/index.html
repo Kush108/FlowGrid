@@ -13,7 +13,7 @@
          ⚙️  CUSTOMIZE HERE — change these for each lead
          ============================================================ */
       :root {
-        --company: 'Acme Field Services'; /* Company name */
+        --company: 'Your Company Name'; /* Company name */
         --brand: #0ea5e9; /* Brand accent color */
         --brand-dark: #0284c7;
         --brand-glow: rgba(14, 165, 233, 0.18);
@@ -157,6 +157,28 @@
       .tb-contact:hover {
         background: var(--brand-dark);
         transform: translateY(-1px);
+      }
+
+      .personalization-banner {
+        display: none;
+        background: rgba(20, 184, 166, 0.12);
+        border-bottom: 1px solid rgba(20, 184, 166, 0.32);
+        color: #99f6e4;
+        padding: 10px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: center;
+      }
+      .personalization-banner.show {
+        display: block;
+      }
+      .personalization-banner a {
+        color: #5eead4;
+        text-decoration: none;
+        margin-left: 6px;
+      }
+      .personalization-banner a:hover {
+        text-decoration: underline;
       }
 
       /* ============================================================
@@ -1723,12 +1745,16 @@
       </div>
       <div class="tb-center">
         <div class="live-badge"><div class="live-dot"></div>LIVE DEMO</div>
-        <div class="company-tag" id="companyTag">— Acme Field Services</div>
+        <div class="company-tag" id="companyTag">— Your Company Name</div>
       </div>
       <div class="tb-right">
         <div class="tb-time" id="topTime">--:--:--</div>
-        <button class="tb-contact" onclick="document.getElementById('ctaSection').scrollIntoView({behavior:'smooth'})">Get This App →</button>
+        <a class="tb-contact" id="topCtaBtn" href="https://calendly.com/flowgrid/15min" target="_blank" rel="noopener noreferrer">Get This App →</a>
       </div>
+    </div>
+    <div class="personalization-banner" id="personalizationBanner">
+      <span id="personalizationText"></span>
+      <a id="personalizationLink" href="https://calendly.com/flowgrid/15min" target="_blank" rel="noopener noreferrer">Book a 15-min call →</a>
     </div>
 
     <!-- ============================================================
@@ -1772,7 +1798,7 @@
                 <div class="app-user">
                   <div>
                     <div class="app-user-name" id="staffName">Sarah M.</div>
-                    <div class="app-user-role">Field Worker</div>
+                    <div class="app-user-role" id="staffRole">Field Worker · Your Company Name</div>
                   </div>
                   <div class="avatar" id="staffAvatar">SM</div>
                 </div>
@@ -2100,8 +2126,8 @@
         <p>Custom built for your organization. Your staff names, your branding, your workflows.<br />$500 setup · $18/month per field worker · $85/month per manager</p>
       </div>
       <div class="cta-right">
-        <a href="mailto:hello@flowgrid.ca" class="cta-btn-main">📩 Let's Talk — Book a Call</a>
-        <a href="/sphinx-proposal/" class="cta-btn-sec">📄 Send Me the Proposal</a>
+        <a href="https://calendly.com/flowgrid/15min" id="bookCallBtn" class="cta-btn-main" target="_blank" rel="noopener noreferrer">📅 Book a 15-min Call</a>
+        <a href="mailto:hello@flowgrid.ca?subject=FlowGrid%20demo%20proposal%20request&body=Hi%20FlowGrid%2C%0A%0AI%20just%20went%20through%20the%20demo%20and%20would%20like%20a%20proposal%20for%20our%20team.%0A%0ACompany%3A%20%0ATeam%20size%3A%20%0AIndustry%3A%20%0A%0AThanks." id="emailProposalBtn" class="cta-btn-sec">✉️ Email Us</a>
       </div>
     </div>
 
@@ -2158,19 +2184,49 @@
     <script>
       /* ── CONFIG — CHANGE THIS PER LEAD ─────────────────────── */
       const CONFIG = {
-        company: 'Acme Field Services',
+        company: 'Your Company Name',
         color: '#0ea5e9',
         staffNames: ['Sarah M.', 'James T.', 'Kezia R.', 'Marcus L.', 'Priya S.', 'Devon W.', 'Aisha K.'],
         jobTypes: ['Site Visit', 'Service Call', 'Maintenance', 'Installation', 'Inspection'],
         city: 'Edmonton',
+        calendlyUrl: 'https://calendly.com/flowgrid/15min',
+        email: 'hello@flowgrid.ca',
       };
       /* ──────────────────────────────────────────────────────── */
 
-      /* Apply config */
+      /* Apply URL personalization + config */
+      const params = new URLSearchParams(window.location.search);
+      const companyFromUrl = (params.get('company') || '').trim();
+      const industryFromUrl = (params.get('industry') || '').trim();
+      if (companyFromUrl) CONFIG.company = companyFromUrl;
+
+      const mailSubject = encodeURIComponent(`FlowGrid proposal request - ${CONFIG.company}`);
+      const mailBody = encodeURIComponent(
+        `Hi FlowGrid,\n\nI just went through the demo and would like a proposal for our team.\n\nCompany: ${CONFIG.company}\nIndustry: ${industryFromUrl || 'Not specified'}\nTeam size: \n\nThanks.`,
+      );
+      const proposalMailto = `mailto:${CONFIG.email}?subject=${mailSubject}&body=${mailBody}`;
+
       document.getElementById('companyTag').textContent = `— ${CONFIG.company}`;
+      document.getElementById('staffRole').textContent = `Field Worker · ${CONFIG.company}`;
       document.documentElement.style.setProperty('--brand', CONFIG.color);
       document.documentElement.style.setProperty('--brand-dark', shadeColor(CONFIG.color, -15));
       document.documentElement.style.setProperty('--brand-glow', hexToRGBA(CONFIG.color, 0.18));
+
+      const topCtaBtn = document.getElementById('topCtaBtn');
+      const bookCallBtn = document.getElementById('bookCallBtn');
+      const emailProposalBtn = document.getElementById('emailProposalBtn');
+      topCtaBtn.href = CONFIG.calendlyUrl;
+      bookCallBtn.href = CONFIG.calendlyUrl;
+      emailProposalBtn.href = proposalMailto;
+
+      const banner = document.getElementById('personalizationBanner');
+      const bannerText = document.getElementById('personalizationText');
+      const bannerLink = document.getElementById('personalizationLink');
+      bannerLink.href = CONFIG.calendlyUrl;
+      if (companyFromUrl) {
+        banner.classList.add('show');
+        bannerText.textContent = `This demo was built specifically for ${CONFIG.company}.`;
+      }
 
       function hexToRGBA(hex, alpha) {
         const r = parseInt(hex.slice(1, 3), 16),

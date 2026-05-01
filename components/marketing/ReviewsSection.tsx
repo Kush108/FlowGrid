@@ -1,8 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { useOnceInView } from '@/components/marketing/useOnceInView';
 
 function Avatar({ name, variant }: { name: string; variant: 'green' | 'blue' | 'purple' }) {
   const initials = name
@@ -26,40 +24,6 @@ function Avatar({ name, variant }: { name: string; variant: 'green' | 'blue' | '
       ].join(' ')}
     >
       {initials || 'FG'}
-    </div>
-  );
-}
-
-function Counter({ to, label, prefix = '' }: { to: number; label: string; prefix?: string }) {
-  const { ref, inView } = useOnceInView<HTMLDivElement>({ threshold: 0.12, rootMargin: '0px 0px -12% 0px' });
-  const [v, setV] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-
-    if (to === 0) {
-      setV(0);
-      return;
-    }
-
-    const duration = 900;
-    const t0 = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setV(Math.round(to * eased));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [inView, to]);
-
-  return (
-    <div ref={ref} className="rounded-2xl p-6 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]">
-      <div className="font-[var(--font-mono)] text-brand-green text-3xl">
-        {prefix}
-        {v}
-      </div>
-      <div className="text-sm text-brand-muted mt-1">{label}</div>
     </div>
   );
 }
@@ -135,10 +99,17 @@ export default function ReviewsSection() {
         </motion.div>
 
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Counter to={48} label="48h delivery" />
-          <Counter to={0} label="$0 to see demo" prefix="$" />
-          <Counter to={1} label="1 week to live" />
-          <Counter to={100} label="100% satisfaction or no invoice" />
+          {[
+            { value: '48h', label: 'Average demo delivery' },
+            { value: '$0', label: 'Cost to see your demo' },
+            { value: '1 week', label: 'From yes to live app' },
+            { value: '100%', label: 'Satisfaction or no invoice' },
+          ].map((item) => (
+            <div key={item.label} className="rounded-2xl p-6 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]">
+              <div className="font-[var(--font-mono)] text-brand-green text-3xl">{item.value}</div>
+              <div className="text-sm text-brand-muted mt-1">{item.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
