@@ -8,7 +8,7 @@ import ProblemSection from '@/components/marketing/ProblemSection';
 import HowItWorks from '@/components/marketing/HowItWorks';
 import SystemsGrid from '@/components/SystemsGrid';
 import PricingSection from '@/components/marketing/PricingSection';
-import ReviewsSection from '@/components/marketing/ReviewsSection';
+import PilotProgramSection from '@/components/marketing/PilotProgramSection';
 import ContactSection from '@/components/marketing/ContactSection';
 import Footer from '@/components/marketing/Footer';
 
@@ -117,7 +117,7 @@ export default function Home() {
       </section>
 
       <PricingSection />
-      <ReviewsSection />
+      <PilotProgramSection />
       <ContactSection />
       <Footer />
     </main>
