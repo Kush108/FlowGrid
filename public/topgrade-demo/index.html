@@ -63,6 +63,7 @@
         justify-content: space-between;
         gap: 12px;
         margin-bottom: 12px;
+        flex-wrap: wrap;
       }
 
       .brand {
@@ -108,15 +109,18 @@
 
       .demo-pill {
         font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--green-dark);
-        background: var(--green-soft);
-        border: 1px solid var(--green-muted);
-        padding: 4px 10px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: #fff;
+        background: var(--green);
+        border: 1px solid var(--green-dark);
+        padding: 5px 12px;
         border-radius: 999px;
         flex-shrink: 0;
+        white-space: normal;
+        max-width: min(280px, 100%);
+        line-height: 1.25;
+        text-align: center;
       }
 
       .tabs {
@@ -581,11 +585,21 @@
       }
 
       tr.row-alert {
-        background: linear-gradient(90deg, #fff8e1, #ffecb3);
+        background: #fff8e1;
       }
 
       tr.row-alert td {
+        background: #fff8e1 !important;
         border-color: #ffe082;
+      }
+
+      tr.row-alert td:first-child {
+        box-shadow: inset 4px 0 0 #f59e0b;
+      }
+
+      .row-alert-warn {
+        font-weight: 700;
+        color: #b45309;
       }
 
       .feed-card {
@@ -607,8 +621,10 @@
         display: flex;
         flex-direction: column;
         gap: 0;
-        max-height: 220px;
-        overflow: hidden;
+        min-height: 120px;
+        max-height: 420px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .feed-item {
@@ -616,11 +632,31 @@
         padding: 12px 0;
         border-bottom: 1px solid var(--border);
         color: var(--text);
-        animation: feedFade 0.5s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .feed-item.feed-item-enter {
+        animation: feedFade 0.55s ease;
       }
 
       .feed-item:last-child {
         border-bottom: none;
+      }
+
+      .feed-body {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .feed-ts {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--muted);
+        flex-shrink: 0;
+        white-space: nowrap;
       }
 
       @keyframes feedFade {
@@ -634,6 +670,13 @@
         }
       }
 
+      .chart-wrap {
+        position: relative;
+        height: 220px;
+        width: 100%;
+        margin: 0;
+      }
+
       .chart-card {
         background: var(--surface);
         border: 1px solid var(--border);
@@ -644,57 +687,18 @@
 
       .chart-card h3 {
         font-size: 14px;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
         font-weight: 700;
       }
 
       .chart-note {
         font-size: 13px;
         color: var(--muted);
-        margin-top: 16px;
+        margin-top: 14px;
         text-align: center;
       }
 
       .chart-note strong {
-        color: var(--green-dark);
-      }
-
-      .bars {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 6px;
-        height: 140px;
-        padding-top: 8px;
-      }
-
-      .bar-group {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        min-width: 0;
-      }
-
-      .bar {
-        width: 100%;
-        max-width: 44px;
-        background: linear-gradient(180deg, var(--green-muted), var(--green));
-        border-radius: 6px 6px 2px 2px;
-        min-height: 4px;
-        transition: height 0.4s ease;
-      }
-
-      .bar-lbl {
-        font-size: 10px;
-        color: var(--muted);
-        font-weight: 600;
-      }
-
-      .bar-val {
-        font-size: 10px;
-        font-weight: 700;
         color: var(--green-dark);
       }
 
@@ -893,7 +897,7 @@
               <span>Edmonton · Sherwood Park · St. Albert · Spruce Grove · Stony Plain · Leduc</span>
             </div>
           </div>
-          <span class="demo-pill">Sales demo</span>
+          <span class="demo-pill">Live preview — built for your team</span>
         </div>
         <div class="tabs" role="tablist">
           <button type="button" class="tab active" role="tab" aria-selected="true" data-tab="staff">Today&apos;s Jobs</button>
@@ -1083,7 +1087,7 @@
                   <td>—</td>
                   <td>0h</td>
                   <td>0km</td>
-                  <td>No show today ⚠️</td>
+                  <td><span class="row-alert-warn">No show today ⚠️</span></td>
                 </tr>
               </tbody>
             </table>
@@ -1092,13 +1096,32 @@
 
         <div class="feed-card">
           <div class="feed-title">Activity feed</div>
-          <div class="feed-list" id="activity-feed"></div>
+          <div class="feed-list" id="activity-feed">
+            <div class="feed-item">
+              <span class="feed-body">✅ Devon Clarke completed — Sherwood Park Condo</span>
+              <span class="feed-ts">2 min ago</span>
+            </div>
+            <div class="feed-item">
+              <span class="feed-body">⚠️ Tom Reyes has not punched in — shift started 3 hrs ago</span>
+              <span class="feed-ts">4 min ago</span>
+            </div>
+            <div class="feed-item">
+              <span class="feed-body">📍 James Okafor arrived — Terwillegar Residence</span>
+              <span class="feed-ts">6 min ago</span>
+            </div>
+            <div class="feed-item">
+              <span class="feed-body">🚗 Priya Sharma logged 12 km — St. Albert to Spruce Grove</span>
+              <span class="feed-ts">9 min ago</span>
+            </div>
+          </div>
         </div>
 
         <div class="chart-card">
           <h3>Weekly hours by day</h3>
-          <div class="bars" id="week-bars"></div>
-          <p class="chart-note"><strong id="week-total-label"></strong></p>
+          <div class="chart-wrap">
+            <canvas id="week-hours-chart" aria-label="Weekly staff hours by day"></canvas>
+          </div>
+          <p class="chart-note"><strong id="week-total-label">Total staff hours this week: 228 hrs</strong></p>
         </div>
       </div>
 
@@ -1212,6 +1235,7 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       (function () {
         const $ = (sel, el) => (el || document).querySelector(sel);
@@ -1251,7 +1275,8 @@
         we.setDate(we.getDate() + 6);
         const short = new Intl.DateTimeFormat('en-CA', { month: 'short', day: 'numeric' });
         $('#payroll-week-range').textContent = 'Week of ' + short.format(ws) + ' – ' + short.format(we) + ' — Ready for review';
-        $('#week-total-label').textContent = 'Total staff hours this week: 228 hrs';
+        var weekTotalEl = document.getElementById('week-total-label');
+        if (weekTotalEl) weekTotalEl.textContent = 'Total staff hours this week: 228 hrs';
 
         /* Tabs */
         document.querySelectorAll('.tab').forEach(function (btn) {
@@ -1265,6 +1290,11 @@
               p.classList.remove('active');
             });
             $('#panel-' + id).classList.add('active');
+            if (id === 'manager') {
+              requestAnimationFrame(function () {
+                requestAnimationFrame(ensureWeekChart);
+              });
+            }
           });
         });
 
@@ -1308,7 +1338,7 @@
           toast('Arrived logged — Parkview Office (11:02 AM)');
         });
 
-        /* Activity feed */
+        /* Activity feed — 4 items in HTML for static fetch; JS keeps max 8, adds every 8s */
         var pool = [
           '✅ Maria Santos punched out — Parkview Office (2.1 hrs)',
           '📍 James Okafor arrived — Terwillegar Residence',
@@ -1318,64 +1348,120 @@
           '📋 Anika Patel submitted timesheet — ready for payroll',
           '🧹 New job assigned — Leduc commercial (move-out)',
         ];
-        var seed = [
-          '✅ Devon Clarke completed — Sherwood Park Condo',
-          '⚠️ Tom Reyes has not punched in — shift started 3 hrs ago',
-          '📍 James Okafor arrived — Terwillegar Residence',
-          '🚗 Priya Sharma logged 12 km — St. Albert to Spruce Grove',
-        ];
-        var idx = 0;
-        var feedEl = $('#activity-feed');
+        var poolIdx = 0;
+        var feedEl = document.getElementById('activity-feed');
 
-        function renderFeed(items) {
-          feedEl.innerHTML = items
-            .map(function (t) {
-              return '<div class="feed-item">' + t + '</div>';
-            })
-            .join('');
+        function formatFeedAgo(t0) {
+          var sec = Math.floor((Date.now() - t0) / 1000);
+          if (sec < 45) return 'just now';
+          var min = Math.floor(sec / 60);
+          if (min < 60) return min === 1 ? '1 min ago' : min + ' min ago';
+          var hr = Math.floor(min / 60);
+          return hr === 1 ? '1 hr ago' : hr + ' hrs ago';
         }
 
-        renderFeed(seed);
+        function refreshFeedTimes() {
+          if (!feedEl) return;
+          Array.prototype.forEach.call(feedEl.querySelectorAll('.feed-item'), function (el) {
+            var t0 = parseInt(el.getAttribute('data-added-at'), 10);
+            var ts = el.querySelector('.feed-ts');
+            if (!ts || !t0) return;
+            ts.textContent = formatFeedAgo(t0);
+          });
+        }
 
-        setInterval(function () {
-          var next = pool[idx % pool.length];
-          idx++;
-          var nextItems = [next].concat(seed.slice(0, 3));
-          seed.splice(0, 0, next);
-          seed.length = 4;
-          renderFeed(nextItems);
-        }, 8000);
+        function prependFeedMessage(msg) {
+          if (!feedEl) return;
+          var div = document.createElement('div');
+          div.className = 'feed-item feed-item-enter';
+          div.setAttribute('data-added-at', String(Date.now()));
+          var body = document.createElement('span');
+          body.className = 'feed-body';
+          body.textContent = msg;
+          var ts = document.createElement('span');
+          ts.className = 'feed-ts';
+          ts.textContent = 'just now';
+          div.appendChild(body);
+          div.appendChild(ts);
+          feedEl.insertBefore(div, feedEl.firstChild);
+          while (feedEl.children.length > 8) {
+            feedEl.removeChild(feedEl.lastElementChild);
+          }
+          setTimeout(function () {
+            div.classList.remove('feed-item-enter');
+          }, 600);
+        }
 
-        /* Chart */
-        var weekData = [
-          { d: 'Mon', h: 38 },
-          { d: 'Tue', h: 42 },
-          { d: 'Wed', h: 35 },
-          { d: 'Thu', h: 41 },
-          { d: 'Fri', h: 44 },
-          { d: 'Sat', h: 28 },
-          { d: 'Sun', h: 0 },
-        ];
-        var maxH = 44;
-        var barsEl = $('#week-bars');
-        weekData.forEach(function (x) {
-          var g = document.createElement('div');
-          g.className = 'bar-group';
-          var pct = maxH ? (x.h / maxH) * 100 : 0;
-          var b = document.createElement('div');
-          b.className = 'bar';
-          b.style.height = Math.max(pct, 2) + '%';
-          b.title = x.h + ' hours';
-          var v = document.createElement('div');
-          v.className = 'bar-val';
-          v.textContent = x.h + 'h';
-          var l = document.createElement('div');
-          l.className = 'bar-lbl';
-          l.textContent = x.d;
-          g.appendChild(b);
-          g.appendChild(v);
-          g.appendChild(l);
-          barsEl.appendChild(g);
+        if (feedEl) {
+          var seedOffsets = [2, 4, 6, 9].map(function (m) {
+            return m * 60 * 1000;
+          });
+          Array.prototype.forEach.call(feedEl.children, function (el, i) {
+            el.setAttribute('data-added-at', String(Date.now() - (seedOffsets[i] || 0)));
+          });
+          refreshFeedTimes();
+          setInterval(refreshFeedTimes, 15000);
+        }
+
+        if (feedEl) {
+          setInterval(function () {
+            prependFeedMessage(pool[poolIdx % pool.length]);
+            poolIdx++;
+          }, 8000);
+        }
+
+        /* Weekly hours — Chart.js (create after Manager tab is visible so canvas has width) */
+        function ensureWeekChart() {
+          if (typeof Chart === 'undefined') return;
+          var canvas = document.getElementById('week-hours-chart');
+          if (!canvas) return;
+          var existing = Chart.getChart(canvas);
+          if (existing) {
+            existing.resize();
+            return;
+          }
+          new Chart(canvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              datasets: [
+                {
+                  data: [38, 42, 35, 41, 44, 28, 0],
+                  backgroundColor: '#2E7D32',
+                  borderRadius: 6,
+                  borderSkipped: false,
+                  maxBarThickness: 40,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+              },
+              scales: {
+                x: {
+                  grid: { display: false },
+                  ticks: { font: { size: 11 } },
+                },
+                y: {
+                  beginAtZero: true,
+                  suggestedMax: 50,
+                  ticks: { stepSize: 10, font: { size: 11 } },
+                  grid: { color: 'rgba(0,0,0,.06)' },
+                },
+              },
+            },
+          });
+        }
+
+        window.addEventListener('resize', function () {
+          if (typeof Chart === 'undefined') return;
+          var canvas = document.getElementById('week-hours-chart');
+          if (!canvas) return;
+          var c = Chart.getChart(canvas);
+          if (c) c.resize();
         });
 
         /* Payroll buttons */
