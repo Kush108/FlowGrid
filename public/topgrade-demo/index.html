@@ -118,6 +118,35 @@
         color: var(--muted);
       }
 
+      .powered-by {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .powered-by:hover {
+        border-color: var(--green-muted);
+      }
+
+      .powered-by img {
+        width: 18px;
+        height: 18px;
+        display: block;
+      }
+
+      .powered-by strong {
+        color: var(--green-dark);
+      }
+
       .demo-pill {
         font-size: 10px;
         font-weight: 600;
@@ -553,6 +582,121 @@
         margin-top: 4px;
       }
 
+      .manager-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      @media (min-width: 980px) {
+        .manager-grid {
+          grid-template-columns: 1.2fr 0.8fr;
+          align-items: start;
+        }
+      }
+
+      .map-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .map-head {
+        padding: 14px 16px;
+        font-weight: 700;
+        font-size: 14px;
+        border-bottom: 1px solid var(--border);
+        background: #fafafa;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .map-sub {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .map-wrap {
+        position: relative;
+        height: 260px;
+        background: radial-gradient(circle at 30% 20%, rgba(46, 125, 50, 0.12), transparent 55%), #ffffff;
+      }
+
+      .map-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+        background-size: 28px 28px;
+        opacity: 0.85;
+        pointer-events: none;
+      }
+
+      .map-marker {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.18), 0 6px 18px rgba(0, 0, 0, 0.18);
+        transform: translate(-50%, -50%);
+        transition: left 0.9s ease, top 0.9s ease, transform 0.2s ease;
+      }
+
+      .map-marker::after {
+        content: '';
+        position: absolute;
+        inset: -10px;
+        border-radius: 999px;
+        background: rgba(46, 125, 50, 0.18);
+        opacity: 0;
+      }
+
+      .map-marker.active {
+        transform: translate(-50%, -50%) scale(1.15);
+      }
+
+      .map-marker.active::after {
+        opacity: 1;
+        animation: livepulse 1.6s ease infinite;
+      }
+
+      .map-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        padding: 12px 16px;
+        border-top: 1px solid var(--border);
+        background: #fff;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.18);
+      }
+
+      .legend-dot.orange {
+        background: var(--orange);
+        box-shadow: 0 0 0 2px rgba(239, 108, 0, 0.18);
+      }
+
       .table-card {
         background: var(--surface);
         border-radius: var(--radius);
@@ -903,11 +1047,15 @@
           <div class="brand">
             <div class="brand-mark">TG</div>
             <div class="brand-text">
-              <strong>Top Grade A Cleaning</strong>
-              <span>Edmonton · Sherwood Park · St. Albert · Spruce Grove · Stony Plain · Leduc</span>
+              <strong id="company-name">Top Grade A Cleaning</strong>
+              <span id="company-area">Edmonton · Sherwood Park · St. Albert · Spruce Grove · Stony Plain · Leduc</span>
             </div>
           </div>
-          <span class="demo-pill">Live preview — built for your team</span>
+          <a class="powered-by" href="https://flowgrid.ca" target="_blank" rel="noopener noreferrer" aria-label="Powered by FlowGrid">
+            <img src="/logo-icon.svg" alt="" aria-hidden="true" />
+            <span>Powered by <strong>FlowGrid</strong></span>
+          </a>
+          <span class="demo-pill" id="preview-pill">Live preview — built for your team</span>
         </div>
         <p class="demo-framing-banner">
           👋 This demo is already set up for Top Grade A Cleaning — your staff, your jobs, your routes. Tap through and see what Monday morning looks
@@ -1040,71 +1188,93 @@
           </div>
         </div>
 
-        <div class="table-card">
-          <div class="table-head">Live staff status</div>
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Status</th>
-                  <th>Current location</th>
-                  <th>Hours today</th>
-                  <th>KM today</th>
-                  <th>Last update</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Maria Santos</td>
-                  <td>ON SHIFT 🟢</td>
-                  <td>Parkview Office, Edmonton</td>
-                  <td>4.5h</td>
-                  <td>20km</td>
-                  <td>2 min ago</td>
-                </tr>
-                <tr>
-                  <td>James Okafor</td>
-                  <td>ON SHIFT 🟢</td>
-                  <td>Terwillegar Residence</td>
-                  <td>3.0h</td>
-                  <td>34km</td>
-                  <td>5 min ago</td>
-                </tr>
-                <tr>
-                  <td>Priya Sharma</td>
-                  <td>ON SHIFT 🟢</td>
-                  <td>St. Albert Commercial</td>
-                  <td>5.5h</td>
-                  <td>41km</td>
-                  <td>1 min ago</td>
-                </tr>
-                <tr>
-                  <td>Devon Clarke</td>
-                  <td>ON SHIFT 🟢</td>
-                  <td>Sherwood Park Condo</td>
-                  <td>2.0h</td>
-                  <td>28km</td>
-                  <td>8 min ago</td>
-                </tr>
-                <tr>
-                  <td>Anika Patel</td>
-                  <td>OFF SHIFT ⚪</td>
-                  <td>—</td>
-                  <td>6.0h</td>
-                  <td>37km</td>
-                  <td>Ended 12:30 PM</td>
-                </tr>
-                <tr class="row-alert">
-                  <td>Tom Reyes</td>
-                  <td>OFF SHIFT ⚪</td>
-                  <td>—</td>
-                  <td>0h</td>
-                  <td>0km</td>
-                  <td><span class="row-alert-warn">No show today ⚠️</span></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="manager-grid">
+          <div class="table-card">
+            <div class="table-head">Live staff status</div>
+            <div class="table-scroll">
+              <table id="staff-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Current location</th>
+                    <th>Hours today</th>
+                    <th>KM today</th>
+                    <th>Last update</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-staff="maria">
+                    <td>Maria Santos</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>Parkview Office, Edmonton</td>
+                    <td>4.5h</td>
+                    <td>20km</td>
+                    <td>2 min ago</td>
+                  </tr>
+                  <tr data-staff="james">
+                    <td>James Okafor</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>Terwillegar Residence</td>
+                    <td>3.0h</td>
+                    <td>34km</td>
+                    <td>5 min ago</td>
+                  </tr>
+                  <tr data-staff="priya">
+                    <td>Priya Sharma</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>St. Albert Commercial</td>
+                    <td>5.5h</td>
+                    <td>41km</td>
+                    <td>1 min ago</td>
+                  </tr>
+                  <tr data-staff="devon">
+                    <td>Devon Clarke</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>Sherwood Park Condo</td>
+                    <td>2.0h</td>
+                    <td>28km</td>
+                    <td>8 min ago</td>
+                  </tr>
+                  <tr data-staff="anika">
+                    <td>Anika Patel</td>
+                    <td>OFF SHIFT ⚪</td>
+                    <td>—</td>
+                    <td>6.0h</td>
+                    <td>37km</td>
+                    <td>Ended 12:30 PM</td>
+                  </tr>
+                  <tr class="row-alert" data-staff="tom">
+                    <td>Tom Reyes</td>
+                    <td>OFF SHIFT ⚪</td>
+                    <td>—</td>
+                    <td>0h</td>
+                    <td>0km</td>
+                    <td><span class="row-alert-warn">No show today ⚠️</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="map-card" aria-label="Live dispatch map">
+            <div class="map-head">
+              <div>Live dispatch map</div>
+              <div class="map-sub">Tap a staff row to focus</div>
+            </div>
+            <div class="map-wrap" id="map-wrap">
+              <div class="map-grid" aria-hidden="true"></div>
+              <div class="map-marker" id="mk-maria" style="left: 34%; top: 52%" title="Maria Santos"></div>
+              <div class="map-marker" id="mk-james" style="left: 62%; top: 40%" title="James Okafor"></div>
+              <div class="map-marker" id="mk-priya" style="left: 55%; top: 64%" title="Priya Sharma"></div>
+              <div class="map-marker" id="mk-devon" style="left: 70%; top: 58%" title="Devon Clarke"></div>
+              <div class="map-marker" id="mk-anika" style="left: 44%; top: 28%" title="Anika Patel"></div>
+              <div class="map-marker" id="mk-tom" style="left: 22%; top: 34%; background: var(--orange)" title="Tom Reyes (no show)"></div>
+            </div>
+            <div class="map-legend">
+              <span class="legend-item"><span class="legend-dot"></span> On shift</span>
+              <span class="legend-item"><span class="legend-dot orange"></span> Attention needed</span>
+            </div>
           </div>
         </div>
 
@@ -1259,6 +1429,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       (function () {
+        /* =========================================================
+           CUSTOMIZE THIS BLOCK FOR A NEW LEAD
+           - Copy this whole folder and change DEMO.* values
+           ========================================================= */
+        var DEMO = {
+          companyName: 'Top Grade A Cleaning',
+          companyArea: 'Edmonton · Sherwood Park · St. Albert · Spruce Grove · Stony Plain · Leduc',
+          previewPill: 'Live preview — built for your team',
+          framingText:
+            '👋 This demo is already set up for Top Grade A Cleaning — your staff, your jobs, your routes. Tap through and see what Monday morning looks like.',
+        };
+
         const $ = (sel, el) => (el || document).querySelector(sel);
 
         function toast(msg) {
@@ -1281,6 +1463,17 @@
         });
         $('#staff-date').textContent = fmtDate.format(now);
         $('#dash-date').textContent = fmtDate.format(now);
+
+        /* Personalization (name/area/title/banner) */
+        var cn = document.getElementById('company-name');
+        var ca = document.getElementById('company-area');
+        var pill = document.getElementById('preview-pill');
+        var banner = document.querySelector('.demo-framing-banner');
+        if (cn) cn.textContent = DEMO.companyName;
+        if (ca) ca.textContent = DEMO.companyArea;
+        if (pill) pill.textContent = DEMO.previewPill;
+        if (banner) banner.textContent = DEMO.framingText;
+        document.title = DEMO.companyName + ' — FlowGrid Demo';
 
         function startOfWeek(d) {
           const x = new Date(d);
@@ -1318,6 +1511,70 @@
             }
           });
         });
+
+        /* Manager: live map (simple “Uber-like” movement) */
+        var mapWrap = document.getElementById('map-wrap');
+        var markers = {
+          maria: document.getElementById('mk-maria'),
+          james: document.getElementById('mk-james'),
+          priya: document.getElementById('mk-priya'),
+          devon: document.getElementById('mk-devon'),
+          anika: document.getElementById('mk-anika'),
+          tom: document.getElementById('mk-tom'),
+        };
+        var pos = {
+          maria: { x: 34, y: 52 },
+          james: { x: 62, y: 40 },
+          priya: { x: 55, y: 64 },
+          devon: { x: 70, y: 58 },
+          anika: { x: 44, y: 28 },
+          tom: { x: 22, y: 34 },
+        };
+
+        function clamp(n, a, b) {
+          return Math.max(a, Math.min(b, n));
+        }
+
+        function setMarker(key) {
+          var m = markers[key];
+          if (!m) return;
+          m.style.left = pos[key].x + '%';
+          m.style.top = pos[key].y + '%';
+        }
+
+        function tickMap() {
+          if (!mapWrap) return;
+          ['maria', 'james', 'priya', 'devon'].forEach(function (k) {
+            pos[k].x = clamp(pos[k].x + (Math.random() * 6 - 3), 10, 90);
+            pos[k].y = clamp(pos[k].y + (Math.random() * 6 - 3), 12, 88);
+            setMarker(k);
+          });
+        }
+
+        setInterval(tickMap, 2200);
+
+        function focusStaff(key) {
+          Object.keys(markers).forEach(function (k) {
+            if (markers[k]) markers[k].classList.toggle('active', k === key);
+          });
+          if (key === 'tom') {
+            toast('⚠️ No-show detected — owner can reassign immediately');
+            return;
+          }
+          var name = key.charAt(0).toUpperCase() + key.slice(1);
+          toast('Focused on ' + name + ' (live location)');
+        }
+
+        var staffTable = document.getElementById('staff-table');
+        if (staffTable) {
+          staffTable.addEventListener('click', function (e) {
+            var tr = e.target && e.target.closest ? e.target.closest('tr[data-staff]') : null;
+            if (!tr) return;
+            var key = tr.getAttribute('data-staff');
+            if (!key) return;
+            focusStaff(key);
+          });
+        }
 
         /* Staff: mileage */
         function recalcKm() {
