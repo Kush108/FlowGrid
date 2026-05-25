@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b5c63" />
+    <meta
+      name="description"
+      content="Interactive demo for Sphinx Healing Services — field visits, programs dashboard, and funder-ready reporting. Built for Eddie by FlowGrid."
+    />
+    <title>Sphinx Healing Services — FlowGrid Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --teal: #0b5c63;
+        --teal-dark: #063a40;
+        --teal-bright: #3ecfda;
+        --teal-soft: #edf9fa;
+        --teal-muted: #9fd9de;
+        --gold: #c4912e;
+        --gold-soft: #fdf6e6;
+        --sage: #5c7a6b;
+        --earth: #8b6914;
+        --text: #0a1628;
+        --muted: #4a6070;
+        --border: #dde6ea;
+        --surface: #ffffff;
+        --shadow: 0 4px 28px rgba(10, 22, 40, 0.1);
+        --radius: 14px;
+        --font: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        --serif: 'Fraunces', Georgia, serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font);
+        background: linear-gradient(180deg, #f0f7f8 0%, #e8f2f3 40%, #f5f8fa 100%);
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .app-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 16px;
+      }
+
+      .app-header-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .demo-framing-banner {
+        margin: 0 -16px 10px;
+        padding: 12px 16px;
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--teal-dark);
+        background: linear-gradient(90deg, var(--gold-soft), var(--teal-soft));
+        border-bottom: 1px solid var(--teal-muted);
+      }
+
+      .demo-framing-banner strong {
+        color: var(--teal);
+      }
+
+      .brand-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(145deg, var(--teal-dark), var(--teal));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--teal-bright);
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: 18px;
+        flex-shrink: 0;
+        box-shadow: 0 6px 20px rgba(11, 92, 99, 0.35);
+      }
+
+      .brand-text {
+        min-width: 0;
+      }
+
+      .brand-text strong {
+        display: block;
+        font-family: var(--serif);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--teal-dark);
+        letter-spacing: -0.2px;
+      }
+
+      .brand-text span {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .powered-by {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .powered-by:hover {
+        border-color: var(--teal-muted);
+      }
+
+      .powered-by img {
+        width: 18px;
+        height: 18px;
+      }
+
+      .powered-by strong {
+        color: var(--teal);
+      }
+
+      .demo-pill {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(135deg, var(--gold), #a67c1a);
+        padding: 6px 12px;
+        border-radius: 999px;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      .programs-strip {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 10px;
+        margin-bottom: 4px;
+      }
+
+      .programs-strip::-webkit-scrollbar {
+        display: none;
+      }
+
+      .prog-chip {
+        flex-shrink: 0;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: var(--teal-soft);
+        color: var(--teal);
+        border: 1px solid var(--teal-muted);
+      }
+
+      .prog-chip.active {
+        background: var(--teal);
+        color: #fff;
+        border-color: var(--teal-dark);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab {
+        flex: 1;
+        min-width: max-content;
+        border: 1px solid var(--border);
+        background: #fafcfd;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 10px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        font-family: inherit;
+      }
+
+      .tab:hover {
+        border-color: var(--teal-muted);
+      }
+
+      .tab.active {
+        background: var(--teal);
+        color: #fff;
+        border-color: var(--teal-dark);
+        box-shadow: 0 4px 16px rgba(11, 92, 99, 0.35);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px 16px 100px;
+      }
+
+      .panel {
+        display: none;
+      }
+
+      .panel.active {
+        display: block;
+        animation: panelIn 0.35s ease;
+      }
+
+      @keyframes panelIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .phone-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 8px 0 24px;
+      }
+
+      .phone {
+        width: 100%;
+        max-width: 390px;
+        background: var(--surface);
+        border-radius: 28px;
+        box-shadow: var(--shadow), 0 0 0 1px rgba(10, 22, 40, 0.04);
+        overflow: hidden;
+        min-height: 680px;
+      }
+
+      .phone-status {
+        height: 32px;
+        background: linear-gradient(90deg, var(--teal-dark), var(--teal));
+      }
+
+      .phone-body {
+        padding: 16px 16px 28px;
+      }
+
+      .staff-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .greeting {
+        font-family: var(--serif);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+      }
+
+      .greeting span {
+        display: block;
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      .shift-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #fff;
+        background: var(--teal);
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+
+      .shift-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--teal-bright);
+        animation: pulse 1.4s ease infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      .visit-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        margin-bottom: 12px;
+        background: #fafcfd;
+      }
+
+      .visit-card.completed {
+        background: var(--teal-soft);
+        border-color: var(--teal-muted);
+      }
+
+      .visit-card.upcoming {
+        opacity: 0.9;
+        background: #f8f9fb;
+      }
+
+      .visit-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .visit-title {
+        font-weight: 700;
+        font-size: 15px;
+      }
+
+      .program-tag {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--teal);
+        background: rgba(62, 207, 218, 0.15);
+        padding: 3px 8px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+      }
+
+      .status-pill {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 999px;
+        flex-shrink: 0;
+      }
+
+      .status-pill.done {
+        background: #c8e6c9;
+        color: #1b5e20;
+      }
+
+      .status-pill.progress {
+        background: var(--gold-soft);
+        color: #92400e;
+      }
+
+      .status-pill.upcoming {
+        background: #eee;
+        color: var(--muted);
+      }
+
+      .pulse-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--gold);
+        margin-right: 4px;
+        animation: pulse 1.4s ease infinite;
+      }
+
+      .visit-meta {
+        font-size: 12px;
+        color: var(--muted);
+        display: grid;
+        gap: 4px;
+      }
+
+      .visit-notes {
+        margin-top: 10px;
+        font-size: 12px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        border-left: 3px solid var(--teal);
+      }
+
+      .cultural-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--earth);
+        background: var(--gold-soft);
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
+
+      .mileage {
+        margin-top: 10px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 10px;
+        border: 1px dashed var(--border);
+      }
+
+      .mileage label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+
+      .mileage-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+      }
+
+      .mileage input {
+        width: 100%;
+        font-family: ui-monospace, monospace;
+        font-size: 14px;
+        padding: 8px 10px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .mileage-result {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--teal);
+      }
+
+      .visit-actions {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .btn {
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.12s;
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      .btn-primary {
+        background: var(--teal);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(11, 92, 99, 0.35);
+      }
+
+      .btn-secondary {
+        background: #fff;
+        color: var(--teal);
+        border: 1px solid var(--teal-muted);
+      }
+
+      .btn-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn-row .btn {
+        flex: 1;
+      }
+
+      .check-wrap {
+        display: none;
+        justify-content: center;
+        padding: 16px;
+      }
+
+      .check-wrap.show {
+        display: flex;
+        animation: checkPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      @keyframes checkPop {
+        from {
+          transform: scale(0);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .check-circle {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--teal);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+      }
+
+      .summary-bar {
+        margin-top: 16px;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+        color: #fff;
+        border-radius: var(--radius);
+        font-size: 11px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        justify-content: space-between;
+      }
+
+      .dash-header h1 {
+        font-family: var(--serif);
+        font-size: clamp(22px, 4vw, 28px);
+        font-weight: 600;
+        color: var(--teal-dark);
+        letter-spacing: -0.4px;
+      }
+
+      .dash-header p {
+        color: var(--muted);
+        font-size: 14px;
+        margin-top: 6px;
+      }
+
+      .accred-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--sage);
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      @media (min-width: 720px) {
+        .metrics {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .metric {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .metric .val {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--teal);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .metric .lbl {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+        line-height: 1.35;
+      }
+
+      .manager-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      @media (min-width: 980px) {
+        .manager-grid {
+          grid-template-columns: 1.15fr 0.85fr;
+        }
+      }
+
+      .table-card,
+      .map-card,
+      .feed-card,
+      .chart-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .table-head,
+      .map-head {
+        padding: 14px 16px;
+        font-weight: 700;
+        font-size: 14px;
+        border-bottom: 1px solid var(--border);
+        background: #fafcfd;
+      }
+
+      .table-scroll {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      th {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        background: #fafcfd;
+      }
+
+      tr.row-alert td {
+        background: #fff8e1 !important;
+      }
+
+      tr.row-alert td:first-child {
+        box-shadow: inset 4px 0 0 var(--gold);
+      }
+
+      .row-alert-warn {
+        font-weight: 700;
+        color: #b45309;
+      }
+
+      .map-wrap {
+        position: relative;
+        height: 260px;
+        background: radial-gradient(circle at 25% 30%, rgba(62, 207, 218, 0.2), transparent 50%), #f8fcfd;
+      }
+
+      .map-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(11, 92, 99, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(11, 92, 99, 0.06) 1px, transparent 1px);
+        background-size: 28px 28px;
+        pointer-events: none;
+      }
+
+      .map-marker {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.2), 0 6px 18px rgba(0, 0, 0, 0.15);
+        transform: translate(-50%, -50%);
+        transition: left 0.9s ease, top 0.9s ease;
+      }
+
+      .map-marker.active {
+        transform: translate(-50%, -50%) scale(1.2);
+        box-shadow: 0 0 0 6px rgba(62, 207, 218, 0.35);
+      }
+
+      .map-marker.warn {
+        background: var(--gold);
+      }
+
+      .map-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 16px;
+        font-size: 11px;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+      }
+
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 6px;
+        background: var(--teal);
+      }
+
+      .legend-dot.gold {
+        background: var(--gold);
+      }
+
+      .feed-list {
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 0 16px 8px;
+      }
+
+      .feed-item {
+        font-size: 13px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .feed-item-enter {
+        animation: feedFade 0.5s ease;
+      }
+
+      @keyframes feedFade {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .feed-ts {
+        font-size: 11px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .chart-wrap {
+        height: 240px;
+        padding: 16px 20px 8px;
+      }
+
+      .chart-note {
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+        padding: 0 20px 16px;
+      }
+
+      .chart-note strong {
+        color: var(--teal);
+      }
+
+      .payroll-h1 {
+        font-family: var(--serif);
+        font-size: clamp(22px, 4vw, 28px);
+        font-weight: 600;
+        color: var(--teal-dark);
+      }
+
+      .payroll-sub {
+        color: var(--muted);
+        margin-top: 8px;
+        font-size: 14px;
+      }
+
+      .funder-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      @media (min-width: 600px) {
+        .funder-cards {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .funder-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        text-align: center;
+        box-shadow: var(--shadow);
+      }
+
+      .funder-card .fc-val {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--teal);
+      }
+
+      .funder-card .fc-lbl {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 4px;
+        line-height: 1.3;
+      }
+
+      .payroll-table-wrap {
+        background: var(--surface);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        overflow: auto;
+        box-shadow: var(--shadow);
+      }
+
+      .payroll-table-wrap table {
+        min-width: 800px;
+        font-size: 13px;
+      }
+
+      tfoot tr {
+        background: var(--teal-soft);
+        font-weight: 700;
+      }
+
+      .status-ok {
+        color: #166534;
+      }
+
+      .status-warn {
+        color: #b45309;
+      }
+
+      .payroll-footnote {
+        margin-top: 20px;
+        padding: 16px;
+        background: var(--teal-soft);
+        border: 1px solid var(--teal-muted);
+        border-radius: var(--radius);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .payroll-actions {
+        margin-top: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .btn-export {
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 14px 22px;
+        border-radius: 12px;
+        border: none;
+        background: var(--teal);
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(11, 92, 99, 0.35);
+      }
+
+      .btn-export.secondary {
+        background: #fff;
+        color: var(--teal);
+        border: 2px solid var(--teal);
+        box-shadow: none;
+      }
+
+      .bottom-cta {
+        margin-top: 48px;
+        padding: 36px 24px;
+        border-radius: 20px;
+        background: linear-gradient(145deg, var(--teal-dark) 0%, var(--teal) 55%, #0d7a82 100%);
+        color: #fff;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .bottom-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 80% 60% at 100% 0%, rgba(196, 145, 46, 0.25), transparent 55%);
+        pointer-events: none;
+      }
+
+      .bottom-cta > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .bottom-cta h2 {
+        font-family: var(--serif);
+        font-size: clamp(22px, 4vw, 28px);
+        font-weight: 600;
+      }
+
+      .bottom-cta p {
+        margin-top: 12px;
+        opacity: 0.95;
+        font-size: 15px;
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .bottom-btns {
+        margin-top: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      @media (min-width: 520px) {
+        .bottom-btns {
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+
+      .bottom-btns a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 22px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .bottom-btns a.call {
+        background: #fff;
+        color: var(--teal-dark);
+      }
+
+      .bottom-btns a.mail {
+        background: transparent;
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.55);
+      }
+
+      .bottom-btns a.proposal {
+        background: var(--gold);
+        color: #fff;
+      }
+
+      .bottom-small {
+        margin-top: 16px;
+        font-size: 12px;
+        opacity: 0.88;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: calc(24px + env(safe-area-inset-bottom));
+        left: 50%;
+        transform: translateX(-50%) translateY(120px);
+        background: var(--teal-dark);
+        color: #fff;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        max-width: calc(100vw - 32px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        z-index: 200;
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-header-inner">
+        <div class="brand-row">
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true">𓆣</div>
+            <div class="brand-text">
+              <strong id="company-name">Sphinx Healing Services</strong>
+              <span id="company-area">Edmonton, AB · Group Care · Family Living · PDD · Transition to Adulthood</span>
+            </div>
+          </div>
+          <a class="powered-by" href="https://flowgrid.ca" target="_blank" rel="noopener noreferrer">
+            <img src="/logo-icon.svg" alt="" aria-hidden="true" />
+            <span>Powered by <strong>FlowGrid</strong></span>
+          </a>
+          <span class="demo-pill" id="preview-pill">Built for Eddie</span>
+        </div>
+        <p class="demo-framing-banner" id="framing-banner">
+          👋 <strong>Eddie</strong> — this demo is already configured for Sphinx Healing: your programs, Edmonton locations, trauma-informed visit notes, and funder-ready hours. Tap through — this is what Monday morning could look like.
+        </p>
+        <div class="programs-strip" aria-label="Sphinx programs">
+          <span class="prog-chip active">Group Care</span>
+          <span class="prog-chip">Family Living</span>
+          <span class="prog-chip">PDD</span>
+          <span class="prog-chip">Transition (TAP)</span>
+          <span class="prog-chip">Cultural Programming</span>
+        </div>
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab active" role="tab" aria-selected="true" data-tab="staff">Today&apos;s Visits</button>
+          <button type="button" class="tab" role="tab" aria-selected="false" data-tab="manager">Programs Dashboard</button>
+          <button type="button" class="tab" role="tab" aria-selected="false" data-tab="payroll">Funder &amp; Payroll</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="panel-staff" class="panel active" role="tabpanel">
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-status" aria-hidden="true"></div>
+            <div class="phone-body">
+              <div class="staff-top">
+                <div>
+                  <div class="greeting">
+                    Good morning, Danielle
+                    <span id="staff-date"></span>
+                  </div>
+                </div>
+                <div class="shift-badge"><span class="shift-dot"></span> On shift</div>
+              </div>
+
+              <div class="visit-card completed" id="visit-1">
+                <span class="program-tag">Group Care</span>
+                <div class="visit-head">
+                  <div class="visit-title">Sphinx Group Home — Morning shift</div>
+                  <span class="status-pill done">✓ Done</span>
+                </div>
+                <div class="visit-meta">
+                  <div>8712 118 Ave NW, Edmonton</div>
+                  <div>7:00 AM – 10:00 AM · <strong>14 km</strong> (school run)</div>
+                </div>
+                <div class="visit-notes">
+                  School support completed. Youth A &amp; B — life skills checklist signed. No incidents. French support provided for Youth C.
+                </div>
+                <span class="cultural-badge">🪶 Knowledge Keeper session — 45 min</span>
+              </div>
+
+              <div class="visit-card" id="visit-2">
+                <span class="program-tag">Group Care · Community</span>
+                <div class="visit-head">
+                  <div class="visit-title">Community outing — Borden Park</div>
+                  <span class="status-pill progress" id="visit2-status"><span class="pulse-dot"></span>In progress</span>
+                </div>
+                <div class="visit-meta">
+                  <div>7507 Borden Park Rd NW, Edmonton</div>
+                  <div>10:30 AM – 12:30 PM · <strong id="visit2-km">6 km</strong></div>
+                </div>
+                <div class="visit-notes">Recreational programming + land-based activity. Behavioural therapist on-site until 11:30.</div>
+
+                <div id="visit2-active">
+                  <div class="mileage">
+                    <label>Trip mileage (auto-GPS in live app)</label>
+                    <div class="mileage-row">
+                      <div style="flex: 1">
+                        <label for="km-start">Start KM</label>
+                        <input id="km-start" type="number" value="184220" />
+                      </div>
+                      <div style="flex: 1">
+                        <label for="km-end">End KM</label>
+                        <input id="km-end" type="number" value="184226" />
+                      </div>
+                    </div>
+                    <div class="mileage-result" id="km-calc">Distance: 6 km</div>
+                  </div>
+                  <div class="visit-actions">
+                    <button type="button" class="btn btn-primary" id="btn-punch">Complete visit &amp; punch out</button>
+                    <div class="btn-row">
+                      <button type="button" class="btn btn-secondary" id="btn-arrived">Log arrival</button>
+                      <button type="button" class="btn btn-secondary" id="btn-note">Quick note</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="check-wrap" id="visit2-check" aria-hidden="true">
+                  <div class="check-circle">✓</div>
+                </div>
+              </div>
+
+              <div class="visit-card upcoming">
+                <span class="program-tag">Family Living</span>
+                <div class="visit-head">
+                  <div class="visit-title">Reunification home visit — Mill Woods</div>
+                  <span class="status-pill upcoming">Upcoming</span>
+                </div>
+                <div class="visit-meta">
+                  <div>2311 34 St SE, Edmonton</div>
+                  <div>1:30 PM – 3:30 PM · KM: TBD</div>
+                </div>
+                <div class="visit-notes">Family wellness check-in. Parent coaching + safe relationship strategies. Sibling group — 2 youth.</div>
+              </div>
+
+              <div class="summary-bar">
+                <span>Hours: <strong id="sum-hours">5.0h</strong></span>
+                <span>KM: <strong id="sum-km">20 km</strong></span>
+                <span>Visits: <strong id="sum-visits">1/3</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-manager" class="panel" role="tabpanel">
+        <div class="dash-header">
+          <h1>Sphinx Healing — Programs Command Center</h1>
+          <p id="dash-date"></p>
+          <div class="accred-badge">✓ CACHS Accredited · Child &amp; Youth Group Living · Edmonton</div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="val">12</div>
+            <div class="lbl">Youth active across programs today</div>
+          </div>
+          <div class="metric">
+            <div class="val">8 / 11</div>
+            <div class="lbl">Staff on shift (3 scheduled off)</div>
+          </div>
+          <div class="metric">
+            <div class="val">4</div>
+            <div class="lbl">Cultural / community sessions today</div>
+          </div>
+          <div class="metric">
+            <div class="val">156</div>
+            <div class="lbl">KM logged (field &amp; transport)</div>
+          </div>
+        </div>
+
+        <div class="manager-grid">
+          <div class="table-card">
+            <div class="table-head">Live staff &amp; program placement</div>
+            <div class="table-scroll">
+              <table id="staff-table">
+                <thead>
+                  <tr>
+                    <th>Staff</th>
+                    <th>Program</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Hours</th>
+                    <th>KM</th>
+                    <th>Update</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-staff="danielle">
+                    <td>Danielle M.</td>
+                    <td>Group Care</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>Borden Park outing</td>
+                    <td>5.0h</td>
+                    <td>20km</td>
+                    <td>1 min ago</td>
+                  </tr>
+                  <tr data-staff="marcus">
+                    <td>Marcus T.</td>
+                    <td>Group Care</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>Sphinx Group Home</td>
+                    <td>4.5h</td>
+                    <td>8km</td>
+                    <td>3 min ago</td>
+                  </tr>
+                  <tr data-staff="amelie">
+                    <td>Amélie L. 🇫🇷</td>
+                    <td>Group Care</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>School support — north side</td>
+                    <td>4.0h</td>
+                    <td>22km</td>
+                    <td>2 min ago</td>
+                  </tr>
+                  <tr data-staff="jordan">
+                    <td>Jordan K.</td>
+                    <td>PDD</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>Community connection — downtown</td>
+                    <td>3.5h</td>
+                    <td>18km</td>
+                    <td>6 min ago</td>
+                  </tr>
+                  <tr data-staff="sarah">
+                    <td>Sarah W.</td>
+                    <td>Family Living</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>En route — Mill Woods</td>
+                    <td>2.0h</td>
+                    <td>31km</td>
+                    <td>4 min ago</td>
+                  </tr>
+                  <tr data-staff="kevin">
+                    <td>Kevin B.</td>
+                    <td>TAP</td>
+                    <td>ON SHIFT 🟢</td>
+                    <td>Employment readiness — workshop</td>
+                    <td>3.0h</td>
+                    <td>12km</td>
+                    <td>7 min ago</td>
+                  </tr>
+                  <tr class="row-alert" data-staff="tyler">
+                    <td>Tyler R.</td>
+                    <td>Group Care</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>0h</td>
+                    <td>0km</td>
+                    <td><span class="row-alert-warn">No punch-in · shift 7 AM ⚠️</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="map-card">
+            <div class="map-head">Edmonton field map · tap a row to focus</div>
+            <div class="map-wrap" id="map-wrap">
+              <div class="map-grid" aria-hidden="true"></div>
+              <div class="map-marker" id="mk-danielle" style="left: 48%; top: 42%"></div>
+              <div class="map-marker" id="mk-marcus" style="left: 38%; top: 38%"></div>
+              <div class="map-marker" id="mk-amelie" style="left: 52%; top: 28%"></div>
+              <div class="map-marker" id="mk-jordan" style="left: 44%; top: 58%"></div>
+              <div class="map-marker" id="mk-sarah" style="left: 68%; top: 62%"></div>
+              <div class="map-marker" id="mk-kevin" style="left: 56%; top: 48%"></div>
+              <div class="map-marker warn" id="mk-tyler" style="left: 30%; top: 35%"></div>
+            </div>
+            <div class="map-legend">
+              <span><span class="legend-dot"></span> On shift</span>
+              <span><span class="legend-dot gold"></span> Needs attention</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-card" style="margin-bottom: 20px">
+          <div class="table-head">Live activity — programs &amp; compliance</div>
+          <div class="feed-list" id="activity-feed">
+            <div class="feed-item">
+              <span>🪶 Knowledge Keeper logged session — Group Home (Youth A, B)</span>
+              <span class="feed-ts">2 min ago</span>
+            </div>
+            <div class="feed-item">
+              <span>⚠️ Tyler R. — no punch-in; Group Care morning shift</span>
+              <span class="feed-ts">5 min ago</span>
+            </div>
+            <div class="feed-item">
+              <span>📍 Danielle M. arrived — Borden Park community outing</span>
+              <span class="feed-ts">8 min ago</span>
+            </div>
+            <div class="feed-item">
+              <span>✅ Marcus T. — school support checklist submitted</span>
+              <span class="feed-ts">12 min ago</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="table-head">Hours by program — this week</div>
+          <div class="chart-wrap">
+            <canvas id="program-chart" aria-label="Weekly hours by program"></canvas>
+          </div>
+          <p class="chart-note"><strong id="week-total-label">312 staff hours · 89% funder-report ready</strong></p>
+        </div>
+      </div>
+
+      <div id="panel-payroll" class="panel" role="tabpanel">
+        <h2 class="payroll-h1">Funder &amp; Payroll Summary — Auto-generated</h2>
+        <p class="payroll-sub" id="payroll-week-range"></p>
+
+        <div class="funder-cards">
+          <div class="funder-card">
+            <div class="fc-val">142h</div>
+            <div class="fc-lbl">Children&apos;s Services · Group Care</div>
+          </div>
+          <div class="funder-card">
+            <div class="fc-val">68h</div>
+            <div class="fc-lbl">Family Living / reunification</div>
+          </div>
+          <div class="funder-card">
+            <div class="fc-val">54h</div>
+            <div class="fc-lbl">PDD-funded supports</div>
+          </div>
+          <div class="funder-card">
+            <div class="fc-val">48h</div>
+            <div class="fc-lbl">Transition to Adulthood (TAP)</div>
+          </div>
+        </div>
+
+        <div class="payroll-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Staff</th>
+                <th>Primary program</th>
+                <th>Days</th>
+                <th>Hours</th>
+                <th>KM</th>
+                <th>Mileage</th>
+                <th>Funder line</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Danielle M.</td>
+                <td>Group Care</td>
+                <td>5</td>
+                <td>38.0h</td>
+                <td>198km</td>
+                <td>$138.60</td>
+                <td>CYGC-0421</td>
+                <td class="status-ok">✅ Ready</td>
+              </tr>
+              <tr>
+                <td>Marcus T.</td>
+                <td>Group Care</td>
+                <td>5</td>
+                <td>40.0h</td>
+                <td>112km</td>
+                <td>$78.40</td>
+                <td>CYGC-0421</td>
+                <td class="status-ok">✅ Ready</td>
+              </tr>
+              <tr>
+                <td>Amélie L.</td>
+                <td>Group Care</td>
+                <td>5</td>
+                <td>39.5h</td>
+                <td>205km</td>
+                <td>$143.50</td>
+                <td>CYGC-0421</td>
+                <td class="status-ok">✅ Ready</td>
+              </tr>
+              <tr>
+                <td>Sarah W.</td>
+                <td>Family Living</td>
+                <td>4</td>
+                <td>32.0h</td>
+                <td>178km</td>
+                <td>$124.60</td>
+                <td>FL-1187</td>
+                <td class="status-ok">✅ Ready</td>
+              </tr>
+              <tr>
+                <td>Jordan K.</td>
+                <td>PDD</td>
+                <td>5</td>
+                <td>36.0h</td>
+                <td>156km</td>
+                <td>$109.20</td>
+                <td>PDD-9034</td>
+                <td class="status-ok">✅ Ready</td>
+              </tr>
+              <tr>
+                <td>Kevin B.</td>
+                <td>TAP</td>
+                <td>4</td>
+                <td>28.0h</td>
+                <td>94km</td>
+                <td>$65.80</td>
+                <td>TAP-2201</td>
+                <td class="status-ok">✅ Ready</td>
+              </tr>
+              <tr>
+                <td>Tyler R.</td>
+                <td>Group Care</td>
+                <td>3</td>
+                <td>18.0h</td>
+                <td>62km</td>
+                <td>$43.40</td>
+                <td>CYGC-0421</td>
+                <td class="status-warn">⚠️ Review</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">Week total</td>
+                <td>231.5h</td>
+                <td>1,005km</td>
+                <td>$703.50</td>
+                <td>4 funders</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="payroll-footnote">
+          📊 In the live system, this report auto-generates every Monday — hours, mileage, and program codes mapped for <strong>Alberta funders</strong>. What used to take 3–4 hours of spreadsheets becomes <strong>zero manual assembly</strong>.
+        </div>
+        <div class="payroll-actions">
+          <button type="button" class="btn-export" id="btn-funder">📥 Download funder report (.xlsx)</button>
+          <button type="button" class="btn-export secondary" id="btn-payroll">📤 Export to payroll</button>
+        </div>
+      </div>
+
+      <section class="bottom-cta">
+        <h2>Ready to run this for Sphinx Healing, Eddie?</h2>
+        <p>
+          Custom-built for trauma-informed care, Indigenous youth supports, French-speaking staff, and multi-program funder reporting — not a generic timesheet app.
+        </p>
+        <div class="bottom-btns">
+          <a class="call" href="https://calendly.com/flowgrid/15min" target="_blank" rel="noopener noreferrer">💬 Book 15 min with FlowGrid</a>
+          <a class="proposal" href="/sphinx-proposal/">📄 View full proposal</a>
+          <a class="mail" href="mailto:hello@flowgrid.ca?subject=Sphinx%20Healing%20Demo">📩 Email FlowGrid</a>
+        </div>
+        <p class="bottom-small">
+          <a href="https://sphinxhealing.org/" target="_blank" rel="noopener noreferrer" style="color: var(--teal-bright)">sphinxhealing.org</a>
+          · Month-to-month · Built in Edmonton
+        </p>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" crossorigin="anonymous"></script>
+    <script>
+      (function () {
+        var DEMO = {
+          companyName: 'Sphinx Healing Services',
+          companyArea: 'Edmonton, AB · Group Care · Family Living · PDD · Transition to Adulthood',
+          previewPill: 'Built for Eddie',
+          framingText:
+            '👋 Eddie — this demo is already configured for Sphinx Healing: your programs, Edmonton locations, trauma-informed visit notes, and funder-ready hours. Tap through — this is what Monday morning could look like.',
+        };
+
+        var $ = function (sel, el) {
+          return (el || document).querySelector(sel);
+        };
+
+        function toast(msg) {
+          var t = $('#toast');
+          t.textContent = msg;
+          t.classList.add('show');
+          clearTimeout(toast._h);
+          toast._h = setTimeout(function () {
+            t.classList.remove('show');
+          }, 3200);
+        }
+
+        var now = new Date();
+        var fmtDate = new Intl.DateTimeFormat('en-CA', {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        });
+        $('#staff-date').textContent = fmtDate.format(now);
+        $('#dash-date').textContent = fmtDate.format(now) + ' · Live operations preview';
+
+        document.getElementById('company-name').textContent = DEMO.companyName;
+        document.getElementById('company-area').textContent = DEMO.companyArea;
+        document.getElementById('preview-pill').textContent = DEMO.previewPill;
+        document.getElementById('framing-banner').innerHTML =
+          '👋 <strong>Eddie</strong> — this demo is already configured for Sphinx Healing: your programs, Edmonton locations, trauma-informed visit notes, and funder-ready hours. Tap through — this is what Monday morning could look like.';
+        document.title = DEMO.companyName + ' — FlowGrid Demo';
+
+        function startOfWeek(d) {
+          var x = new Date(d);
+          var day = x.getDay();
+          var diff = day === 0 ? -6 : 1 - day;
+          x.setDate(x.getDate() + diff);
+          x.setHours(0, 0, 0, 0);
+          return x;
+        }
+
+        var ws = startOfWeek(now);
+        var we = new Date(ws);
+        we.setDate(we.getDate() + 6);
+        var short = new Intl.DateTimeFormat('en-CA', { month: 'short', day: 'numeric' });
+        $('#payroll-week-range').textContent =
+          'Week of ' + short.format(ws) + ' – ' + short.format(we) + ' · Mapped to funder program codes';
+
+        document.querySelectorAll('.tab').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var id = btn.getAttribute('data-tab');
+            document.querySelectorAll('.tab').forEach(function (b) {
+              b.classList.toggle('active', b === btn);
+              b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+            });
+            document.querySelectorAll('.panel').forEach(function (p) {
+              p.classList.remove('active');
+            });
+            $('#panel-' + id).classList.add('active');
+            if (id === 'manager') {
+              requestAnimationFrame(function () {
+                requestAnimationFrame(ensureProgramChart);
+              });
+            }
+          });
+        });
+
+        var markers = {
+          danielle: $('#mk-danielle'),
+          marcus: $('#mk-marcus'),
+          amelie: $('#mk-amelie'),
+          jordan: $('#mk-jordan'),
+          sarah: $('#mk-sarah'),
+          kevin: $('#mk-kevin'),
+          tyler: $('#mk-tyler'),
+        };
+        var pos = {
+          danielle: { x: 48, y: 42 },
+          marcus: { x: 38, y: 38 },
+          amelie: { x: 52, y: 28 },
+          jordan: { x: 44, y: 58 },
+          sarah: { x: 68, y: 62 },
+          kevin: { x: 56, y: 48 },
+          tyler: { x: 30, y: 35 },
+        };
+
+        function clamp(n, a, b) {
+          return Math.max(a, Math.min(b, n));
+        }
+
+        function tickMap() {
+          ['danielle', 'marcus', 'amelie', 'jordan', 'sarah', 'kevin'].forEach(function (k) {
+            pos[k].x = clamp(pos[k].x + (Math.random() * 5 - 2.5), 12, 88);
+            pos[k].y = clamp(pos[k].y + (Math.random() * 5 - 2.5), 14, 86);
+            if (markers[k]) {
+              markers[k].style.left = pos[k].x + '%';
+              markers[k].style.top = pos[k].y + '%';
+            }
+          });
+        }
+        setInterval(tickMap, 2400);
+
+        function focusStaff(key) {
+          Object.keys(markers).forEach(function (k) {
+            if (markers[k]) markers[k].classList.toggle('active', k === key);
+          });
+          if (key === 'tyler') {
+            toast('⚠️ Missing punch-in — reassign or contact staff now');
+            return;
+          }
+          toast('Focused on ' + key.charAt(0).toUpperCase() + key.slice(1) + ' — live placement');
+        }
+
+        var staffTable = $('#staff-table');
+        if (staffTable) {
+          staffTable.addEventListener('click', function (e) {
+            var tr = e.target.closest('tr[data-staff]');
+            if (tr) focusStaff(tr.getAttribute('data-staff'));
+          });
+        }
+
+        function recalcKm() {
+          var s = parseFloat($('#km-start').value) || 0;
+          var e = parseFloat($('#km-end').value) || 0;
+          var d = Math.max(0, Math.round(e - s));
+          $('#km-calc').textContent = 'Distance: ' + d + ' km';
+          if (!$('#btn-punch').disabled) $('#visit2-km').textContent = d + ' km';
+        }
+        $('#km-start').addEventListener('input', recalcKm);
+        $('#km-end').addEventListener('input', recalcKm);
+
+        var punched = false;
+        $('#btn-punch').addEventListener('click', function () {
+          if (punched) return;
+          punched = true;
+          var km = Math.max(0, Math.round(parseFloat($('#km-end').value) - parseFloat($('#km-start').value))) || 6;
+          $('#visit2-active').style.display = 'none';
+          $('#visit2-status').className = 'status-pill done';
+          $('#visit2-status').textContent = '✓ Done';
+          $('#visit2-check').classList.add('show');
+          $('#sum-hours').textContent = '7.0h';
+          $('#sum-km').textContent = 14 + km + ' km';
+          $('#sum-visits').textContent = '2/3';
+          toast('Visit completed — 2.0 hrs logged · synced to Programs Dashboard');
+        });
+
+        $('#btn-arrived').addEventListener('click', function () {
+          toast('Arrival logged — Borden Park · GPS timestamp saved');
+        });
+
+        $('#btn-note').addEventListener('click', function () {
+          toast('Quick note saved — visible to manager & funder export');
+        });
+
+        var pool = [
+          '🪶 Cultural programming logged — Group Home',
+          '✅ Danielle M. completed visit — Borden Park',
+          '📍 Sarah W. en route — Family Living Mill Woods',
+          '⚠️ Tyler R. — no punch-in · Group Care AM shift',
+          '✅ Jordan K. — PDD community outing checklist',
+          '📋 Funder line CYGC-0421 — 38 hrs ready for export',
+          '🇫🇷 Amélie L. — Francophone support session logged',
+          '✅ Kevin B. — TAP employment workshop attendance',
+        ];
+        var poolIdx = 0;
+        var feedEl = $('#activity-feed');
+
+        function prependFeed(msg) {
+          if (!feedEl) return;
+          var div = document.createElement('div');
+          div.className = 'feed-item feed-item-enter';
+          div.innerHTML = '<span>' + msg + '</span><span class="feed-ts">just now</span>';
+          feedEl.insertBefore(div, feedEl.firstChild);
+          while (feedEl.children.length > 8) feedEl.removeChild(feedEl.lastChild);
+          setTimeout(function () {
+            div.classList.remove('feed-item-enter');
+          }, 500);
+        }
+
+        if (feedEl) {
+          setInterval(function () {
+            prependFeed(pool[poolIdx++ % pool.length]);
+          }, 7500);
+        }
+
+        function ensureProgramChart() {
+          if (typeof Chart === 'undefined') return;
+          var canvas = $('#program-chart');
+          if (!canvas) return;
+          var existing = Chart.getChart(canvas);
+          if (existing) {
+            existing.resize();
+            return;
+          }
+          new Chart(canvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: ['Group Care', 'Family Living', 'PDD', 'TAP', 'Cultural'],
+              datasets: [
+                {
+                  data: [142, 68, 54, 48, 32],
+                  backgroundColor: ['#0b5c63', '#3ecfda', '#5c7a6b', '#c4912e', '#084449'],
+                  borderRadius: 8,
+                  maxBarThickness: 48,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+                y: {
+                  beginAtZero: true,
+                  ticks: { stepSize: 40 },
+                  grid: { color: 'rgba(0,0,0,.06)' },
+                },
+              },
+            },
+          });
+        }
+
+        $('#btn-funder').addEventListener('click', function () {
+          toast('Demo — live version exports funder-ready .xlsx with program codes');
+        });
+        $('#btn-payroll').addEventListener('click', function () {
+          toast('Demo — live version pushes hours + mileage to payroll');
+        });
+
+        recalcKm();
+      })();
+    </script>
+  </body>
+</html>
