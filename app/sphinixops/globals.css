@@ -12,6 +12,26 @@
   color: var(--ops-text);
 }
 
+/* Add: light */
+.ops-root.theme-light { 
+  --ops-bg: #f8fafc; 
+  --ops-surface: #ffffff;
+  --ops-surface-2: #f1f5f9;
+  --ops-text: #0f172a;
+  --ops-muted: rgba(0,0,0,0.45);
+  --ops-border: rgba(0,0,0,0.08);
+}
+
+/* Add: neutral/slate */
+.ops-root.theme-slate {
+  --ops-bg: #1e293b;
+  --ops-surface: #273549;
+  --ops-surface-2: #334155;
+  --ops-text: #f1f5f9;
+  --ops-muted: rgba(255,255,255,0.5);
+  --ops-border: rgba(255,255,255,0.1);
+}
+
 .ops-card {
   background: var(--ops-surface);
   border: 1px solid var(--ops-border);
