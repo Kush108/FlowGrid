@@ -1,0 +1,63 @@
+.ops-root {
+  --ops-bg: #0a1628;
+  --ops-surface: #0f1f35;
+  --ops-surface-2: #132640;
+  --ops-green: #22c55e;
+  --ops-blue: #0ea5e9;
+  --ops-text: #f1f5f9;
+  --ops-muted: rgba(255, 255, 255, 0.45);
+  --ops-border: rgba(255, 255, 255, 0.08);
+  min-height: 100vh;
+  background: var(--ops-bg);
+  color: var(--ops-text);
+}
+
+.ops-card {
+  background: var(--ops-surface);
+  border: 1px solid var(--ops-border);
+  border-radius: 14px;
+}
+
+.ops-input {
+  width: 100%;
+  background: var(--ops-bg);
+  border: 1px solid var(--ops-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--ops-text);
+  font-size: 14px;
+}
+
+.ops-input:focus {
+  outline: none;
+  border-color: var(--ops-green);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.ops-btn-primary {
+  background: var(--ops-green);
+  color: #052e16;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 12px 18px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.ops-btn-primary:hover {
+  opacity: 0.92;
+}
+
+.ops-btn-ghost {
+  background: transparent;
+  color: var(--ops-text);
+  border: 1px solid var(--ops-border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.ops-btn-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
