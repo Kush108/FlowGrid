@@ -93,3 +93,86 @@
 .ops-btn-ghost:hover {
   border-color: rgba(255, 255, 255, 0.2);
 }
+
+/* ── Add these to your existing globals.css ──────────────────────────── */
+
+/* Responsive: hide desktop sidebar on mobile, show hamburger */
+@media (max-width: 1023px) {
+  .ops-sidebar-desktop {
+    display: none !important;
+  }
+  .ops-main-column {
+    margin-left: 0 !important;
+  }
+  .ops-menu-btn {
+    display: flex !important;
+  }
+}
+
+/* Stat cards — top accent border system */
+.ops-stat-card {
+  background: var(--ops-surface);
+  border: 1px solid var(--ops-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  border-top: 3px solid transparent;
+  transition: border-color 0.15s;
+}
+.ops-stat-card.green  { border-top-color: var(--ops-green); }
+.ops-stat-card.blue   { border-top-color: var(--ops-blue);  }
+.ops-stat-card.amber  { border-top-color: #f59e0b; }
+.ops-stat-card.purple { border-top-color: #a78bfa; }
+.ops-stat-card.red    { border-top-color: #ef4444; }
+
+.ops-stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ops-muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.ops-stat-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--ops-text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.ops-stat-sub {
+  font-size: 12px;
+  color: var(--ops-muted);
+  margin-top: 4px;
+}
+
+/* Badge/pill utility */
+.ops-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+.ops-badge-green  { background: rgba(34,197,94,0.12);  color: var(--ops-green); }
+.ops-badge-blue   { background: rgba(14,165,233,0.12); color: var(--ops-blue);  }
+.ops-badge-amber  { background: rgba(245,158,11,0.12); color: #f59e0b; }
+.ops-badge-red    { background: rgba(239,68,68,0.12);  color: #ef4444; }
+.ops-badge-purple { background: rgba(167,139,250,0.12);color: #a78bfa; }
+.ops-badge-muted  { background: var(--ops-surface-2);  color: var(--ops-muted); }
+
+/* Light theme adjustments for sidebar active state */
+.theme-light .ops-sidebar-desktop aside,
+.theme-light .ops-main-column header {
+  background: #ffffff;
+}
+.theme-light .ops-stat-card {
+  background: #ffffff;
+}
+
+/* Scrollbar styling — subtle */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ops-border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ops-muted); }
