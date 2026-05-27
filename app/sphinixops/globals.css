@@ -14,12 +14,24 @@
 
 /* Add: light */
 .ops-root.theme-light { 
-  --ops-bg: #f8fafc; 
+  --ops-bg: #f8fafc;
   --ops-surface: #ffffff;
   --ops-surface-2: #f1f5f9;
   --ops-text: #0f172a;
-  --ops-muted: rgba(0,0,0,0.45);
-  --ops-border: rgba(0,0,0,0.08);
+  --ops-muted: rgba(0, 0, 0, 0.45);
+  --ops-border: rgba(0, 0, 0, 0.08);
+  /* ADD THESE — green stays readable on light bg */
+  --ops-green: #16a34a;
+  --ops-blue: #0284c7;
+}
+
+.ops-root.theme-light .ops-input {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.ops-root.theme-light .ops-btn-primary {
+  color: #ffffff;  /* white text on green — more readable on light */
 }
 
 /* Add: neutral/slate */

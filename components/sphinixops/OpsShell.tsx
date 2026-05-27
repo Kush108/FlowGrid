@@ -18,6 +18,9 @@ import { useState } from 'react';
 import type { Profile } from '@/lib/sphinixops/types';
 import { OPS_BASE } from '@/lib/sphinixops/constants';
 
+import { ThemeProvider } from '@/lib/sphinixops/theme';
+import { ThemeToggle } from './ThemeToggle';
+
 type NavItem = { href: string; label: string; icon: React.ReactNode };
 
 const NAV_BY_ROLE: Record<string, NavItem[]> = {
@@ -27,6 +30,11 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { href: `${OPS_BASE}/director/sites`, label: 'Sites', icon: <Building2 size={18} /> },
     { href: `${OPS_BASE}/director/reports`, label: 'Reports', icon: <FileBarChart size={18} /> },
     { href: `${OPS_BASE}/director/settings`, label: 'Settings', icon: <Settings size={18} /> },
+    // In your nav links for director role, add:
+    { href: `${OPS_BASE}/director/schedule`, label: 'Schedule',  icon: '📅' },
+    { href: `${OPS_BASE}/director/leave`,    label: 'Leave',     icon: '🏖' },
+
+// For manager role add the same two links (same pages work for both)
   ],
   hr: [
     { href: `${OPS_BASE}/hr`, label: 'Schedule', icon: <CalendarDays size={18} /> },
@@ -126,6 +134,9 @@ export function OpsShell({
   }
 
   return (
+    <ThemeProvider>
+      <div className="ops-root">
+
     <div className="ops-root min-h-screen flex">
       <aside className="hidden lg:flex w-60 flex-col bg-[#0f1f35] border-r border-white/[0.08] shrink-0 fixed inset-y-0 left-0">
         {sidebar}
@@ -149,5 +160,15 @@ export function OpsShell({
         <main className="p-4 lg:p-8 max-w-7xl mx-auto">{children}</main>
       </div>
     </div>
+    <div style={{ flex: 1 }}>
+          {/* top bar — put ThemeToggle in here */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '12px 20px' }}>
+            <ThemeToggle />
+          </div>
+          <main>{children}</main>
+        </div>
+
+      </div>
+    </ThemeProvider>
   );
 }
