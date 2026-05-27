@@ -1,128 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════
+   ROOT — site-wide variables (marketing site / non-ops pages)
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --background: #0a1628;
+  --foreground: #f1f5f9;
+  --surface:    #0f1f35;
+  --border:     rgba(255,255,255,0.08);
+  --muted:      rgba(255,255,255,0.45);
+  --green:      #22c55e;
+  --blue:       #0ea5e9;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   OPS THEME TOKENS — dark (default)
+   Applied to .ops-root with no extra class
+   ═══════════════════════════════════════════════════════════════ */
 .ops-root {
-  --ops-bg: #0a1628;
-  --ops-surface: #0f1f35;
-  --ops-surface-2: #132640;
-  --ops-green: #22c55e;
-  --ops-blue: #0ea5e9;
-  --ops-text: #f1f5f9;
-  --ops-muted: rgba(255, 255, 255, 0.45);
-  --ops-border: rgba(255, 255, 255, 0.08);
+  /* backgrounds */
+  --ops-bg:        #090f1a;
+  --ops-surface:   #0d1b2e;
+  --ops-surface-2: #112238;
+
+  /* accent colours */
+  --ops-green:     #22c55e;
+  --ops-green-dim: rgba(34,197,94,0.12);
+  --ops-blue:      #0ea5e9;
+  --ops-blue-dim:  rgba(14,165,233,0.12);
+
+  /* text */
+  --ops-text:      #f1f5f9;
+  --ops-text-2:    #94a3b8;
+  --ops-muted:     rgba(255,255,255,0.40);
+
+  /* borders */
+  --ops-border:    rgba(255,255,255,0.08);
+  --ops-border-2:  rgba(255,255,255,0.14);
+
+  /* semantic */
+  --ops-amber:     #f59e0b;
+  --ops-red:       #ef4444;
+  --ops-purple:    #a78bfa;
+
+  /* shadows */
+  --ops-shadow:    0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+
   min-height: 100vh;
   background: var(--ops-bg);
   color: var(--ops-text);
+  font-family: var(--font-body, ui-sans-serif), system-ui, -apple-system,
+               'Segoe UI', Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Add: light */
-.ops-root.theme-light { 
-  --ops-bg: #f8fafc;
-  --ops-surface: #ffffff;
-  --ops-surface-2: #f1f5f9;
-  --ops-text: #0f172a;
-  --ops-muted: rgba(0, 0, 0, 0.45);
-  --ops-border: rgba(0, 0, 0, 0.08);
-  /* ADD THESE — green stays readable on light bg */
-  --ops-green: #16a34a;
-  --ops-blue: #0284c7;
+/* ═══════════════════════════════════════════════════════════════
+   OPS THEME — light
+   ═══════════════════════════════════════════════════════════════ */
+.ops-root.theme-light {
+  --ops-bg:        #f0f2f5;
+  --ops-surface:   #ffffff;
+  --ops-surface-2: #f8fafc;
+
+  --ops-green:     #16a34a;
+  --ops-green-dim: rgba(22,163,74,0.10);
+  --ops-blue:      #0284c7;
+  --ops-blue-dim:  rgba(2,132,199,0.10);
+
+  --ops-text:      #0f172a;
+  --ops-text-2:    #475569;
+  --ops-muted:     rgba(0,0,0,0.40);
+
+  --ops-border:    rgba(0,0,0,0.08);
+  --ops-border-2:  rgba(0,0,0,0.14);
+
+  --ops-amber:     #d97706;
+  --ops-red:       #dc2626;
+  --ops-purple:    #7c3aed;
+
+  --ops-shadow:    0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
 }
 
-.ops-root.theme-light .ops-input {
-  background: #f8fafc;
-  color: #0f172a;
-}
-
-.ops-root.theme-light .ops-btn-primary {
-  color: #ffffff;  /* white text on green — more readable on light */
-}
-
-/* Add: neutral/slate */
+/* ═══════════════════════════════════════════════════════════════
+   OPS THEME — slate (medium dark, softer than dark)
+   ═══════════════════════════════════════════════════════════════ */
 .ops-root.theme-slate {
-  --ops-bg: #1e293b;
-  --ops-surface: #273549;
-  --ops-surface-2: #334155;
-  --ops-text: #f1f5f9;
-  --ops-muted: rgba(255,255,255,0.5);
-  --ops-border: rgba(255,255,255,0.1);
+  --ops-bg:        #1a2332;
+  --ops-surface:   #1e2a3a;
+  --ops-surface-2: #243044;
+
+  --ops-green:     #34d399;
+  --ops-green-dim: rgba(52,211,153,0.12);
+  --ops-blue:      #38bdf8;
+  --ops-blue-dim:  rgba(56,189,248,0.12);
+
+  --ops-text:      #e2e8f0;
+  --ops-text-2:    #94a3b8;
+  --ops-muted:     rgba(255,255,255,0.38);
+
+  --ops-border:    rgba(255,255,255,0.09);
+  --ops-border-2:  rgba(255,255,255,0.16);
+
+  --ops-amber:     #fbbf24;
+  --ops-red:       #f87171;
+  --ops-purple:    #c4b5fd;
+
+  --ops-shadow:    0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL RESET
+   ═══════════════════════════════════════════════════════════════ */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body, ui-sans-serif), system-ui, -apple-system,
+               'Segoe UI', Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MARKETING SITE UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.fg-surface {
+  background: rgba(15,31,53,0.66);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@keyframes fg-float {
+  0%,100% { transform: translateY(0);     }
+  50%      { transform: translateY(-10px); }
+}
+
+@keyframes fg-grid {
+  0%   { background-position: 0 0;     }
+  100% { background-position: 56px 56px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   OPS COMPONENT LIBRARY
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Card ── */
 .ops-card {
   background: var(--ops-surface);
   border: 1px solid var(--ops-border);
-  border-radius: 14px;
+  border-radius: 12px;
+  box-shadow: var(--ops-shadow);
+  transition: border-color 0.15s;
+}
+.ops-card:hover {
+  border-color: var(--ops-border-2);
 }
 
-.ops-input {
-  width: 100%;
-  background: var(--ops-bg);
-  border: 1px solid var(--ops-border);
-  border-radius: 10px;
-  padding: 10px 14px;
-  color: var(--ops-text);
-  font-size: 14px;
-}
-
-.ops-input:focus {
-  outline: none;
-  border-color: var(--ops-green);
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
-}
-
-.ops-btn-primary {
-  background: var(--ops-green);
-  color: #052e16;
-  font-weight: 700;
-  border-radius: 10px;
-  padding: 12px 18px;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.ops-btn-primary:hover {
-  opacity: 0.92;
-}
-
-.ops-btn-ghost {
-  background: transparent;
-  color: var(--ops-text);
-  border: 1px solid var(--ops-border);
-  border-radius: 10px;
-  padding: 10px 16px;
-  cursor: pointer;
-}
-
-.ops-btn-ghost:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-/* ── Add these to your existing globals.css ──────────────────────────── */
-
-/* Responsive: hide desktop sidebar on mobile, show hamburger */
-@media (max-width: 1023px) {
-  .ops-sidebar-desktop {
-    display: none !important;
-  }
-  .ops-main-column {
-    margin-left: 0 !important;
-  }
-  .ops-menu-btn {
-    display: flex !important;
-  }
-}
-
-/* Stat cards — top accent border system */
+/* ── Stat cards ── */
 .ops-stat-card {
   background: var(--ops-surface);
   border: 1px solid var(--ops-border);
+  border-top: 3px solid transparent;
   border-radius: 12px;
   padding: 18px 20px;
-  border-top: 3px solid transparent;
-  transition: border-color 0.15s;
+  box-shadow: var(--ops-shadow);
+  transition: border-color 0.15s, transform 0.15s;
 }
-.ops-stat-card.green  { border-top-color: var(--ops-green); }
-.ops-stat-card.blue   { border-top-color: var(--ops-blue);  }
-.ops-stat-card.amber  { border-top-color: #f59e0b; }
-.ops-stat-card.purple { border-top-color: #a78bfa; }
-.ops-stat-card.red    { border-top-color: #ef4444; }
+.ops-stat-card:hover {
+  transform: translateY(-1px);
+}
+.ops-stat-card.green  { border-top-color: var(--ops-green);  }
+.ops-stat-card.blue   { border-top-color: var(--ops-blue);   }
+.ops-stat-card.amber  { border-top-color: var(--ops-amber);  }
+.ops-stat-card.red    { border-top-color: var(--ops-red);    }
+.ops-stat-card.purple { border-top-color: var(--ops-purple); }
 
 .ops-stat-label {
   font-size: 11px;
@@ -145,7 +217,96 @@
   margin-top: 4px;
 }
 
-/* Badge/pill utility */
+/* ── Buttons ── */
+.ops-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--ops-green);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.12s, transform 0.12s;
+  white-space: nowrap;
+}
+.ops-btn-primary:hover   { opacity: 0.88; }
+.ops-btn-primary:active  { transform: scale(0.97); }
+
+.ops-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--ops-border-2);
+  background: transparent;
+  color: var(--ops-text-2);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+.ops-btn-ghost:hover {
+  background: var(--ops-surface-2);
+  color: var(--ops-text);
+  border-color: var(--ops-border-2);
+}
+
+.ops-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(239,68,68,0.3);
+  background: transparent;
+  color: var(--ops-red);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.ops-btn-danger:hover {
+  background: rgba(239,68,68,0.08);
+}
+
+/* ── Form inputs ── */
+.ops-input {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--ops-border-2);
+  background: var(--ops-surface-2);
+  color: var(--ops-text);
+  font-size: 13.5px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+.ops-input:focus {
+  border-color: var(--ops-green);
+  box-shadow: 0 0 0 3px var(--ops-green-dim);
+}
+.ops-input::placeholder {
+  color: var(--ops-muted);
+}
+.ops-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+select.ops-input {
+  cursor: pointer;
+}
+
+/* ── Badges / pills ── */
 .ops-badge {
   display: inline-flex;
   align-items: center;
@@ -154,25 +315,182 @@
   padding: 3px 9px;
   border-radius: 6px;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
-.ops-badge-green  { background: rgba(34,197,94,0.12);  color: var(--ops-green); }
-.ops-badge-blue   { background: rgba(14,165,233,0.12); color: var(--ops-blue);  }
-.ops-badge-amber  { background: rgba(245,158,11,0.12); color: #f59e0b; }
-.ops-badge-red    { background: rgba(239,68,68,0.12);  color: #ef4444; }
-.ops-badge-purple { background: rgba(167,139,250,0.12);color: #a78bfa; }
-.ops-badge-muted  { background: var(--ops-surface-2);  color: var(--ops-muted); }
+.ops-badge-green  { background: var(--ops-green-dim);          color: var(--ops-green);  }
+.ops-badge-blue   { background: var(--ops-blue-dim);           color: var(--ops-blue);   }
+.ops-badge-amber  { background: rgba(245,158,11,0.12);         color: var(--ops-amber);  }
+.ops-badge-red    { background: rgba(239,68,68,0.12);          color: var(--ops-red);    }
+.ops-badge-purple { background: rgba(167,139,250,0.12);        color: var(--ops-purple); }
+.ops-badge-muted  { background: var(--ops-surface-2);          color: var(--ops-muted);  }
 
-/* Light theme adjustments for sidebar active state */
-.theme-light .ops-sidebar-desktop aside,
-.theme-light .ops-main-column header {
-  background: #ffffff;
+/* ── Table ── */
+.ops-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
 }
+.ops-table thead tr {
+  border-bottom: 1px solid var(--ops-border-2);
+}
+.ops-table thead th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ops-muted);
+  font-weight: 600;
+}
+.ops-table tbody tr {
+  border-bottom: 1px solid var(--ops-border);
+  transition: background 0.1s;
+}
+.ops-table tbody tr:hover {
+  background: var(--ops-surface-2);
+}
+.ops-table tbody td {
+  padding: 12px 14px;
+  color: var(--ops-text);
+  vertical-align: middle;
+}
+.ops-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* ── Section heading ── */
+.ops-section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ops-muted);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* ── Divider ── */
+.ops-divider {
+  height: 1px;
+  background: var(--ops-border);
+  margin: 20px 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — sidebar + topbar
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  .ops-sidebar-desktop {
+    display: none !important;
+  }
+  .ops-main-column {
+    margin-left: 0 !important;
+  }
+  .ops-menu-btn {
+    display: flex !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT THEME — surface overrides that can't use CSS vars alone
+   ═══════════════════════════════════════════════════════════════ */
+.theme-light .ops-card,
 .theme-light .ops-stat-card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.theme-light .ops-input {
   background: #ffffff;
 }
 
-/* Scrollbar styling — subtle */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--ops-border); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--ops-muted); }
+.theme-light .ops-btn-primary {
+  color: #ffffff;
+}
+
+/* Login page card should look right on light too */
+.theme-light .ops-login-card {
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.10);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLLBAR — subtle across all themes
+   ═══════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  {
+  background: var(--ops-border-2, rgba(255,255,255,0.14));
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ops-muted, rgba(255,255,255,0.40));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   THEME TOGGLE — pill button styles
+   (ThemeToggle.tsx uses inline styles but this is the fallback)
+   ═══════════════════════════════════════════════════════════════ */
+.ops-theme-toggle {
+  display: flex;
+  gap: 2px;
+  background: var(--ops-surface-2);
+  border: 1px solid var(--ops-border-2);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.ops-theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ops-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.ops-theme-btn.active {
+  background: var(--ops-surface);
+  color: var(--ops-text);
+  border-color: var(--ops-border-2);
+}
+
+.ops-theme-btn:hover:not(.active) {
+  color: var(--ops-text-2);
+  background: rgba(255,255,255,0.04);
+}
+
+.theme-light .ops-theme-btn:hover:not(.active) {
+  background: rgba(0,0,0,0.04);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATIONS — subtle, purposeful
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes ops-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.ops-fade-in {
+  animation: ops-fade-in 0.2s ease both;
+}
+
+@keyframes ops-pulse-dot {
+  0%,100% { opacity: 1;   }
+  50%      { opacity: 0.4; }
+}
+
+.ops-live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ops-green);
+  animation: ops-pulse-dot 2s ease-in-out infinite;
+}
