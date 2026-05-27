@@ -72,7 +72,6 @@ body {
   }
 }
 
-
 /* ── Add these to your existing globals.css ──────────────────────────── */
 
 /* Responsive: hide desktop sidebar on mobile, show hamburger */
@@ -155,3 +154,4 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--ops-border); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ops-muted); }
+

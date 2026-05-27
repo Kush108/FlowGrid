@@ -7,7 +7,7 @@ export default async function EmployeeLayout({ children }: { children: React.Rea
   const profile = await getCurrentProfile();
   if (!profile || profile.role !== 'employee') redirect(`${OPS_BASE}/login`);
   return (
-    <OpsShell profile={profile} mobile>
+    <OpsShell profile={profile}>
       {children}
     </OpsShell>
   );
