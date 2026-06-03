@@ -1,11 +1,11 @@
 import { getCurrentProfile } from '@/lib/sphinixops/session';
 import { redirect } from 'next/navigation';
 import { OPS_BASE } from '@/lib/sphinixops/constants';
-import { LeavePanel } from '@/components/sphinixops/LeavePanel';
+import { EmployeeVisitsList } from '@/components/sphinixops/EmployeeVisitsList';
 
-export default async function DirectorLeavePage() {
+export default async function EmployeeVisitsPage() {
   const profile = await getCurrentProfile();
   if (!profile) redirect(`${OPS_BASE}/login`);
 
-  return <LeavePanel profile={profile} mode="approve" />;
+  return <EmployeeVisitsList profile={profile} />;
 }

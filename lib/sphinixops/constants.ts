@@ -1,5 +1,9 @@
 export const OPS_BASE = '/sphinixops';
 
+/** Product name — Sphinx Healing field operations platform */
+export const APP_NAME = 'Shinx';
+export const COMPANY_NAME = 'Sphinx Healing Services';
+
 export const ROLES = ['director', 'hr', 'manager', 'employee'] as const;
 
 export type OpsRole = (typeof ROLES)[number];

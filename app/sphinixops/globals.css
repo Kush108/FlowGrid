@@ -368,6 +368,31 @@ select.ops-input {
   margin-bottom: 12px;
 }
 
+.ops-text-muted {
+  color: var(--ops-muted);
+}
+
+/* ── Compact theme switch (sun/moon icon) ── */
+.ops-theme-switch {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--ops-border);
+  background: transparent;
+  color: var(--ops-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  flex-shrink: 0;
+}
+.ops-theme-switch:hover {
+  background: var(--ops-surface-2);
+  color: var(--ops-text);
+  border-color: var(--ops-border-2);
+}
+
 /* ── Divider ── */
 .ops-divider {
   height: 1px;
@@ -425,49 +450,7 @@ select.ops-input {
   background: var(--ops-muted, rgba(255,255,255,0.40));
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   THEME TOGGLE — pill button styles
-   (ThemeToggle.tsx uses inline styles but this is the fallback)
-   ═══════════════════════════════════════════════════════════════ */
-.ops-theme-toggle {
-  display: flex;
-  gap: 2px;
-  background: var(--ops-surface-2);
-  border: 1px solid var(--ops-border-2);
-  border-radius: 10px;
-  padding: 3px;
-}
-
-.ops-theme-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 11px;
-  border-radius: 7px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--ops-muted);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-
-.ops-theme-btn.active {
-  background: var(--ops-surface);
-  color: var(--ops-text);
-  border-color: var(--ops-border-2);
-}
-
-.ops-theme-btn:hover:not(.active) {
-  color: var(--ops-text-2);
-  background: rgba(255,255,255,0.04);
-}
-
-.theme-light .ops-theme-btn:hover:not(.active) {
-  background: rgba(0,0,0,0.04);
-}
+/* Legacy theme toggle styles removed — use .ops-theme-switch */
 
 /* ═══════════════════════════════════════════════════════════════
    ANIMATIONS — subtle, purposeful

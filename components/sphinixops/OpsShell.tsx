@@ -16,14 +16,13 @@ import {
   Clock,
   Plane,
   Car,
-  Bell,
   ClipboardList,
 } from 'lucide-react';
 import { useState } from 'react';
 import type { Profile } from '@/lib/sphinixops/types';
-import { OPS_BASE } from '@/lib/sphinixops/constants';
-import { ThemeProvider } from '@/lib/sphinixops/theme';
+import { OPS_BASE, APP_NAME, COMPANY_NAME } from '@/lib/sphinixops/constants';
 import { ThemeToggle } from './ThemeToggle';
+import { NotificationBell } from './NotificationBell';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type NavItem = { href: string; label: string; icon: React.ReactNode };
@@ -157,7 +156,7 @@ function SidebarContent({
         </div>
         <div>
           <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--ops-text)', lineHeight: 1.2 }}>
-            Sphinx Healing
+            {COMPANY_NAME}
           </div>
           <div
             style={{
@@ -168,7 +167,7 @@ function SidebarContent({
               marginTop: 2,
             }}
           >
-            sphinixOps
+            {APP_NAME}
           </div>
         </div>
       </div>
@@ -345,49 +344,16 @@ function TopBar({
           <Menu size={20} />
         </button>
         <div style={{ fontSize: 13, color: 'var(--ops-muted)' }}>
-          sphinixOps
+          {APP_NAME}
           <span style={{ margin: '0 6px', opacity: 0.4 }}>/</span>
           <span style={{ color: 'var(--ops-text)', fontWeight: 500 }}>{pageTitle}</span>
         </div>
       </div>
 
       {/* Right: notifications + theme toggle + avatar */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <button
-          type="button"
-          aria-label="Notifications"
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: 8,
-            border: '1px solid var(--ops-border)',
-            background: 'transparent',
-            color: 'var(--ops-muted)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            position: 'relative',
-          }}
-        >
-          <Bell size={16} />
-          {/* notification dot */}
-          <span
-            style={{
-              position: 'absolute',
-              top: 7,
-              right: 7,
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: '#ef4444',
-              border: '1.5px solid var(--ops-surface)',
-            }}
-          />
-        </button>
-
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <NotificationBell />
         <ThemeToggle />
-
         <Avatar name={profile.fullName} size={32} />
       </div>
     </header>
@@ -447,11 +413,7 @@ export function OpsShell({
   };
 
   return (
-    <ThemeProvider>
-      <div
-        className="ops-root"
-        style={{ display: 'flex', minHeight: '100vh', background: 'var(--ops-bg)' }}
-      >
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--ops-bg)' }}>
         {/* ── Desktop sidebar (fixed, always visible ≥1024px) ── */}
         <aside
           style={{
@@ -560,6 +522,5 @@ export function OpsShell({
           </main>
         </div>
       </div>
-    </ThemeProvider>
   );
 }

@@ -82,3 +82,29 @@ export interface DirectorStats {
 export interface SiteOverview extends Site {
   staffOnShift: number;
 }
+
+export interface OpsNotification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'shift' | 'mileage' | 'leave' | 'visit' | 'alert';
+  createdAt: string;
+  read: boolean;
+  href?: string;
+  siteCode?: SiteCode;
+}
+
+export interface LeaveRequest {
+  id: string;
+  staffId: string;
+  staffName: string;
+  siteId: string | null;
+  type: 'vacation' | 'sick' | 'personal';
+  startDate: string;
+  endDate: string;
+  note?: string;
+  status: 'pending' | 'approved' | 'denied';
+  submittedAt: string;
+  reviewedBy?: string;
+  reviewedAt?: string;
+}

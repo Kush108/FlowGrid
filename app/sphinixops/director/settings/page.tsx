@@ -1,3 +1,5 @@
+import { APP_NAME } from '@/lib/sphinixops/constants';
+
 export default function DirectorSettingsPage() {
   return (
     <div>
@@ -26,8 +28,8 @@ export default function DirectorSettingsPage() {
         </div>
         <div className="ops-card p-5">
           <h2 className="font-semibold mb-2">BrightHR migration</h2>
-          <p className="text-sm text-white/55">
-            Phase 2: import staff roster and historical hours. sphinixOps becomes system of record for field ops; HRIS
+          <p className="text-sm ops-text-muted">
+            Phase 2: import staff roster and historical hours. {APP_NAME} becomes system of record for field ops; HRIS
             sync optional.
           </p>
         </div>

@@ -1,41 +1,38 @@
 import Link from 'next/link';
 import { MOCK_MILEAGE, MOCK_SITES } from '@/lib/sphinixops/mock-data';
-import { OPS_BASE } from '@/lib/sphinixops/constants';
-import { SITE_COLORS, type SiteCode } from '@/lib/sphinixops/constants';
+import { OPS_BASE, SITE_COLORS, type SiteCode } from '@/lib/sphinixops/constants';
 
-export default function DirectorReportsPage() {
+export default function HrReportsPage() {
   const pending = MOCK_MILEAGE.filter((m) => m.status === 'pending');
-  const hoursBySite = MOCK_SITES.map((s) => ({
+  const hoursBySite = MOCK_SITES.map((s, i) => ({
     site: s.name,
     code: s.code,
-    hours: [142, 68, 54, 48, 61, 39][MOCK_SITES.indexOf(s)] ?? 50,
+    hours: [142, 68, 54, 48, 61, 39][i] ?? 50,
   }));
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-2">Reports</h1>
-      <p className="ops-text-muted text-sm mb-6">Weekly mileage, hours by site, export-ready for funders and payroll</p>
+      <p className="ops-text-muted text-sm mb-6">Payroll-ready mileage and hours summaries for HR export</p>
 
       {pending.length > 0 && (
-        <div className="ops-card p-4 mb-6 border-[#f97316]/30 bg-[#f97316]/5">
-          <p className="font-semibold text-[#f97316]">{pending.length} pending mileage approvals</p>
-          <p className="text-sm text-white/55 mt-1">HR and site managers can approve; director has full visibility.</p>
-          <Link href={`${OPS_BASE}/hr/approvals`} className="text-sm text-[#0ea5e9] mt-2 inline-block hover:underline">
+        <div className="ops-card p-4 mb-6 border-[var(--ops-amber)]/30 bg-[var(--ops-amber)]/5">
+          <p className="font-semibold text-[var(--ops-amber)]">{pending.length} pending mileage approvals</p>
+          <Link href={`${OPS_BASE}/hr/approvals`} className="text-sm text-[var(--ops-blue)] mt-2 inline-block hover:underline">
             Open approvals queue →
           </Link>
         </div>
       )}
 
-      <h2 className="ops-section-title">Weekly mileage by employee</h2>
+      <h2 className="ops-section-title">Weekly mileage</h2>
       <div className="ops-card overflow-x-auto mb-8">
         <table className="ops-table">
           <thead>
             <tr>
               <th>Employee</th>
               <th>Site</th>
-              <th>Vehicle</th>
-              <th className="text-right">KM</th>
-              <th className="text-right">Reimbursement</th>
+              <th>KM</th>
+              <th>Reimbursement</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -49,23 +46,18 @@ export default function DirectorReportsPage() {
                     {m.siteCode.toUpperCase()}
                   </span>
                 </td>
-                <td className="capitalize">{m.vehicleType}</td>
-                <td className="text-right tabular-nums">{m.kmTotal}</td>
-                <td className="text-right tabular-nums">
+                <td className="tabular-nums">{m.kmTotal}</td>
+                <td className="tabular-nums">
                   {m.reimbursementEligible ? `$${m.reimbursementAmount.toFixed(2)}` : '—'}
                 </td>
-                <td>
-                  <span className={m.status === 'approved' ? 'text-[var(--ops-green)]' : 'text-[var(--ops-amber)]'}>
-                    {m.status}
-                  </span>
-                </td>
+                <td>{m.status}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <h2 className="ops-section-title">Hours worked per site this week</h2>
+      <h2 className="ops-section-title">Hours by site</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {hoursBySite.map((row) => (
           <div key={row.code} className="ops-card p-4 flex justify-between items-center">
@@ -76,15 +68,6 @@ export default function DirectorReportsPage() {
             <span className="text-xl font-bold text-[var(--ops-green)] tabular-nums">{row.hours}h</span>
           </div>
         ))}
-      </div>
-
-      <div className="mt-8 flex flex-wrap gap-3">
-        <button type="button" className="ops-btn-primary text-sm">
-          Export Excel (demo)
-        </button>
-        <button type="button" className="ops-btn-ghost text-sm">
-          Funder report PDF (demo)
-        </button>
       </div>
     </div>
   );

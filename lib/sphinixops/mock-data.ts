@@ -2,7 +2,9 @@ import { SITE_COLORS } from './constants';
 import type {
   ActivityEvent,
   DirectorStats,
+  LeaveRequest,
   MileageEntry,
+  OpsNotification,
   Profile,
   Shift,
   Site,
@@ -178,6 +180,88 @@ export const MOCK_ACTIVITY: ActivityEvent[] = [
   { id: 'a3', message: 'Tyler R. — shift started 7 AM, no punch-in yet', siteCode: 'main', createdAt: new Date(Date.now() - 600000).toISOString(), type: 'alert' },
   { id: 'a4', message: 'Visit log approved — Group Home AM (Danielle M.)', siteCode: 'f', createdAt: new Date(Date.now() - 900000).toISOString(), type: 'visit' },
   { id: 'a5', message: 'HR assigned shift — Family Living visit tomorrow (Danielle M.)', siteCode: 'b', createdAt: new Date(Date.now() - 1200000).toISOString(), type: 'shift' },
+];
+
+export const MOCK_NOTIFICATIONS: OpsNotification[] = [
+  {
+    id: 'n1',
+    title: 'Mileage pending approval',
+    message: 'James O. submitted 22 km (personal vehicle) — North Site PDD shift',
+    type: 'mileage',
+    createdAt: new Date(Date.now() - 180000).toISOString(),
+    read: false,
+    href: '/sphinixops/hr/approvals',
+    siteCode: 'b',
+  },
+  {
+    id: 'n2',
+    title: 'Missing punch-in',
+    message: 'Tyler R. has a 7 AM Group Care shift at Edmonton Main with no punch-in yet',
+    type: 'alert',
+    createdAt: new Date(Date.now() - 420000).toISOString(),
+    read: false,
+    href: '/sphinixops/manager/team',
+    siteCode: 'main',
+  },
+  {
+    id: 'n3',
+    title: 'Visit log submitted',
+    message: 'Danielle M. completed morning Group Care shift — visit note on file',
+    type: 'visit',
+    createdAt: new Date(Date.now() - 720000).toISOString(),
+    read: false,
+    href: '/sphinixops/director/reports',
+    siteCode: 'f',
+  },
+  {
+    id: 'n4',
+    title: 'Leave request',
+    message: 'Tyler R. requested vacation Jun 10–14 (pending HR review)',
+    type: 'leave',
+    createdAt: new Date(Date.now() - 3600000).toISOString(),
+    read: true,
+    href: '/sphinixops/hr/leave',
+    siteCode: 'main',
+  },
+  {
+    id: 'n5',
+    title: 'Shift assigned',
+    message: 'Family Living home visit scheduled for Danielle M. tomorrow 1:30 PM',
+    type: 'shift',
+    createdAt: new Date(Date.now() - 5400000).toISOString(),
+    read: true,
+    href: '/sphinixops/employee/shifts',
+    siteCode: 'b',
+  },
+];
+
+export const MOCK_LEAVE_REQUESTS: LeaveRequest[] = [
+  {
+    id: 'lv-1',
+    staffId: 'p-emp-2',
+    staffName: 'Tyler R.',
+    siteId: 's-main',
+    type: 'vacation',
+    startDate: '2026-06-10',
+    endDate: '2026-06-14',
+    note: 'Family trip — coverage arranged with James O.',
+    status: 'pending',
+    submittedAt: new Date(Date.now() - 86400000).toISOString(),
+  },
+  {
+    id: 'lv-2',
+    staffId: 'p-emp-3',
+    staffName: 'James O.',
+    siteId: 's-b',
+    type: 'sick',
+    startDate: '2026-05-28',
+    endDate: '2026-05-29',
+    note: 'Doctor appointment',
+    status: 'approved',
+    submittedAt: new Date(Date.now() - 172800000).toISOString(),
+    reviewedBy: 'Priya N.',
+    reviewedAt: new Date(Date.now() - 86400000).toISOString(),
+  },
 ];
 
 export function getDirectorStats(): DirectorStats {
