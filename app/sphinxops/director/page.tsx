@@ -29,7 +29,7 @@ export default async function DirectorDashboard() {
           {greeting()}, {profile?.fullName?.split(' ')[0] ?? 'Stephanie'}
         </h1>
         <p className="text-white/45 mt-2 text-sm">
-          Organization-wide view · 6 sites · 70+ field staff · replaces BrightHR gaps with fleet + visit logging
+          Organization-wide view · 6 sites · 70+ field staff · HR, fleet, CRM, auto payroll, and funder-ready reporting
         </p>
       </header>
 

@@ -5,7 +5,8 @@ import { APP_NAME, COMPANY_NAME } from '@/lib/sphinxops/constants';
 
 export const metadata: Metadata = {
   title: `${APP_NAME} — ${COMPANY_NAME}`,
-  description: 'Field operations, scheduling, mileage, and visit logs for Sphinx Healing Services.',
+  description:
+    'Sphinx Ops — workforce, fleet, CRM, payroll, and field programs for Sphinx Healing Services (sphinxhealing.org).',
   robots: { index: false, follow: false },
 };
 

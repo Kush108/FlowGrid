@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { MOCK_MILEAGE } from '@/lib/sphinixops/mock-data';
-import { SITE_COLORS } from '@/lib/sphinixops/constants';
-import type { MileageEntry } from '@/lib/sphinixops/types';
+import { MOCK_MILEAGE } from '@/lib/sphinxops/mock-data';
+import { SITE_COLORS } from '@/lib/sphinxops/constants';
+import type { MileageEntry } from '@/lib/sphinxops/types';
 
 export function ApprovalsQueue({ title }: { title?: string }) {
   const [items, setItems] = useState<MileageEntry[]>(MOCK_MILEAGE);

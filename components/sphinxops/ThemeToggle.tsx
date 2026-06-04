@@ -1,7 +1,7 @@
 'use client';
 
 import { Moon, Sun } from 'lucide-react';
-import { useTheme } from '@/lib/sphinixops/theme';
+import { useTheme } from '@/lib/sphinxops/theme';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();

@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { OPS_BASE } from '@/lib/sphinixops/constants';
+import { OPS_BASE } from '@/lib/sphinxops/constants';
 
 const DEMO_ACCOUNTS = [
   { id: 'p-dir', label: 'Stephanie R.', role: 'Director', desc: 'All sites · reports · settings' },
@@ -38,9 +38,10 @@ export function LoginForm() {
 
   return (
     <div className="ops-card p-6">
-      <p className="text-xs font-semibold uppercase tracking-wider text-[#22c55e] mb-4">Prototype demo access</p>
+      <p className="text-xs font-semibold uppercase tracking-wider text-[#22c55e] mb-4">Secure demo access</p>
       <p className="text-sm text-white/55 mb-5">
-        Select a role to preview the experience Stephanie requested. Production will use secure email login via Supabase.
+        Select a role to preview Sphinx Ops — scheduling, fleet, visit logs, CRM, and payroll workflows tailored for
+        Sphinx Healing Services. Production will use email login via Supabase.
       </p>
       <div className="space-y-2">
         {DEMO_ACCOUNTS.map((acc) => (

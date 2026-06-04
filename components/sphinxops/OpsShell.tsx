@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import {
   LayoutDashboard,
   Users,
@@ -17,10 +18,13 @@ import {
   Plane,
   Car,
   ClipboardList,
+  Truck,
+  Contact,
+  Wallet,
 } from 'lucide-react';
 import { useState } from 'react';
 import type { Profile } from '@/lib/sphinxops/types';
-import { OPS_BASE, APP_NAME, COMPANY_NAME } from '@/lib/sphinxops/constants';
+import { OPS_BASE, APP_NAME, COMPANY_NAME, LOGO_PATH } from '@/lib/sphinxops/constants';
 import { ThemeToggle } from './ThemeToggle';
 import { NotificationBell } from './NotificationBell';
 
@@ -36,6 +40,9 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { href: `${OPS_BASE}/director/schedule`,   label: 'Schedule',   icon: <CalendarDays size={17} /> },
     { href: `${OPS_BASE}/director/leave`,      label: 'Leave',      icon: <Plane size={17} /> },
     { href: `${OPS_BASE}/director/mileage`,    label: 'Mileage',    icon: <Car size={17} /> },
+    { href: `${OPS_BASE}/director/fleet`,     label: 'Fleet',      icon: <Truck size={17} /> },
+    { href: `${OPS_BASE}/director/crm`,       label: 'CRM',        icon: <Contact size={17} /> },
+    { href: `${OPS_BASE}/director/payroll`,   label: 'Payroll',    icon: <Wallet size={17} /> },
     { href: `${OPS_BASE}/director/reports`,    label: 'Reports',    icon: <FileBarChart size={17} /> },
     { href: `${OPS_BASE}/director/settings`,   label: 'Settings',   icon: <Settings size={17} /> },
   ],
@@ -143,16 +150,13 @@ function SidebarContent({
           style={{
             width: 38,
             height: 38,
-            borderRadius: 10,
-            background: 'linear-gradient(135deg, #0b5c63 0%, #22c55e 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 18,
+            borderRadius: '50%',
+            overflow: 'hidden',
             flexShrink: 0,
+            border: '1.5px solid rgba(34,197,94,0.35)',
           }}
         >
-          𓆣
+          <Image src={LOGO_PATH} alt="" width={38} height={38} className="object-cover w-full h-full" />
         </div>
         <div>
           <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--ops-text)', lineHeight: 1.2 }}>
@@ -373,6 +377,9 @@ function getPageTitle(pathname: string): string {
     schedule: 'Schedule',
     leave: 'Leave',
     mileage: 'Mileage',
+    fleet: 'Fleet',
+    crm: 'CRM',
+    payroll: 'Payroll',
     reports: 'Reports',
     settings: 'Settings',
     approvals: 'Approvals',

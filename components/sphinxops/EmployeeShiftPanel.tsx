@@ -2,9 +2,9 @@
 
 import { useMemo, useState } from 'react';
 import { Car, User, MapPin, Clock, FileText } from 'lucide-react';
-import { MOCK_SHIFTS, MOCK_TIME_ENTRIES } from '@/lib/sphinixops/mock-data';
-import { SITE_COLORS, VEHICLE_TYPES } from '@/lib/sphinixops/constants';
-import type { Profile, Shift } from '@/lib/sphinixops/types';
+import { MOCK_SHIFTS, MOCK_TIME_ENTRIES } from '@/lib/sphinxops/mock-data';
+import { SITE_COLORS, VEHICLE_TYPES } from '@/lib/sphinxops/constants';
+import type { Profile, Shift } from '@/lib/sphinxops/types';
 
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' });

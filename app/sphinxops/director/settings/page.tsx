@@ -27,11 +27,16 @@ export default function DirectorSettingsPage() {
           </label>
         </div>
         <div className="ops-card p-5">
-          <h2 className="font-semibold mb-2">BrightHR migration</h2>
-          <p className="text-sm ops-text-muted">
-            Phase 2: import staff roster and historical hours. {APP_NAME} becomes system of record for field ops; HRIS
-            sync optional.
+          <h2 className="font-semibold mb-2">Platform integrations</h2>
+          <p className="text-sm ops-text-muted mb-3">
+            {APP_NAME} replaces limited BrightHR workflows with fleet, CRM, payroll sync, and visit logging — while
+            optional HRIS import keeps historical rosters.
           </p>
+          <ul className="text-sm text-white/55 space-y-1.5 list-disc list-inside">
+            <li>BrightHR / roster CSV import (phase 2)</li>
+            <li>Payroll export — approved hours + mileage</li>
+            <li>Fleet telematics webhook (optional)</li>
+          </ul>
         </div>
       </div>
     </div>

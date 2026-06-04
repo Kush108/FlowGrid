@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { OPS_BASE } from '@/lib/sphinixops/constants';
-import type { Profile } from '@/lib/sphinixops/types';
+import { OPS_BASE } from '@/lib/sphinxops/constants';
+import type { Profile } from '@/lib/sphinxops/types';
 
 const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
   pending: { bg: 'rgba(234,179,8,0.12)', color: '#ca8a04' },

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { OPS_BASE, ROLE_HOME, SESSION_COOKIE, type OpsRole } from '@/lib/sphinixops/constants';
+import { OPS_BASE, ROLE_HOME, SESSION_COOKIE, type OpsRole } from '@/lib/sphinxops/constants';
 
 const PUBLIC_PATHS = [`${OPS_BASE}/login`, `${OPS_BASE}/api/auth`];
 
@@ -51,5 +51,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/sphinixops/:path*'],
+  matcher: ['/sphinxops/:path*'],
 };

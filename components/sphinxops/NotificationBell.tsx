@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Bell, Car, ClipboardList, Plane, AlertTriangle, Clock } from 'lucide-react';
-import { MOCK_NOTIFICATIONS } from '@/lib/sphinixops/mock-data';
-import { SITE_COLORS, type SiteCode } from '@/lib/sphinixops/constants';
-import type { OpsNotification } from '@/lib/sphinixops/types';
+import { MOCK_NOTIFICATIONS } from '@/lib/sphinxops/mock-data';
+import { SITE_COLORS, type SiteCode } from '@/lib/sphinxops/constants';
+import type { OpsNotification } from '@/lib/sphinxops/types';
 
 const TYPE_ICONS = {
   shift: Clock,

@@ -1,5 +1,5 @@
-import type { ActivityEvent } from '@/lib/sphinixops/types';
-import { SITE_COLORS, type SiteCode } from '@/lib/sphinixops/constants';
+import type { ActivityEvent } from '@/lib/sphinxops/types';
+import { SITE_COLORS, type SiteCode } from '@/lib/sphinxops/constants';
 
 function timeAgo(iso: string) {
   const sec = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);

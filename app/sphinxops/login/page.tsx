@@ -1,6 +1,8 @@
 import { LoginClient } from './LoginClient';
 import { ThemeToggle } from '@/components/sphinxops/ThemeToggle';
-import { APP_NAME, COMPANY_NAME } from '@/lib/sphinxops/constants';
+import { SphinxLogo } from '@/components/sphinxops/SphinxLogo';
+import { PlatformModules } from '@/components/sphinxops/PlatformModules';
+import { APP_TAGLINE, COMPANY_WEBSITE } from '@/lib/sphinxops/constants';
 
 export default function LoginPage() {
   return (
@@ -8,20 +10,28 @@ export default function LoginPage() {
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         <div className="text-center mb-8">
-          <div className="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0b5c63] to-[#22c55e] items-center justify-center text-2xl mb-4">
-            𓆣
-          </div>
-          <h1 className="text-2xl font-bold text-[var(--ops-text,#f1f5f9)]">{APP_NAME}</h1>
-          <p className="text-sm ops-text-muted mt-2 max-w-sm mx-auto">
-            Operations platform for {COMPANY_NAME} — scheduling, fleet mileage, visit logs, and
-            approvals across 6 sites. Programs include Group Care, Family Living, PDD, and Transition to Adulthood.
-          </p>
+          <SphinxLogo size={88} className="mx-auto mb-5" />
+          <p className="text-sm ops-text-muted mt-1 max-w-md mx-auto leading-relaxed">{APP_TAGLINE}</p>
+          <a
+            href={COMPANY_WEBSITE}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block text-xs text-[#22c55e] hover:underline mt-3"
+          >
+            sphinxhealing.org
+          </a>
         </div>
         <LoginClient />
+        <div className="mt-8">
+          <p className="text-xs font-semibold uppercase tracking-wider text-white/40 text-center mb-3">
+            More than BrightHR — built for Sphinx Healing
+          </p>
+          <PlatformModules compact />
+        </div>
         <p className="text-center text-xs text-white/35 mt-8">
-          Replaces limited BrightHR workflows · Built by{' '}
+          Powered by{' '}
           <a href="https://flowgrid.ca" className="text-[#22c55e] hover:underline">
             FlowGrid
           </a>

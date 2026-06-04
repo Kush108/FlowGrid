@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
-import { MOCK_PROFILES, MOCK_SHIFTS, MOCK_SITES } from '@/lib/sphinixops/mock-data';
-import { PROGRAMS, SITE_COLORS, type SiteCode } from '@/lib/sphinixops/constants';
-import type { Shift } from '@/lib/sphinixops/types';
+import { MOCK_PROFILES, MOCK_SHIFTS, MOCK_SITES } from '@/lib/sphinxops/mock-data';
+import { PROGRAMS, SITE_COLORS, type SiteCode } from '@/lib/sphinxops/constants';
+import type { Shift } from '@/lib/sphinxops/types';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 

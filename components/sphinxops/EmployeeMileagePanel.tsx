@@ -1,9 +1,9 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { MOCK_MILEAGE } from '@/lib/sphinixops/mock-data';
-import { SITE_COLORS } from '@/lib/sphinixops/constants';
-import type { Profile } from '@/lib/sphinixops/types';
+import { MOCK_MILEAGE } from '@/lib/sphinxops/mock-data';
+import { SITE_COLORS } from '@/lib/sphinxops/constants';
+import type { Profile } from '@/lib/sphinxops/types';
 
 export function EmployeeMileagePanel({ profile }: { profile: Profile }) {
   const entries = useMemo(

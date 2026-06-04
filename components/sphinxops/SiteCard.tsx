@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import type { SiteOverview } from '@/lib/sphinixops/types';
-import { OPS_BASE } from '@/lib/sphinixops/constants';
+import type { SiteOverview } from '@/lib/sphinxops/types';
+import { OPS_BASE } from '@/lib/sphinxops/constants';
 
 export function SiteCard({ site }: { site: SiteOverview }) {
   return (

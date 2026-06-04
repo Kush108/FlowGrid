@@ -1,6 +1,6 @@
-import { MOCK_MILEAGE } from '@/lib/sphinixops/mock-data';
-import { SITE_COLORS, type SiteCode } from '@/lib/sphinixops/constants';
-import type { MileageEntry } from '@/lib/sphinixops/types';
+import { MOCK_MILEAGE } from '@/lib/sphinxops/mock-data';
+import { SITE_COLORS, type SiteCode } from '@/lib/sphinxops/constants';
+import type { MileageEntry } from '@/lib/sphinxops/types';
 
 export function MileageTable({
   entries = MOCK_MILEAGE,

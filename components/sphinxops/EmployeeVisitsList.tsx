@@ -2,9 +2,9 @@
 
 import { useMemo } from 'react';
 import { FileText } from 'lucide-react';
-import { MOCK_SHIFTS, MOCK_TIME_ENTRIES } from '@/lib/sphinixops/mock-data';
-import { SITE_COLORS, PROGRAMS } from '@/lib/sphinixops/constants';
-import type { Profile } from '@/lib/sphinixops/types';
+import { MOCK_SHIFTS, MOCK_TIME_ENTRIES } from '@/lib/sphinxops/mock-data';
+import { SITE_COLORS, PROGRAMS } from '@/lib/sphinxops/constants';
+import type { Profile } from '@/lib/sphinxops/types';
 
 export function EmployeeVisitsList({ profile }: { profile: Profile }) {
   const visits = useMemo(() => {

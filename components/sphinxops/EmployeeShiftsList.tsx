@@ -2,9 +2,9 @@
 
 import { useMemo } from 'react';
 import { MapPin, Clock } from 'lucide-react';
-import { MOCK_SHIFTS } from '@/lib/sphinixops/mock-data';
-import { SITE_COLORS, PROGRAMS } from '@/lib/sphinixops/constants';
-import type { Profile } from '@/lib/sphinixops/types';
+import { MOCK_SHIFTS } from '@/lib/sphinxops/mock-data';
+import { SITE_COLORS, PROGRAMS } from '@/lib/sphinxops/constants';
+import type { Profile } from '@/lib/sphinxops/types';
 
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' });
