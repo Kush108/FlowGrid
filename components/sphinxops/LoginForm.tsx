@@ -50,7 +50,7 @@ export function LoginForm() {
             type="button"
             disabled={!!loading}
             onClick={() => signInDemo(acc.id)}
-            className="w-full text-left p-4 rounded-xl border border-white/[0.08] bg-[#0a1628]/50 hover:border-[#22c55e]/40 hover:bg-[#22c55e]/5 transition-colors disabled:opacity-50"
+            className="w-full text-left p-4 sm:p-4 rounded-xl border border-[var(--ops-border)] bg-[var(--ops-surface-2)] hover:border-[var(--ops-green)]/40 hover:bg-[var(--ops-green-dim)] transition-colors disabled:opacity-50 min-h-[72px] active:scale-[0.98]"
           >
             <div className="flex justify-between items-start gap-2">
               <div>

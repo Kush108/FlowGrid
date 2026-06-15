@@ -12,18 +12,18 @@ function timeAgo(iso: string) {
 
 export function ActivityFeed({ events }: { events: ActivityEvent[] }) {
   return (
-    <div className="ops-card divide-y divide-white/[0.06]">
-      <div className="px-4 py-3 font-semibold text-sm border-b border-white/[0.06]">Recent activity — all sites</div>
-      <ul className="max-h-80 overflow-y-auto">
+    <div className="ops-card divide-y divide-[var(--ops-border)]">
+      <div className="px-4 py-3 font-semibold text-sm border-b border-[var(--ops-border)]">Recent activity — all sites</div>
+      <ul className="max-h-80 overflow-y-auto -webkit-overflow-scrolling-touch">
         {events.map((e) => (
-          <li key={e.id} className="px-4 py-3 flex gap-3 text-sm">
+          <li key={e.id} className="px-4 py-3.5 flex gap-3 text-sm">
             <span
               className="w-2 h-2 rounded-full mt-1.5 shrink-0"
               style={{ background: SITE_COLORS[e.siteCode as SiteCode] ?? '#22c55e' }}
             />
             <div className="flex-1 min-w-0">
-              <p className="text-white/85 leading-snug">{e.message}</p>
-              <p className="text-xs text-white/40 mt-1">{timeAgo(e.createdAt)}</p>
+              <p className="text-[var(--ops-text)] leading-snug">{e.message}</p>
+              <p className="text-xs ops-text-muted mt-1">{timeAgo(e.createdAt)}</p>
             </div>
           </li>
         ))}

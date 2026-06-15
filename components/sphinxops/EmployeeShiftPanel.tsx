@@ -34,6 +34,7 @@ export function EmployeeShiftPanel({ profile }: { profile: Profile }) {
   const [toast, setToast] = useState('');
 
   const active = myShifts.find((s) => s.id === activeId);
+  const nextScheduled = myShifts.find((s) => (statuses[s.id] ?? s.status) === 'scheduled');
 
   function notify(msg: string) {
     setToast(msg);
@@ -57,17 +58,17 @@ export function EmployeeShiftPanel({ profile }: { profile: Profile }) {
     setActiveId(null);
     setVisitLog('');
     const km = Math.max(0, Number(kmEnd) - Number(kmStart));
-    const reimb = vehicle === 'personal';
     notify(
-      `Punched out — ${km} km logged (${vehicle === 'company' ? 'fleet only, no reimbursement' : `~$${(km * 0.7).toFixed(2)} pending approval`})`,
+      `Punched out — ${km} km logged (${vehicle === 'company' ? 'fleet only' : `~$${(km * 0.7).toFixed(2)} pending`})`,
     );
   }
 
   return (
-    <div className="max-w-lg mx-auto">
-      <header className="mb-6">
-        <h1 className="text-xl font-bold">Today&apos;s visits</h1>
-        <p className="text-sm text-white/45 mt-1">{profile.fullName}</p>
+    <div className="max-w-lg mx-auto pb-4">
+      <header className="mb-5 sm:mb-6">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--ops-green)] mb-1">Field dashboard</p>
+        <h1 className="text-xl sm:text-2xl font-bold">Today&apos;s visits</h1>
+        <p className="text-sm ops-text-muted mt-1">{profile.fullName}</p>
       </header>
 
       <div className="space-y-3 mb-6">
@@ -77,7 +78,7 @@ export function EmployeeShiftPanel({ profile }: { profile: Profile }) {
           return (
             <article
               key={s.id}
-              className={`ops-card p-4 ${st === 'completed' ? 'opacity-80' : ''} ${isActive ? 'ring-2 ring-[#22c55e]/50' : ''}`}
+              className={`ops-card p-4 sm:p-5 transition-all ${st === 'completed' ? 'opacity-75' : ''} ${isActive ? 'ring-2 ring-[var(--ops-green)]/40' : ''}`}
             >
               <span
                 className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
@@ -85,71 +86,83 @@ export function EmployeeShiftPanel({ profile }: { profile: Profile }) {
               >
                 {s.program.replace('_', ' ')}
               </span>
-              <h2 className="font-semibold mt-2">{s.title}</h2>
-              <p className="text-xs text-white/45 flex items-center gap-1 mt-1">
-                <MapPin size={12} />
+              <h2 className="font-semibold mt-2 text-base">{s.title}</h2>
+              <p className="text-xs ops-text-muted flex items-center gap-1.5 mt-1.5">
+                <MapPin size={13} className="shrink-0" />
                 {s.location}
               </p>
-              <p className="text-xs text-white/45 flex items-center gap-1 mt-1">
-                <Clock size={12} />
+              <p className="text-xs ops-text-muted flex items-center gap-1.5 mt-1">
+                <Clock size={13} className="shrink-0" />
                 {formatTime(s.startsAt)} – {formatTime(s.endsAt)}
               </p>
 
               {logs[s.id] && (
-                <p className="text-xs mt-3 p-2 rounded-lg bg-[#22c55e]/10 text-[#86efac] border border-[#22c55e]/20">
-                  <FileText size={12} className="inline mr-1" />
+                <p className="text-xs mt-3 p-3 rounded-lg bg-[var(--ops-green-dim)] text-[var(--ops-green)] border border-[var(--ops-green)]/20 leading-relaxed">
+                  <FileText size={12} className="inline mr-1.5 -mt-0.5" />
                   {logs[s.id]}
                 </p>
               )}
 
               {st === 'scheduled' && (
                 <button type="button" onClick={() => punchIn(s.id)} className="ops-btn-primary w-full mt-4 text-sm">
-                  Punch in
+                  Punch in now
                 </button>
               )}
 
               {st === 'in_progress' && isActive && (
-                <div className="mt-4 space-y-3 border-t border-white/[0.08] pt-4">
+                <div className="mt-4 space-y-4 border-t border-[var(--ops-border)] pt-4">
                   <div>
-                    <p className="text-xs text-white/45 mb-2">Vehicle for this trip</p>
+                    <p className="ops-section-title mb-2">Vehicle for this trip</p>
                     <div className="grid grid-cols-2 gap-2">
                       {VEHICLE_TYPES.map((v) => (
                         <button
                           key={v.id}
                           type="button"
                           onClick={() => setVehicle(v.id as 'company' | 'personal')}
-                          className={`p-3 rounded-xl border text-left text-xs ${
-                            vehicle === v.id ? 'border-[#22c55e] bg-[#22c55e]/10' : 'border-white/[0.08]'
+                          className={`p-3.5 rounded-xl border text-left text-xs min-h-[72px] transition-colors ${
+                            vehicle === v.id
+                              ? 'border-[var(--ops-green)] bg-[var(--ops-green-dim)]'
+                              : 'border-[var(--ops-border)]'
                           }`}
                         >
-                          {v.id === 'company' ? <Car size={16} className="mb-1" /> : <User size={16} className="mb-1" />}
+                          {v.id === 'company' ? <Car size={18} className="mb-1.5" /> : <User size={18} className="mb-1.5" />}
                           <div className="font-semibold">{v.label}</div>
-                          <div className="text-white/40 mt-0.5">{v.reimbursement ? 'Reimbursable KM' : 'Fleet tracking only'}</div>
+                          <div className="ops-text-muted mt-0.5">{v.reimbursement ? 'Reimbursable KM' : 'Fleet only'}</div>
                         </button>
                       ))}
                     </div>
                   </div>
 
                   {vehicle === 'personal' && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-xs text-white/45">
+                    <div className="grid grid-cols-2 gap-3">
+                      <label className="text-xs ops-text-muted">
                         Start KM
-                        <input value={kmStart} onChange={(e) => setKmStart(e.target.value)} className="ops-input mt-1" inputMode="numeric" />
+                        <input
+                          value={kmStart}
+                          onChange={(e) => setKmStart(e.target.value)}
+                          className="ops-input mt-1"
+                          inputMode="numeric"
+                        />
                       </label>
-                      <label className="text-xs text-white/45">
+                      <label className="text-xs ops-text-muted">
                         End KM
-                        <input value={kmEnd} onChange={(e) => setKmEnd(e.target.value)} className="ops-input mt-1" inputMode="numeric" />
+                        <input
+                          value={kmEnd}
+                          onChange={(e) => setKmEnd(e.target.value)}
+                          className="ops-input mt-1"
+                          inputMode="numeric"
+                        />
                       </label>
                     </div>
                   )}
 
-                  <label className="block text-xs text-white/45">
-                    Visit log <span className="text-[#f97316]">*</span> (required at client site)
+                  <label className="block text-xs ops-text-muted">
+                    Visit log <span className="text-[var(--ops-amber)]">*</span> (required at client site)
                     <textarea
                       value={visitLog}
                       onChange={(e) => setVisitLog(e.target.value)}
-                      rows={3}
-                      className="ops-input mt-1 resize-none"
+                      rows={4}
+                      className="ops-input mt-1.5 resize-none"
                       placeholder="What happened during this visit? Incidents, youth engagement, cultural activities…"
                     />
                   </label>
@@ -160,21 +173,33 @@ export function EmployeeShiftPanel({ profile }: { profile: Profile }) {
                 </div>
               )}
 
-              {st === 'completed' && <div className="mt-3 text-xs font-bold text-[#22c55e]">✓ Completed</div>}
+              {st === 'completed' && (
+                <div className="mt-3 text-xs font-bold text-[var(--ops-green)] flex items-center gap-1">
+                  ✓ Completed
+                </div>
+              )}
             </article>
           );
         })}
       </div>
 
-      {active && (
-        <p className="text-center text-xs text-white/35 mb-4">Employees can request schedule changes — manager/HR approves in Phase 2</p>
-      )}
-
-      {toast && (
-        <div className="fixed bottom-24 left-4 right-4 mx-auto max-w-lg bg-[#0f1f35] border border-[#22c55e]/30 text-white text-sm text-center py-3 px-4 rounded-xl z-50 shadow-xl">
-          {toast}
+      {nextScheduled && !active && (
+        <div className="ops-punch-bar lg:hidden">
+          <div className="min-w-0">
+            <p className="text-[10px] uppercase tracking-wider ops-text-muted font-semibold">Up next</p>
+            <p className="text-sm font-semibold truncate">{nextScheduled.title}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => punchIn(nextScheduled.id)}
+            className="ops-btn-primary text-sm shrink-0 px-4"
+          >
+            Punch in
+          </button>
         </div>
       )}
+
+      {toast && <div className="ops-toast">{toast}</div>}
     </div>
   );
 }

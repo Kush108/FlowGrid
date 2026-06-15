@@ -24,16 +24,16 @@ export default async function DirectorDashboard() {
 
   return (
     <div>
-      <header className="mb-8">
-        <h1 className="text-2xl lg:text-3xl font-bold text-[#f1f5f9]">
+      <header className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[var(--ops-text)]">
           {greeting()}, {profile?.fullName?.split(' ')[0] ?? 'Stephanie'}
         </h1>
-        <p className="text-white/45 mt-2 text-sm">
+        <p className="ops-text-muted mt-2 text-sm leading-relaxed">
           Organization-wide view · 6 sites · 70+ field staff · HR, fleet, CRM, auto payroll, and funder-ready reporting
         </p>
       </header>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8">
+      <div className="grid ops-stat-grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6 sm:mb-8">
         <StatCard label="Staff on shift now" value={stats.staffOnShift} sub="Across all programs" />
         <StatCard label="KM claimed this week" value={stats.kmThisWeek.toLocaleString()} accent="#0ea5e9" sub="Company + personal" />
         <StatCard
