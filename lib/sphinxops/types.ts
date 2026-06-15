@@ -21,11 +21,12 @@ export interface Profile {
 }
 
 export type ShiftStatus = 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+export type AssignmentType = 'assigned' | 'open';
 
 export interface Shift {
   id: string;
-  employeeId: string;
-  employeeName: string;
+  employeeId: string | null;
+  employeeName: string | null;
   siteId: string;
   siteCode: SiteCode;
   program: string;
@@ -36,6 +37,10 @@ export interface Shift {
   status: ShiftStatus;
   requiresVisitLog: boolean;
   notes?: string;
+  assignmentType: AssignmentType;
+  postedBy?: string;
+  postedAt?: string;
+  claimedAt?: string;
 }
 
 export type ApprovalStatus = 'pending' | 'approved' | 'rejected';

@@ -1,9 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { Car, User, MapPin, Clock, FileText } from 'lucide-react';
-import { MOCK_SHIFTS, MOCK_TIME_ENTRIES } from '@/lib/sphinxops/mock-data';
-import { SITE_COLORS, VEHICLE_TYPES } from '@/lib/sphinxops/constants';
+import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Car, User, MapPin, Clock, FileText, Sparkles, ChevronRight } from 'lucide-react';
+import { MOCK_TIME_ENTRIES } from '@/lib/sphinxops/mock-data';
+import { OPS_BASE, SITE_COLORS, VEHICLE_TYPES } from '@/lib/sphinxops/constants';
+import { getEmployeeShifts, isOpenShift } from '@/lib/sphinxops/shift-utils';
 import type { Profile, Shift } from '@/lib/sphinxops/types';
 
 function formatTime(iso: string) {
@@ -11,19 +13,39 @@ function formatTime(iso: string) {
 }
 
 export function EmployeeShiftPanel({ profile }: { profile: Profile }) {
+  const [allShifts, setAllShifts] = useState<Shift[]>([]);
+
+  const loadShifts = useCallback(async () => {
+    const res = await fetch(`${OPS_BASE}/api/shifts`);
+    if (res.ok) setAllShifts(await res.json());
+  }, []);
+
+  useEffect(() => {
+    loadShifts();
+  }, [loadShifts]);
+
   const myShifts = useMemo(
-    () => MOCK_SHIFTS.filter((s) => s.employeeId === profile.id).sort((a, b) => a.startsAt.localeCompare(b.startsAt)),
-    [profile.id],
+    () => getEmployeeShifts(allShifts, profile.id).sort((a, b) => a.startsAt.localeCompare(b.startsAt)),
+    [allShifts, profile.id],
   );
 
-  const [activeId, setActiveId] = useState<string | null>(() => myShifts.find((s) => s.status === 'in_progress')?.id ?? null);
+  const openCount = useMemo(
+    () => allShifts.filter((s) => isOpenShift(s) && s.siteId === profile.siteId).length,
+    [allShifts, profile.siteId],
+  );
+
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [vehicle, setVehicle] = useState<'company' | 'personal'>('company');
   const [kmStart, setKmStart] = useState('184220');
   const [kmEnd, setKmEnd] = useState('184226');
   const [visitLog, setVisitLog] = useState('');
-  const [statuses, setStatuses] = useState<Record<string, Shift['status']>>(() =>
-    Object.fromEntries(myShifts.map((s) => [s.id, s.status])),
-  );
+  const [statuses, setStatuses] = useState<Record<string, Shift['status']>>({});
+
+  useEffect(() => {
+    setStatuses(Object.fromEntries(myShifts.map((s) => [s.id, s.status])));
+    const inProgress = myShifts.find((s) => s.status === 'in_progress');
+    if (inProgress) setActiveId(inProgress.id);
+  }, [myShifts]);
   const [logs, setLogs] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
     MOCK_TIME_ENTRIES.filter((t) => t.employeeId === profile.id && t.visitLog).forEach((t) => {
@@ -70,6 +92,22 @@ export function EmployeeShiftPanel({ profile }: { profile: Profile }) {
         <h1 className="text-xl sm:text-2xl font-bold">Today&apos;s visits</h1>
         <p className="text-sm ops-text-muted mt-1">{profile.fullName}</p>
       </header>
+
+      {openCount > 0 && (
+        <Link
+          href={`${OPS_BASE}/employee/shifts?tab=open`}
+          className="ops-card p-4 mb-5 flex items-center gap-3 border border-[rgba(245,158,11,0.25)] bg-[rgba(245,158,11,0.06)] hover:bg-[rgba(245,158,11,0.1)] transition-colors"
+        >
+          <div className="w-10 h-10 rounded-xl bg-[rgba(245,158,11,0.15)] flex items-center justify-center text-[var(--ops-amber)] shrink-0">
+            <Sparkles size={20} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold text-sm">{openCount} open shift{openCount !== 1 ? 's' : ''} at your site</p>
+            <p className="text-xs ops-text-muted">Pick up extra coverage — tap to view &amp; accept</p>
+          </div>
+          <ChevronRight size={18} className="ops-text-muted shrink-0" />
+        </Link>
+      )}
 
       <div className="space-y-3 mb-6">
         {myShifts.map((s) => {

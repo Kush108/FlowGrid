@@ -6,9 +6,11 @@ import { OPS_BASE } from '@/lib/sphinxops/constants';
 
 const DEMO_ACCOUNTS = [
   { id: 'p-dir', label: 'Stephanie R.', role: 'Director', desc: 'All sites · reports · settings' },
-  { id: 'p-hr', label: 'Priya N.', role: 'HR', desc: 'Schedule builder · approvals' },
+  { id: 'p-hr', label: 'Priya N.', role: 'HR', desc: 'Schedule builder · post open shifts' },
   { id: 'p-mgr-main', label: 'Marcus T.', role: 'Site Manager', desc: 'Edmonton Main only' },
-  { id: 'p-emp-1', label: 'Danielle M.', role: 'Field Staff', desc: 'Mobile · visits · mileage' },
+  { id: 'p-emp-1', label: 'Danielle M.', role: 'Field Staff', desc: 'Central Site · claim open shifts' },
+  { id: 'p-emp-2', label: 'Tyler R.', role: 'Field Staff', desc: 'Edmonton Main · evening coverage open' },
+  { id: 'p-emp-3', label: 'James O.', role: 'Field Staff', desc: 'North Site · family living open shift' },
 ];
 
 export function LoginForm() {
