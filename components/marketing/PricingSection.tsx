@@ -18,12 +18,12 @@ export default function PricingSection() {
         <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
           <div className="text-xs tracking-[0.18em] uppercase text-brand-muted">TRANSPARENT PRICING</div>
           <h2 className="font-[var(--font-display)] mt-3 leading-tight" style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}>
-            Start for less than <br />
-            you spend on coffee <br />
-            for your team.
+            Priced for Alberta HVAC margins — <br />
+            not enterprise SaaS budgets.
           </h2>
           <p className="mt-4 text-brand-muted max-w-3xl mx-auto">
-            No surprise invoices. No per-feature upsells. One setup fee. One monthly seat price.
+            ServiceTitan charges $800–$2,000+/month for a 15-tech shop. FlowGrid starts at $299/mo with everything you
+            need — and a free working demo before you pay a cent.
           </p>
         </motion.div>
 
@@ -46,10 +46,18 @@ export default function PricingSection() {
               <Feature text="No commitment" />
             </ul>
             <a
-              href="#contact"
-              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+              href="/summitflow/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
             >
-              Get My Free Demo
+              Try SummitFlow Now
+            </a>
+            <a
+              href="#contact"
+              className="mt-2 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+            >
+              Get My Branded Demo
             </a>
           </motion.div>
 
@@ -70,10 +78,11 @@ export default function PricingSection() {
             </div>
             <div className="mt-2 text-xs text-brand-muted">Minimum $299/month</div>
             <ul className="mt-5 space-y-2">
-              <Feature text="Full working application" />
-              <Feature text="GPS mileage tracking" />
-              <Feature text="Live manager dashboard" />
-              <Feature text="Weekly Excel reports" />
+              <Feature text="Cold-snap dispatch board" />
+              <Feature text="Open-shift claiming for emergencies" />
+              <Feature text="Van + personal vehicle KM tracking" />
+              <Feature text="Job logs and warranty callbacks" />
+              <Feature text="Payroll export (hours + mileage)" />
               <Feature text="Custom domain setup" />
               <Feature text="30-day support included" />
             </ul>
@@ -118,7 +127,8 @@ export default function PricingSection() {
           viewport={{ once: true }}
           className="mt-8 text-center text-sm text-brand-muted"
         >
-          Honest comparison: QuickBooks Time and Deputy can be similar per-user pricing — but they won’t build around your workflow or handle GPS mileage per job the way FlowGrid does.
+          Honest comparison: ServiceTitan and Housecall Pro are powerful — but overkill and overpriced for a 10–20 tech
+          HVAC shop. FlowGrid is purpose-built for Alberta HVAC dispatch, fleet, and payroll.
         </motion.div>
       </div>
     </section>

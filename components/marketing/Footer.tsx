@@ -15,9 +15,11 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <FlowWordmark />
             </div>
-            <p className="mt-4 text-brand-muted leading-relaxed">Operational software for businesses that move.</p>
+            <p className="mt-4 text-brand-muted leading-relaxed">
+              Operational software for HVAC companies — dispatch, fleet, job logs, and payroll export.
+            </p>
             <p className="mt-3 text-brand-muted text-sm">
-              Built in Edmonton, serving businesses everywhere.
+              Built in Edmonton, Alberta. Applying to Edmonton Unlimited — niche ops software with live prototypes.
             </p>
             {hasSocial ? (
               <div className="mt-4 flex items-center gap-3 text-brand-muted">
@@ -48,25 +50,25 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="font-semibold text-brand-text/90">Services</div>
+            <div className="font-semibold text-brand-text/90">Platform</div>
             <div className="mt-4 space-y-2 text-brand-muted">
-              <a className="block hover:text-brand-text transition-colors" href="#services">
-                FieldTrack
+              <a className="block hover:text-brand-text transition-colors" href="#compare">
+                Dispatch &amp; scheduling
               </a>
-              <a className="block hover:text-brand-text transition-colors" href="#services">
-                BookingFlow
+              <a className="block hover:text-brand-text transition-colors" href="#compare">
+                Fleet &amp; mileage
               </a>
-              <a className="block hover:text-brand-text transition-colors" href="#services">
-                OpsDash
+              <a className="block hover:text-brand-text transition-colors" href="#compare">
+                Job logs &amp; CRM
               </a>
-              <a className="block hover:text-brand-text transition-colors" href="#services">
-                StaffHub
+              <a className="block hover:text-brand-text transition-colors" href="#compare">
+                Payroll export
               </a>
-              <a className="block hover:text-brand-text transition-colors" href="#services">
-                ClientPortal
+              <a className="block hover:text-brand-text transition-colors" href="/summitflow/login">
+                SummitFlow HVAC Demo
               </a>
-              <a className="block hover:text-brand-text transition-colors" href="#services">
-                Custom Build
+              <a className="block hover:text-brand-text transition-colors" href="/sphinxops/login">
+                Sphinx Ops Demo
               </a>
             </div>
           </div>
@@ -80,8 +82,8 @@ export default function Footer() {
               <a className="block hover:text-brand-text transition-colors" href="#pricing">
                 Pricing
               </a>
-              <a className="block hover:text-brand-text transition-colors" href="#demo">
-                Demo
+              <a className="block hover:text-brand-text transition-colors" href="#pilot">
+                Pilot Program
               </a>
               <a className="block hover:text-brand-text transition-colors" href="#contact">
                 Free Demo
@@ -104,11 +106,10 @@ export default function Footer() {
               Terms
             </a>
             <span>·</span>
-            <span>Built in Edmonton, CA</span>
+            <span>Edmonton, AB</span>
           </div>
         </div>
       </div>
     </footer>
   );
 }
-

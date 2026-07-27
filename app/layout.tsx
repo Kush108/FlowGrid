@@ -7,11 +7,11 @@ import Script from 'next/script';
 export const metadata: Metadata = {
   metadataBase: new URL('https://flowgrid.ca'),
   title: {
-    default: 'FlowGrid — FieldTrack for field teams (demo first)',
+    default: 'FlowGrid — HVAC operations software for Alberta (demo first)',
     template: '%s · FlowGrid',
   },
   description:
-    'FlowGrid builds operational software for businesses with field teams. FieldTrack is our flagship product for time + mileage + live status. We build a working demo in 48 hours — pay only if you love it.',
+    'FlowGrid builds operational software for HVAC companies — dispatch, fleet, job logs, and payroll export. Working prototype in 48 hours. From $299/mo. Built in Edmonton.',
   alternates: {
     canonical: '/',
   },
@@ -24,16 +24,16 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://flowgrid.ca/',
     siteName: 'FlowGrid',
-    title: 'FlowGrid — FieldTrack for field teams (demo first)',
+    title: 'FlowGrid — HVAC operations software for Alberta',
     description:
-      'FieldTrack is FlowGrid’s flagship product for time + mileage + live team status. Get a working demo in 48 hours — pay only if you love it.',
+      'Dispatch, fleet, job logs, and payroll export for HVAC companies. Working demo in 48 hours — pay only if you love it.',
     images: [{ url: '/logo-badge.svg' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FlowGrid — FieldTrack for field teams',
+    title: 'FlowGrid — HVAC operations software',
     description:
-      'FieldTrack is FlowGrid’s flagship product for time + mileage + live team status. Get a working demo in 48 hours — pay only if you love it.',
+      'Dispatch, fleet, job logs, and payroll export for HVAC companies. Working demo in 48 hours.',
     images: ['/logo-badge.svg'],
   },
 };
@@ -72,8 +72,8 @@ export default function RootLayout({
   const productLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'FieldTrack',
-    description: 'Time tracking, mileage per job, and live team status for field teams.',
+    name: 'FlowGrid for HVAC',
+    description: 'Dispatch, fleet, job logs, and payroll export built for Alberta HVAC companies.',
     brand: { '@type': 'Brand', name: 'FlowGrid' },
     url: 'https://flowgrid.ca/#demo',
   };

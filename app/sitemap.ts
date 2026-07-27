@@ -23,6 +23,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.2,
     },
+    {
+      url: `${base}/summitflow/login`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${base}/sphinxops/login`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
   ];
 }
 

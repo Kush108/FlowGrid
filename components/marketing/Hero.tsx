@@ -12,55 +12,55 @@ function TrustItem({ text }: { text: string }) {
   );
 }
 
+const DEMO_LINKS = [
+  { label: 'SummitFlow HVAC Demo', href: '/summitflow/login', tag: 'HVAC prototype' },
+  { label: 'Sphinx Ops Demo', href: '/sphinxops/login', tag: 'Social services (live)' },
+];
+
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
   const [leadCompany, setLeadCompany] = useState('');
-  const [leadIndustry, setLeadIndustry] = useState('');
   const [leadContactName, setLeadContactName] = useState('');
   const [leadCity, setLeadCity] = useState('Edmonton');
   const [copied, setCopied] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const demoUrl = '/fieldtrack-demo/';
+  const primaryDemoUrl = '/summitflow/login';
   const outreachDemoUrl = useMemo(() => {
-    const base = 'https://www.flowgrid.ca/fieldtrack-demo';
+    const base = 'https://www.flowgrid.ca/summitflow/login';
     const company = leadCompany.trim();
-    const industry = leadIndustry.trim();
     const params = new URLSearchParams();
-
     if (company) params.set('company', company);
-    if (industry) params.set('industry', industry);
-
     const query = params.toString();
     return query ? `${base}?${query}` : base;
-  }, [leadCompany, leadIndustry]);
+  }, [leadCompany]);
+
   const outreachSubject = useMemo(() => {
-    const company = leadCompany.trim() || 'your team';
-    return `How does ${company} track field staff hours right now?`;
+    const company = leadCompany.trim() || 'your HVAC shop';
+    return `How does ${company} handle dispatch when it hits -30°C?`;
   }, [leadCompany]);
 
   const outreachEmailBody = useMemo(() => {
     const contact = leadContactName.trim() || 'there';
     const company = leadCompany.trim() || 'your team';
-    const industry = leadIndustry.trim() || 'field services';
-    const city = leadCity.trim() || 'your area';
+    const city = leadCity.trim() || 'Edmonton';
 
     return [
       `Hi ${contact},`,
       '',
-      `I noticed ${company} runs a ${industry} team in ${city}.`,
-      "I'm guessing timesheets and mileage tracking are still more manual than you'd like.",
+      `I noticed ${company} runs HVAC crews in ${city}.`,
+      "I'm guessing dispatch, mileage, and payroll are still split across WhatsApp, whiteboards, and a generic app that wasn't built for HVAC.",
       '',
-      "I built a tool for exactly this. One Edmonton team cut payroll admin from hours to minutes with it.",
-      'I can do the same for you with a branded, working demo before you pay anything.',
+      'I built FlowGrid for exactly this — dispatch, fleet, job logs, and payroll export in one platform, priced for Alberta HVAC margins.',
+      'We build you a working branded demo in 48 hours before you pay anything.',
       '',
       `Your personalized demo: ${outreachDemoUrl}`,
       'Book a 15-minute walkthrough: https://calendly.com/flowgrid/15min',
       '',
       '- Kushal, FlowGrid',
     ].join('\n');
-  }, [leadCity, leadCompany, leadContactName, leadIndustry, outreachDemoUrl]);
+  }, [leadCity, leadCompany, leadContactName, outreachDemoUrl]);
 
   const outreachMailtoHref = useMemo(() => {
     const subject = encodeURIComponent(outreachSubject);
@@ -90,7 +90,6 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative min-h-[92vh] flex items-center overflow-hidden">
-      {/* Animated background (subtle city grid / mesh) */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute inset-0 opacity-[0.22]"
@@ -103,20 +102,9 @@ export default function Hero() {
           }}
         />
         <div
-          className="absolute inset-0 opacity-[0.16]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(34,197,94,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.08) 1px, transparent 1px)',
-            backgroundSize: '72px 72px',
-            animation: 'fg-grid 40s linear infinite',
-            animationDirection: 'reverse',
-            maskImage: 'radial-gradient(circle at 50% 35%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 74%)',
-          }}
-        />
-        <div
           className="absolute -top-24 -right-24 w-[520px] h-[520px] rounded-full"
           style={{
-            background: 'radial-gradient(circle at 30% 30%, rgba(34,197,94,.09), rgba(34,197,94,0) 62%)',
+            background: 'radial-gradient(circle at 30% 30%, rgba(249,115,22,.10), rgba(249,115,22,0) 62%)',
           }}
         />
         <div
@@ -141,7 +129,7 @@ export default function Hero() {
                 className="inline-block w-1.5 h-1.5 rounded-full bg-brand-green"
                 style={{ boxShadow: '0 0 0 rgba(34,197,94,0.45)', animation: 'pulse 1.8s ease-in-out infinite' }}
               />
-              Demo first. Pay after. No risk.
+              Built for Alberta HVAC · Demo first
             </motion.div>
 
             <motion.h1
@@ -154,7 +142,7 @@ export default function Hero() {
               className="font-[var(--font-display)] mt-5 leading-[0.95]"
               style={{ fontSize: 'clamp(36px, 7.5vw, 72px)' }}
             >
-              {['Your field team,', 'running like', 'it should.'].map((line, idx) => (
+              {['Your HVAC dispatch,', 'fleet, and payroll —', 'finally in one place.'].map((line, idx) => (
                 <motion.div
                   key={idx}
                   variants={{
@@ -164,7 +152,7 @@ export default function Hero() {
                 >
                   {idx === 2 ? (
                     <>
-                      it <span className="text-brand-green italic">should</span>.
+                      finally in <span className="text-brand-green italic">one place</span>.
                     </>
                   ) : (
                     line
@@ -180,7 +168,8 @@ export default function Hero() {
               className="mt-5 text-brand-muted leading-relaxed"
               style={{ fontSize: 'clamp(16px, 2.2vw, 20px)' }}
             >
-              FlowGrid builds operational software for businesses with field teams — staff tracking, mileage, scheduling, dashboards.
+              FlowGrid builds operational software for HVAC companies — cold-snap dispatch, van tracking, job logs, and
+              payroll export.
               <span className="text-brand-text/80"> We build your working demo first.</span> You only pay when you love it.
             </motion.p>
 
@@ -192,11 +181,11 @@ export default function Hero() {
             >
               <a
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
-                href={demoUrl}
+                href={primaryDemoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                See a Live Demo →
+                Try the HVAC Demo →
               </a>
               <a
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
@@ -204,6 +193,27 @@ export default function Hero() {
               >
                 Get Your Free Demo Built
               </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.58, ease: 'easeOut' }}
+              className="mt-4 flex flex-wrap gap-2"
+            >
+              {DEMO_LINKS.map((d) => (
+                <a
+                  key={d.href}
+                  href={d.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-border bg-brand-surface/60 text-xs text-brand-muted hover:text-brand-text hover:border-brand-green/30 transition-colors"
+                >
+                  <span className="text-brand-green">●</span>
+                  {d.label}
+                  <span className="text-brand-muted/70">({d.tag})</span>
+                </a>
+              ))}
             </motion.div>
 
             <motion.div
@@ -229,7 +239,7 @@ export default function Hero() {
                   type="text"
                   value={leadCompany}
                   onChange={(e) => setLeadCompany(e.target.value)}
-                  placeholder="Company name (e.g., Northern Home Care)"
+                  placeholder="Company name (e.g., Arctic Air HVAC)"
                   className="w-full rounded-xl border border-white/15 bg-brand-bg/40 px-3 py-2.5 text-sm text-brand-text placeholder:text-brand-muted/80 outline-none focus:border-brand-green/45"
                 />
                 <input
@@ -241,17 +251,10 @@ export default function Hero() {
                 />
                 <input
                   type="text"
-                  value={leadIndustry}
-                  onChange={(e) => setLeadIndustry(e.target.value)}
-                  placeholder="Industry (optional)"
-                  className="w-full rounded-xl border border-white/15 bg-brand-bg/40 px-3 py-2.5 text-sm text-brand-text placeholder:text-brand-muted/80 outline-none focus:border-brand-green/45"
-                />
-                <input
-                  type="text"
                   value={leadCity}
                   onChange={(e) => setLeadCity(e.target.value)}
                   placeholder="City (optional)"
-                  className="w-full rounded-xl border border-white/15 bg-brand-bg/40 px-3 py-2.5 text-sm text-brand-text placeholder:text-brand-muted/80 outline-none focus:border-brand-green/45"
+                  className="w-full rounded-xl border border-white/15 bg-brand-bg/40 px-3 py-2.5 text-sm text-brand-text placeholder:text-brand-muted/80 outline-none focus:border-brand-green/45 sm:col-span-2"
                 />
               </div>
               <div className="mt-3 rounded-xl border border-white/10 bg-brand-bg/35 px-3 py-2 font-[var(--font-mono)] text-[12px] text-brand-green break-all">
@@ -274,13 +277,10 @@ export default function Hero() {
                   Open Personalized Demo
                 </a>
               </div>
-              <div className="mt-3 rounded-xl border border-white/10 bg-brand-bg/35 px-3 py-2 text-[12px] text-brand-muted">
-                <span className="text-brand-text/80">Subject:</span> {outreachSubject}
-              </div>
               <textarea
                 value={outreachEmailBody}
                 readOnly
-                className="mt-2 min-h-[170px] w-full rounded-xl border border-white/10 bg-brand-bg/35 px-3 py-2 text-[12px] text-brand-muted outline-none"
+                className="mt-3 min-h-[140px] w-full rounded-xl border border-white/10 bg-brand-bg/35 px-3 py-2 text-[12px] text-brand-muted outline-none"
               />
               <div className="mt-2 flex flex-col sm:flex-row gap-2">
                 <button
@@ -300,12 +300,11 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Floating stat cards */}
           <div className="relative">
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
               {[
                 { k: '48h', v: 'Average demo delivery', delay: 0.25 },
-                { k: '$0', v: 'Cost to see your demo', delay: 0.45 },
+                { k: '$299', v: 'Starting monthly (15 techs)', delay: 0.45 },
                 { k: '1 week', v: 'From yes to live app', delay: 0.65 },
               ].map((c) => (
                 <motion.div
@@ -326,22 +325,23 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Demo preview area (browser frame + interactive iframe) */}
-        <div className="mt-12">
+        <div className="mt-12" id="demo-preview">
           <div className="fg-surface rounded-2xl overflow-hidden shadow-[0_12px_30px_rgba(0,0,0,.35)]">
             <div className="px-4 py-3 border-b border-brand-border flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
                 <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
                 <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                <span className="ml-3 text-xs text-brand-muted">FlowGrid Demo Preview</span>
+                <span className="ml-3 text-xs text-brand-muted">SummitFlow HVAC Demo — live prototype</span>
               </div>
-              <div className="text-xs text-brand-muted">← This is interactive. Click anything.</div>
+              <a href={primaryDemoUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-green hover:underline">
+                Open full screen →
+              </a>
             </div>
             <div className="bg-brand-surface">
               <iframe
-                title="FlowGrid live demo"
-                src={demoUrl}
+                title="SummitFlow HVAC live demo"
+                src={primaryDemoUrl}
                 className="w-full"
                 style={{ height: 520 }}
                 loading="lazy"
@@ -370,4 +370,3 @@ export default function Hero() {
     </section>
   );
 }
-

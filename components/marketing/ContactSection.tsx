@@ -102,8 +102,8 @@ export default function ContactSection() {
                       staffCount,
                       message: message || null,
                       website: website || null,
-                      systemName: 'FieldTrack',
-                      source: 'contact',
+                  systemName: 'FlowGrid HVAC',
+                  source: 'contact',
                     }),
                   });
 
@@ -167,13 +167,13 @@ export default function ContactSection() {
                   className="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-brand-border focus:outline-none focus:border-brand-green/50 text-brand-text"
                   name="industry"
                   required
-                  defaultValue=""
+                  defaultValue="HVAC & Plumbing"
                 >
                   <option value="" disabled>
                     Industry *
                   </option>
-                  <option>Home Care</option>
                   <option>HVAC & Plumbing</option>
+                  <option>Home Care</option>
                   <option>Cleaning Services</option>
                   <option>Security</option>
                   <option>Landscaping</option>
@@ -200,7 +200,7 @@ export default function ContactSection() {
                 className="w-full px-4 py-3 rounded-xl bg-brand-bg/40 border border-brand-border focus:outline-none focus:border-brand-green/50 text-brand-text resize-none"
                 name="message"
                 rows={5}
-                placeholder="Describe your biggest operational headache (optional)&#10;e.g. We manage 40 care workers and can’t track mileage properly for reimbursement..."
+                placeholder="Describe your biggest operational headache (optional)&#10;e.g. During cold snaps we lose track of who’s available — dispatch is WhatsApp + whiteboard and mileage never hits payroll..."
               />
 
               <button

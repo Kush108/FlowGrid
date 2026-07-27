@@ -5,18 +5,18 @@ import { motion } from 'framer-motion';
 const steps = [
   {
     n: '01',
-    title: 'Tell us your problem',
-    body: '15-minute call or email. No formal brief needed.',
+    title: 'Tell us about your shop',
+    body: '15-minute call. How many techs? What tools do you use now? What breaks during cold-snap season?',
   },
   {
     n: '02',
-    title: 'We build your demo',
-    body: '48 hours. Real working app. Your branding.',
+    title: 'We build your HVAC demo',
+    body: '48 hours. Real working app with your branding, job types, and service zones.',
   },
   {
     n: '03',
     title: 'You decide',
-    body: 'Love it → we deploy it. Don’t love it → you owe nothing.',
+    body: 'Love it → we deploy it live in a week. Don\'t love it → you owe nothing.',
   },
 ];
 
@@ -59,11 +59,12 @@ export default function HowItWorks() {
           className="mt-10 border border-brand-border bg-brand-surface rounded-2xl p-6"
         >
           <div className="border-l-4 border-brand-green pl-4 italic text-brand-text/85">
-            “Most software companies make you pay before you see anything real. We think that’s backwards.”
+            &ldquo;Most software companies make you sit through a sales demo and sign a contract before you see anything
+            real. We think that&apos;s backwards — especially for HVAC owners who need to see dispatch work during a
+            cold snap.&rdquo;
           </div>
         </motion.div>
       </div>
     </section>
   );
 }
-

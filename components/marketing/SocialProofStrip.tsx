@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 
-const pills = ['🏥 Home Care', '🔧 HVAC', '🧹 Cleaning', '🔒 Security', '🌿 Landscaping', '📦 Delivery'];
+const pills = ['❄️ HVAC', '🔧 Plumbing', '🏠 Home Services', '🚐 Fleet Ops', '📍 Edmonton', '🏔️ Alberta'];
 
 export default function SocialProofStrip() {
   return (
@@ -14,7 +14,7 @@ export default function SocialProofStrip() {
           viewport={{ once: true }}
           className="text-sm text-brand-muted"
         >
-          <span className="text-brand-text/85">Trusted by field service organizations in:</span>
+          <span className="text-brand-text/85">Purpose-built for field service in Alberta — starting with HVAC</span>
         </motion.div>
         <div className="flex flex-wrap justify-center gap-2">
           {pills.map((p) => (
@@ -30,4 +30,3 @@ export default function SocialProofStrip() {
     </section>
   );
 }
-

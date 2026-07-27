@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'flowgrid_announce_dismissed_v1';
+const STORAGE_KEY = 'flowgrid_announce_dismissed_v2';
 
 export default function AnnouncementBar() {
   const [visible, setVisible] = useState(false);
-  const demoUrl = '/fieldtrack-demo/';
 
   useEffect(() => {
     try {
@@ -32,15 +31,18 @@ export default function AnnouncementBar() {
             }}
           />
           <div className="text-brand-muted">
-            <span className="text-brand-text/90">New:</span>{' '}
-            FieldTrack now live for an Edmonton home care organization with 60+ staff —{' '}
+            <span className="text-brand-text/90">New:</span> SummitFlow HVAC prototype is live —{' '}
             <a
               className="text-brand-green hover:text-brand-green/90 transition-colors"
-              href={demoUrl}
+              href="/summitflow/login"
               target="_blank"
               rel="noopener noreferrer"
             >
-              See the demo →
+              Try the demo →
+            </a>
+            {' · '}
+            <a className="text-brand-green hover:text-brand-green/90 transition-colors" href="/sphinxops/login">
+              Sphinx Ops (social services)
             </a>
           </div>
         </div>
@@ -78,4 +80,3 @@ export default function AnnouncementBar() {
     </div>
   );
 }
-
