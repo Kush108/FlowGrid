@@ -6,7 +6,7 @@ import { APP_NAME, COMPANY_NAME } from '@/lib/hydroflo/constants';
 export const metadata: Metadata = {
   title: `${APP_NAME} — ${COMPANY_NAME}`,
   description:
-    'Hydroflo Ops — dispatch, fleet, jobs, and payroll for HVAC companies. A FlowGrid prototype demo.',
+    'SummitFlow Ops — workforce, fleet, CRM, payroll, and field programs for Summit Heating & Cooling (flowgrid.ca/summitflow).',
   robots: { index: false, follow: false },
   appleWebApp: {
     capable: true,
