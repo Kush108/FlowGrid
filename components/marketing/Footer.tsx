@@ -19,7 +19,7 @@ export default function Footer() {
               Operational software for HVAC companies — dispatch, fleet, job logs, and payroll export.
             </p>
             <p className="mt-3 text-brand-muted text-sm">
-              Built in Edmonton, Alberta. Applying to Edmonton Unlimited — niche ops software with live prototypes.
+              Built in Edmonton, Alberta — purpose-built HVAC ops software with a live demo you can click through today.
             </p>
             {hasSocial ? (
               <div className="mt-4 flex items-center gap-3 text-brand-muted">
@@ -66,9 +66,6 @@ export default function Footer() {
               </a>
               <a className="block hover:text-brand-text transition-colors" href="/summitflow/login">
                 SummitFlow HVAC Demo
-              </a>
-              <a className="block hover:text-brand-text transition-colors" href="/sphinxops/login">
-                Sphinx Ops Demo
               </a>
             </div>
           </div>

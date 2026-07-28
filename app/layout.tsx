@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: '%s · FlowGrid',
   },
   description:
-    'FlowGrid builds operational software for HVAC companies — dispatch, fleet, job logs, and payroll export. Working prototype in 48 hours. From $299/mo. Built in Edmonton.',
+    'FlowGrid builds operational software for HVAC companies — dispatch, fleet, job logs, and payroll export. Working prototype in 48 hours. From ~$355/mo for a typical 15-tech shop. Built in Edmonton.',
   alternates: {
     canonical: '/',
   },

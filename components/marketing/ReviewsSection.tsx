@@ -5,17 +5,17 @@ import { useEffect, useState } from 'react';
 import { useOnceInView } from '@/components/marketing/useOnceInView';
 
 function Counter({ to, label, prefix = '' }: { to: number; label: string; prefix?: string }) {
-  const { ref, inView } = useOnceInView<HTMLDivElement>({ threshold: 0.12, rootMargin: '0px 0px -12% 0px' });
-  const [v, setV] = useState(0);
+  const { ref, inView } = useOnceInView<HTMLDivElement>({ threshold: 0.05, rootMargin: '0px 0px 8% 0px' });
+  const [v, setV] = useState(to);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || hasAnimated) return;
+    setHasAnimated(true);
 
-    if (to === 0) {
-      setV(0);
-      return;
-    }
+    if (to === 0) return;
 
+    setV(0);
     const duration = 900;
     const t0 = performance.now();
     const tick = (t: number) => {
@@ -25,11 +25,11 @@ function Counter({ to, label, prefix = '' }: { to: number; label: string; prefix
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
-  }, [inView, to]);
+  }, [inView, to, hasAnimated]);
 
   return (
     <div ref={ref} className="rounded-2xl p-6 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]">
-      <div className="font-[var(--font-mono)] text-brand-green text-3xl">
+      <div className="font-[var(--font-mono)] text-brand-green text-3xl" aria-live="polite">
         {prefix}
         {v}
       </div>
@@ -41,13 +41,13 @@ function Counter({ to, label, prefix = '' }: { to: number; label: string; prefix
 const workflows = [
   {
     icon: '❄️',
-    title: 'HVAC dispatch under pressure',
-    body: 'Cold-snap open-shift board, emergency claiming, van tracking, and payroll export — modeled in the SummitFlow prototype.',
+    title: 'Cold-snap dispatch board',
+    body: 'Open-shift claiming, emergency routing, and van availability — built for Edmonton winters, not a generic calendar.',
   },
   {
-    icon: '🏠',
-    title: 'Multi-site home care ops',
-    body: 'Scheduling, visit logs, fleet reimbursement, and funder-ready reports — modeled in the Sphinx Ops prototype.',
+    icon: '🚐',
+    title: 'Fleet & payroll in one export',
+    body: 'Van and personal vehicle KM, job logs, and hours roll into a payroll-ready weekly summary — no more spreadsheet glue.',
   },
   {
     icon: '🛠️',
@@ -66,8 +66,8 @@ export default function ReviewsSection() {
             Live prototypes — not slide decks.
           </h2>
           <p className="mt-4 text-brand-muted max-w-3xl">
-            FlowGrid ships working demos per vertical so prospects and partners can evaluate the product themselves.
-            We&apos;re pre-revenue and onboarding founding pilot partners now.
+            FlowGrid ships working HVAC demos so owners can evaluate dispatch, fleet, and payroll themselves — before any
+            contract. We&apos;re pre-revenue and onboarding founding pilot partners in Edmonton now.
           </p>
         </motion.div>
 

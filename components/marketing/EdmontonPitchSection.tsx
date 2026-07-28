@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 
+import { typicalShopMonthly } from '@/lib/marketing/pricing';
+
 const proof = [
   {
     stat: '2',
@@ -14,9 +16,9 @@ const proof = [
     detail: 'Branded prototype before any contract — how we win skeptical HVAC owners.',
   },
   {
-    stat: '$299',
-    label: 'Entry price vs $800–2k',
-    detail: 'Purpose-built for 10–20 tech shops — not enterprise field-service bloat.',
+    stat: `$${typicalShopMonthly()}`,
+    label: 'Typical HVAC shop / mo',
+    detail: '15 techs + 1 manager — purpose-built for Alberta margins, not enterprise bloat.',
   },
 ];
 

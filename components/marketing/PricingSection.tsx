@@ -1,6 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import {
+  EXAMPLE_MANAGER_COUNT,
+  EXAMPLE_TECH_COUNT,
+  FIELD_STAFF_MONTHLY,
+  MANAGER_MONTHLY,
+  PLATFORM_MINIMUM,
+  SETUP_FEE,
+  shopMonthlyWithMinimum,
+  typicalShopMonthly,
+} from '@/lib/marketing/pricing';
 
 function Feature({ text }: { text: string }) {
   return (
@@ -12,6 +22,9 @@ function Feature({ text }: { text: string }) {
 }
 
 export default function PricingSection() {
+  const typicalTotal = typicalShopMonthly();
+  const withMinimum = shopMonthlyWithMinimum();
+
   return (
     <section id="pricing" className="py-20">
       <div className="max-w-6xl mx-auto px-4">
@@ -22,8 +35,9 @@ export default function PricingSection() {
             not enterprise SaaS budgets.
           </h2>
           <p className="mt-4 text-brand-muted max-w-3xl mx-auto">
-            ServiceTitan charges $800–$2,000+/month for a 15-tech shop. FlowGrid starts at $299/mo with everything you
-            need — and a free working demo before you pay a cent.
+            ServiceTitan charges $800–$2,000+/month for a 15-tech shop. A typical FlowGrid shop ({EXAMPLE_TECH_COUNT} techs +{' '}
+            {EXAMPLE_MANAGER_COUNT} manager) runs about <span className="text-brand-text/85">${typicalTotal}/mo</span> — field
+            staff at ${FIELD_STAFF_MONTHLY}/tech, manager seats at ${MANAGER_MONTHLY}/mo, billed separately.
           </p>
         </motion.div>
 
@@ -53,11 +67,9 @@ export default function PricingSection() {
             </a>
             <a
               href="/summitflow/login"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors text-sm"
+              className="mt-2 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors text-sm min-h-[44px]"
             >
-              Or explore SummitFlow prototype
+              Or explore SummitFlow demo
             </a>
           </motion.div>
 
@@ -72,11 +84,15 @@ export default function PricingSection() {
               MOST POPULAR
             </div>
             <div className="text-xs text-brand-muted tracking-[0.18em] uppercase">LAUNCH</div>
-            <div className="mt-3 font-[var(--font-mono)] text-4xl text-brand-text">$500</div>
+            <div className="mt-3 font-[var(--font-mono)] text-4xl text-brand-text">${typicalTotal}</div>
             <div className="mt-2 text-brand-muted">
-              setup, then <span className="text-brand-text/85">$18/field staff + $85/manager</span> per month
+              typical / mo for {EXAMPLE_TECH_COUNT} techs + {EXAMPLE_MANAGER_COUNT} manager
             </div>
-            <div className="mt-2 text-xs text-brand-muted">Minimum $299/month</div>
+            <div className="mt-2 text-xs text-brand-muted leading-relaxed">
+              ${SETUP_FEE} setup, then ${FIELD_STAFF_MONTHLY}/field tech + ${MANAGER_MONTHLY}/manager seat. Platform minimum $
+              {PLATFORM_MINIMUM}/mo on field staff (applies to smaller teams — e.g. ${withMinimum}/mo with minimum on{' '}
+              {EXAMPLE_TECH_COUNT} techs).
+            </div>
             <ul className="mt-5 space-y-2">
               <Feature text="Cold-snap dispatch board" />
               <Feature text="Open-shift claiming for emergencies" />
@@ -88,7 +104,7 @@ export default function PricingSection() {
             </ul>
             <a
               href="#contact"
-              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors animate-glow-pulse"
+              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors animate-glow-pulse min-h-[44px]"
             >
               Start With a Demo First
             </a>
@@ -107,14 +123,13 @@ export default function PricingSection() {
             <ul className="mt-5 space-y-2">
               <Feature text="Everything in Launch" />
               <Feature text="Scheduling + approvals" />
-              <Feature text="Funder/government reports" />
               <Feature text="Multi-location support" />
               <Feature text="Payroll integrations" />
               <Feature text="Dedicated support" />
             </ul>
             <a
               href="#contact"
-              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
+              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors min-h-[44px]"
             >
               Get a Custom Quote
             </a>
@@ -125,13 +140,14 @@ export default function PricingSection() {
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-8 text-center text-sm text-brand-muted"
+          className="mt-8 text-center text-sm text-brand-muted max-w-3xl mx-auto"
         >
-          Honest comparison: ServiceTitan and Housecall Pro are powerful — but overkill and overpriced for a 10–20 tech
-          HVAC shop. FlowGrid is purpose-built for Alberta HVAC dispatch, fleet, and payroll.
+          Example: {EXAMPLE_TECH_COUNT} techs × ${FIELD_STAFF_MONTHLY} = ${EXAMPLE_TECH_COUNT * FIELD_STAFF_MONTHLY} +{' '}
+          {EXAMPLE_MANAGER_COUNT} manager × ${MANAGER_MONTHLY} = <span className="text-brand-text/85">${typicalTotal}/mo</span>.
+          Manager seats are billed separately. Honest comparison: ServiceTitan and Housecall Pro are powerful — but overkill
+          for a 10–20 tech HVAC shop.
         </motion.div>
       </div>
     </section>
   );
 }
-

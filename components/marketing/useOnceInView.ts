@@ -18,8 +18,8 @@ export function useOnceInView<T extends Element>(options?: IntersectionObserverI
         obs.disconnect();
       },
       {
-        threshold: options?.threshold ?? 0.15,
-        rootMargin: options?.rootMargin ?? '0px 0px -10% 0px',
+        threshold: options?.threshold ?? 0.08,
+        rootMargin: options?.rootMargin ?? '0px 0px 5% 0px',
       }
     );
 

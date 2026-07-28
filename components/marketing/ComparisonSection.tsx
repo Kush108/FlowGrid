@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { typicalShopMonthly } from '@/lib/marketing/pricing';
 
 const rows = [
   {
@@ -26,7 +27,7 @@ const rows = [
   {
     feature: 'Monthly cost (15 techs)',
     generic: '$800–$2,000+/mo (ServiceTitan, Housecall Pro, etc.)',
-    flowgrid: 'From $299/mo — built for Alberta HVAC margins',
+    flowgrid: `~$${typicalShopMonthly()}/mo (15 techs + 1 manager) — built for Alberta HVAC margins`,
   },
   {
     feature: 'See it before you pay',

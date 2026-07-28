@@ -12,7 +12,6 @@ import DemoShowcaseSection from '@/components/marketing/DemoShowcaseSection';
 import PricingSection from '@/components/marketing/PricingSection';
 import PilotProgramSection from '@/components/marketing/PilotProgramSection';
 import ReviewsSection from '@/components/marketing/ReviewsSection';
-import EdmontonPitchSection from '@/components/marketing/EdmontonPitchSection';
 import ContactSection from '@/components/marketing/ContactSection';
 import Footer from '@/components/marketing/Footer';
 
@@ -31,7 +30,6 @@ export default function Home() {
       <ReviewsSection />
       <PricingSection />
       <PilotProgramSection />
-      <EdmontonPitchSection />
       <ContactSection />
       <Footer />
     </main>

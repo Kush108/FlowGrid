@@ -1,6 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import {
+  EXAMPLE_MANAGER_COUNT,
+  EXAMPLE_TECH_COUNT,
+  FIELD_STAFF_MONTHLY,
+  MANAGER_MONTHLY,
+  PLATFORM_MINIMUM,
+  SETUP_FEE,
+  typicalShopMonthly,
+} from '@/lib/marketing/pricing';
 import { useEffect, useState } from 'react';
 
 function TrustItem({ text }: { text: string }) {
@@ -118,8 +127,6 @@ export default function Hero() {
               <a
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
                 href={primaryDemoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 Try SummitFlow Demo
               </a>
@@ -141,7 +148,7 @@ export default function Hero() {
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
               {[
                 { k: '48h', v: 'Average demo delivery', delay: 0.25 },
-                { k: '$299', v: 'Starting monthly (15 techs)', delay: 0.45 },
+                { k: `$${typicalShopMonthly()}`, v: `Typical monthly (${EXAMPLE_TECH_COUNT} techs + ${EXAMPLE_MANAGER_COUNT} manager)`, delay: 0.45 },
                 { k: '1 week', v: 'From yes to live app', delay: 0.65 },
               ].map((c) => (
                 <motion.div
@@ -171,7 +178,7 @@ export default function Hero() {
                 <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
                 <span className="ml-3 text-xs text-brand-muted">SummitFlow HVAC Demo — interactive prototype</span>
               </div>
-              <a href={primaryDemoUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-green hover:underline">
+              <a href={primaryDemoUrl} className="text-xs text-brand-green hover:underline">
                 Open full screen →
               </a>
             </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { EXAMPLE_MANAGER_COUNT, EXAMPLE_TECH_COUNT, typicalShopMonthly } from '@/lib/marketing/pricing';
 
 const reasons = [
   {
@@ -16,7 +17,7 @@ const reasons = [
   {
     icon: '💰',
     title: 'Affordable for real margins',
-    body: 'Enterprise field service tools charge $100+/user/month. FlowGrid starts at $299/mo for the whole team — priced for independent HVAC shops, not Fortune 500.',
+    body: `Enterprise field service tools charge $100+/user/month. A typical ${EXAMPLE_TECH_COUNT}-tech shop with ${EXAMPLE_MANAGER_COUNT} manager runs ~$${typicalShopMonthly()}/mo on FlowGrid — priced for independent HVAC shops, not Fortune 500.`,
   },
   {
     icon: '⚡',
@@ -26,7 +27,7 @@ const reasons = [
   {
     icon: '📍',
     title: 'Built in Edmonton',
-    body: 'Local founder, local support, Alberta compliance (CRA mileage, provincial labour). Applying to Edmonton Unlimited.',
+    body: 'Local founder, local support, Alberta compliance (CRA mileage, provincial labour). Your ops software should be built here — not imported from California.',
   },
   {
     icon: '🔗',

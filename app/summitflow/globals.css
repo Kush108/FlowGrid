@@ -946,6 +946,43 @@ select.ops-input {
   border-color: rgba(0,0,0,0.10);
 }
 
+/* Login shell — inherit ops theme tokens */
+.ops-login-page {
+  background: var(--ops-bg);
+  color: var(--ops-text);
+}
+
+/* Map legacy hardcoded Tailwind white opacity text to theme tokens in light mode */
+.theme-light .text-white\/35,
+.theme-light .text-white\/40,
+.theme-light .text-white\/45 {
+  color: var(--ops-muted) !important;
+}
+
+.theme-light .text-white\/55,
+.theme-light .text-white\/60,
+.theme-light .text-white\/70 {
+  color: var(--ops-text-2) !important;
+}
+
+.theme-light .text-white\/90 {
+  color: var(--ops-text) !important;
+}
+
+.theme-light .text-\[\#f1f5f9\] {
+  color: var(--ops-text) !important;
+}
+
+.theme-light .ops-drawer-close {
+  border-color: var(--ops-border-2);
+  background: var(--ops-surface-2);
+  color: var(--ops-text);
+}
+
+.theme-light .ops-sidebar-link:hover {
+  background: var(--ops-surface-2);
+}
+
 /* ═══════════════════════════════════════════════════════════════
    SCROLLBAR — subtle across all themes
    ═══════════════════════════════════════════════════════════════ */

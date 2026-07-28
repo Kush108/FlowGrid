@@ -6,7 +6,7 @@ import { APP_TAGLINE, COMPANY_WEBSITE } from '@/lib/summitflow/constants';
 
 export default function LoginPage() {
   return (
-    <div className="ops-login-page min-h-screen min-h-[100dvh] flex flex-col items-center justify-center px-4 py-12 bg-[var(--ops-bg,#0a1628)] relative">
+    <div className="ops-login-page min-h-screen min-h-[100dvh] flex flex-col items-center justify-center px-4 py-12 relative">
       <div className="ops-login-theme absolute top-4 right-4">
         <ThemeToggle />
       </div>
@@ -18,7 +18,7 @@ export default function LoginPage() {
             href={COMPANY_WEBSITE}
             target="_blank"
             rel="noreferrer"
-            className="inline-block text-xs text-[#22c55e] hover:underline mt-3"
+            className="inline-block text-xs text-[var(--ops-green)] hover:underline mt-3"
           >
             flowgrid.ca/summitflow
           </a>
@@ -30,9 +30,9 @@ export default function LoginPage() {
           </p>
           <PlatformModules compact />
         </div>
-        <p className="text-center text-xs text-white/35 mt-8">
+        <p className="text-center text-xs ops-text-muted mt-8">
           Powered by{' '}
-          <a href="https://flowgrid.ca" className="text-[#22c55e] hover:underline">
+          <a href="https://flowgrid.ca" className="text-[var(--ops-green)] hover:underline">
             FlowGrid
           </a>
         </p>

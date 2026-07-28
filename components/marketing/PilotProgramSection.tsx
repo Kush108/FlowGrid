@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { EXAMPLE_TECH_COUNT, typicalShopMonthly } from '@/lib/marketing/pricing';
 
 export default function PilotProgramSection() {
   return (
@@ -21,14 +22,13 @@ export default function PilotProgramSection() {
           className="mt-10 rounded-2xl p-6 sm:p-8 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]"
         >
           <p className="text-brand-text/90 leading-relaxed max-w-3xl">
-            FlowGrid is applying to Edmonton Unlimited with two live prototypes — SummitFlow for HVAC and Sphinx Ops for
-            social services. We&apos;re onboarding 3 Edmonton HVAC companies as founding pilot partners — full platform,
-            white-glove setup, and locked-in pricing in exchange for feedback that shapes the product.
+            FlowGrid is onboarding 3 Edmonton HVAC companies as founding pilot partners
+            — full platform, white-glove setup, and locked-in pricing in exchange for feedback that shapes the product.
           </p>
           <ul className="mt-6 space-y-3 text-brand-text/85">
             {[
               'Full setup included ($500 value, waived for pilots)',
-              'Locked-in rate: from $299/mo for up to 15 technicians',
+              `Locked-in rate: ~$${typicalShopMonthly()}/mo for ${EXAMPLE_TECH_COUNT} technicians + 1 manager`,
               'Branded demo built before you commit — your logo, your job types',
               'Direct line to the founder for support and feature requests',
             ].map((text) => (
@@ -47,11 +47,9 @@ export default function PilotProgramSection() {
             </a>
             <a
               href="/summitflow/login"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors text-sm"
+              className="inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors text-sm"
             >
-              Explore prototype first
+              Explore demo first
             </a>
           </div>
         </motion.div>

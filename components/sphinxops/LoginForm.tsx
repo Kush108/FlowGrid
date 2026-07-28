@@ -39,11 +39,11 @@ export function LoginForm() {
   }
 
   return (
-    <div className="ops-card p-6">
-      <p className="text-xs font-semibold uppercase tracking-wider text-[#22c55e] mb-4">Secure demo access</p>
-      <p className="text-sm text-white/55 mb-5">
-        Select a role to preview Sphinx Ops — scheduling, fleet, visit logs, CRM, and payroll workflows tailored for
-        Sphinx Healing Services. Production will use email login via Supabase.
+    <div className="ops-card ops-login-card p-6">
+      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--ops-green)] mb-4">Secure demo access</p>
+      <p className="text-sm ops-text-muted mb-5 leading-relaxed">
+        Select a role to preview Sphinx Ops — scheduling, fleet, visit logs, CRM, and payroll workflows tailored for Sphinx
+        Healing Services. Production will use email login via Supabase.
       </p>
       <div className="space-y-2">
         {DEMO_ACCOUNTS.map((acc) => (
@@ -56,20 +56,20 @@ export function LoginForm() {
           >
             <div className="flex justify-between items-start gap-2">
               <div>
-                <div className="font-semibold text-[#f1f5f9]">{acc.label}</div>
-                <div className="text-xs text-[#22c55e] font-medium mt-0.5">{acc.role}</div>
-                <div className="text-xs text-white/40 mt-1">{acc.desc}</div>
+                <div className="font-semibold text-[var(--ops-text)]">{acc.label}</div>
+                <div className="text-xs text-[var(--ops-green)] font-medium mt-0.5">{acc.role}</div>
+                <div className="text-xs ops-text-muted mt-1">{acc.desc}</div>
               </div>
-              {loading === acc.id && <span className="text-xs text-white/45">…</span>}
+              {loading === acc.id && <span className="text-xs ops-text-muted">…</span>}
             </div>
           </button>
         ))}
       </div>
-      {error && <p className="text-sm text-red-400 mt-4">{error}</p>}
-      <p className="text-[11px] text-white/35 mt-6 leading-relaxed">
-        Confidential client data is not stored in this demo. Mock data reflects Sphinx programs: Group Care, Family
-        Living, PDD, and Transition to Adulthood per{' '}
-        <a href="https://sphinxhealing.org/our-services/" className="text-[#0ea5e9] hover:underline" target="_blank" rel="noreferrer">
+      {error && <p className="text-sm text-[var(--ops-red)] mt-4">{error}</p>}
+      <p className="text-[11px] ops-text-muted mt-6 leading-relaxed">
+        Confidential client data is not stored in this demo. Mock data reflects Sphinx programs: Group Care, Family Living,
+        PDD, and Transition to Adulthood per{' '}
+        <a href="https://sphinxhealing.org/our-services/" className="text-[var(--ops-blue)] hover:underline" target="_blank" rel="noreferrer">
           sphinxhealing.org
         </a>
         .

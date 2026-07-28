@@ -55,8 +55,6 @@ export default function NavBar() {
             <a
               className="text-sm text-brand-muted hover:text-brand-text transition-colors"
               href="/summitflow/login"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Try Demo
             </a>
@@ -103,8 +101,6 @@ export default function NavBar() {
                   <a
                     className="block py-2 text-lg text-brand-green"
                     href="/summitflow/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     onClick={() => setOpen(false)}
                   >
                     Try HVAC Demo

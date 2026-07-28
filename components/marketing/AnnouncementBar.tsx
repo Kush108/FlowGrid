@@ -31,18 +31,9 @@ export default function AnnouncementBar() {
             }}
           />
           <div className="text-brand-muted">
-            <span className="text-brand-text/90">New:</span> SummitFlow HVAC prototype is live —{' '}
-            <a
-              className="text-brand-green hover:text-brand-green/90 transition-colors"
-              href="/summitflow/login"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Try the demo →
-            </a>
-            {' · '}
-            <a className="text-brand-green hover:text-brand-green/90 transition-colors" href="/sphinxops/login">
-              Sphinx Ops (social services prototype)
+            <span className="text-brand-text/90">Now live:</span> SummitFlow HVAC demo —{' '}
+            <a className="text-brand-green hover:text-brand-green/90 transition-colors" href="/summitflow/login">
+              Try it free →
             </a>
           </div>
         </div>

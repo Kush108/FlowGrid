@@ -5,19 +5,11 @@ import { motion } from 'framer-motion';
 const demos = [
   {
     name: 'SummitFlow Ops',
-    tag: 'HVAC prototype',
-    desc: 'Fictional Edmonton HVAC company (Summit Heating & Cooling) — dispatch, emergency calls, fleet, job logs, and payroll. Built to show investors and HVAC owners what FlowGrid looks like in their world.',
+    tag: 'Live HVAC demo',
+    desc: 'Fictional Edmonton HVAC company (Summit Heating & Cooling) — cold-snap dispatch, emergency calls, fleet mileage, job logs, and payroll export. Log in as Owner, Dispatch Lead, or Technician.',
     href: '/summitflow/login',
     color: '#0ea5e9',
     features: ['Cold-snap dispatch board', 'Open-shift claiming', 'Van + personal vehicle KM', 'Warranty callback tracking'],
-  },
-  {
-    name: 'Sphinx Ops',
-    tag: 'Social services prototype',
-    desc: 'Interactive prototype modeled on a 60+ staff home care workflow — scheduling, fleet, visit logs, and multi-site management across Edmonton.',
-    href: '/sphinxops/login',
-    color: '#22c55e',
-    features: ['Multi-site scheduling', 'Trauma-informed visit logs', 'Fleet reimbursement', 'Funder-ready reports'],
   },
 ];
 
@@ -32,7 +24,7 @@ export default function DemoShowcaseSection() {
       />
       <div className="max-w-6xl mx-auto px-4 relative">
         <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
-          <div className="text-xs tracking-[0.18em] uppercase text-brand-muted">LIVE PROTOTYPES</div>
+          <div className="text-xs tracking-[0.18em] uppercase text-brand-muted">LIVE DEMO</div>
           <h2
             className="font-[var(--font-display)] mt-3 leading-tight italic text-brand-green"
             style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}
@@ -42,12 +34,12 @@ export default function DemoShowcaseSection() {
             Click in and explore.
           </h2>
           <p className="mt-4 text-brand-muted max-w-3xl mx-auto">
-            FlowGrid builds working demos for each niche. Pick a role, log in as Owner, Dispatch Lead, or Technician — and
-            see dispatch, fleet, and payroll in action. No sales call required.
+            SummitFlow is our working HVAC prototype — pick a role and see dispatch, fleet, and payroll in action. No sales
+            call required.
           </p>
         </motion.div>
 
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="mt-10 max-w-3xl mx-auto">
           {demos.map((demo) => (
             <motion.div
               key={demo.name}
@@ -77,21 +69,24 @@ export default function DemoShowcaseSection() {
                 </ul>
                 <a
                   href={demo.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
+                  className="mt-5 inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
                 >
-                  Explore {demo.name} →
+                  Open SummitFlow Demo →
                 </a>
               </div>
-              <div className="bg-brand-bg/30">
+              <div className="bg-brand-bg/30 relative">
                 <iframe
                   title={`${demo.name} live demo`}
                   src={demo.href}
                   className="w-full"
-                  style={{ height: 420 }}
+                  style={{ height: 480 }}
                   loading="lazy"
                 />
+                <div className="absolute inset-0 flex items-end justify-center pb-4 pointer-events-none sm:hidden">
+                  <span className="text-xs text-brand-muted bg-brand-bg/80 px-3 py-1.5 rounded-full border border-brand-border">
+                    Tap &quot;Open SummitFlow Demo&quot; above for full screen on mobile
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
