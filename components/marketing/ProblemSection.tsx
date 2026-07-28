@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { serviceTitanMonthlyLabel, SERVICETITAN_SETUP } from '@/lib/marketing/competitors';
 
 function ProblemCard({
   icon,
@@ -61,7 +62,7 @@ export default function ProblemSection() {
           <ProblemCard
             icon="💸"
             title="You're paying enterprise prices for generic tools"
-            body="ServiceTitan runs $800–$2,000+/month for a 15-tech shop. You're paying for features you'll never use — while still re-keying hours into payroll every two weeks."
+            body={`ServiceTitan runs ${serviceTitanMonthlyLabel()} for a 15-tech shop, plus ${SERVICETITAN_SETUP} in setup fees. You're paying enterprise prices for features you'll never use — while still re-keying hours into payroll every two weeks.`}
           />
         </div>
 

@@ -1,7 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import {
+  housecallProMonthlyLabel,
+  serviceTitanMonthlyLabel,
+  SERVICETITAN_SETUP,
+} from '@/lib/marketing/competitors';
 import { typicalShopMonthly } from '@/lib/marketing/pricing';
+
+const flowgridCost = `~$${typicalShopMonthly()}/mo (15 techs + 1 manager)`;
 
 const rows = [
   {
@@ -25,9 +32,14 @@ const rows = [
     flowgrid: 'Approved hours + drive time → one-click payroll export',
   },
   {
-    feature: 'Monthly cost (15 techs)',
-    generic: '$800–$2,000+/mo (ServiceTitan, Housecall Pro, etc.)',
-    flowgrid: `~$${typicalShopMonthly()}/mo (15 techs + 1 manager) — built for Alberta HVAC margins`,
+    feature: 'ServiceTitan (15 techs)',
+    generic: `${serviceTitanMonthlyLabel()} + ${SERVICETITAN_SETUP} setup`,
+    flowgrid: flowgridCost,
+  },
+  {
+    feature: 'Housecall Pro MAX (15 users)',
+    generic: `${housecallProMonthlyLabel()} (MAX plan + extra users beyond 8 included)`,
+    flowgrid: flowgridCost,
   },
   {
     feature: 'See it before you pay',

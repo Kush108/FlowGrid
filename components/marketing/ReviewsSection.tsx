@@ -1,38 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { useOnceInView } from '@/components/marketing/useOnceInView';
 
-function Counter({ to, label, prefix = '' }: { to: number; label: string; prefix?: string }) {
-  const { ref, inView } = useOnceInView<HTMLDivElement>({ threshold: 0.05, rootMargin: '0px 0px 8% 0px' });
-  const [v, setV] = useState(to);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    if (!inView || hasAnimated) return;
-    setHasAnimated(true);
-
-    if (to === 0) return;
-
-    setV(0);
-    const duration = 900;
-    const t0 = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setV(Math.round(to * eased));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [inView, to, hasAnimated]);
-
+function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div ref={ref} className="rounded-2xl p-6 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]">
-      <div className="font-[var(--font-mono)] text-brand-green text-3xl" aria-live="polite">
-        {prefix}
-        {v}
-      </div>
+    <div className="rounded-2xl p-6 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]">
+      <div className="font-[var(--font-mono)] text-brand-green text-3xl">{value}</div>
       <div className="text-sm text-brand-muted mt-1">{label}</div>
     </div>
   );
@@ -89,10 +62,10 @@ export default function ReviewsSection() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Counter to={48} label="Hour demo delivery" />
-          <Counter to={0} label="$ to see demo" prefix="$" />
-          <Counter to={2} label="Live niche prototypes" />
-          <Counter to={3} label="Pilot spots available" />
+          <StatCard value="48" label="Hour demo delivery" />
+          <StatCard value="$0" label="$ to see demo" />
+          <StatCard value="2" label="Live niche prototypes" />
+          <StatCard value="3" label="Pilot spots available" />
         </div>
       </div>
     </section>

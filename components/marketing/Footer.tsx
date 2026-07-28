@@ -73,6 +73,9 @@ export default function Footer() {
           <div>
             <div className="font-semibold text-brand-text/90">Company</div>
             <div className="mt-4 space-y-2 text-brand-muted">
+              <a className="block hover:text-brand-text transition-colors" href="#about">
+                About
+              </a>
               <a className="block hover:text-brand-text transition-colors" href="#how">
                 How It Works
               </a>

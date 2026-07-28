@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { EXAMPLE_MANAGER_COUNT, EXAMPLE_TECH_COUNT, typicalShopMonthly } from '@/lib/marketing/pricing';
 
 const reasons = [
   {
@@ -13,11 +12,6 @@ const reasons = [
     icon: '🛠️',
     title: 'Demo first, always',
     body: 'Before you sign anything, we build a working prototype with your branding and job types. Click through dispatch, fleet, and payroll — then decide.',
-  },
-  {
-    icon: '💰',
-    title: 'Affordable for real margins',
-    body: `Enterprise field service tools charge $100+/user/month. A typical ${EXAMPLE_TECH_COUNT}-tech shop with ${EXAMPLE_MANAGER_COUNT} manager runs ~$${typicalShopMonthly()}/mo on FlowGrid — priced for independent HVAC shops, not Fortune 500.`,
   },
   {
     icon: '⚡',

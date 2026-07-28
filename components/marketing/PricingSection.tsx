@@ -2,6 +2,10 @@
 
 import { motion } from 'framer-motion';
 import {
+  housecallProMonthlyLabel,
+  serviceTitanMonthlyLabel,
+} from '@/lib/marketing/competitors';
+import {
   EXAMPLE_MANAGER_COUNT,
   EXAMPLE_TECH_COUNT,
   FIELD_STAFF_MONTHLY,
@@ -35,7 +39,8 @@ export default function PricingSection() {
             not enterprise SaaS budgets.
           </h2>
           <p className="mt-4 text-brand-muted max-w-3xl mx-auto">
-            ServiceTitan charges $800–$2,000+/month for a 15-tech shop. A typical FlowGrid shop ({EXAMPLE_TECH_COUNT} techs +{' '}
+            ServiceTitan runs {serviceTitanMonthlyLabel()} for {EXAMPLE_TECH_COUNT} techs. Housecall Pro MAX is{' '}
+            {housecallProMonthlyLabel()} for {EXAMPLE_TECH_COUNT} users. A typical FlowGrid shop ({EXAMPLE_TECH_COUNT} techs +{' '}
             {EXAMPLE_MANAGER_COUNT} manager) runs about <span className="text-brand-text/85">${typicalTotal}/mo</span> — field
             staff at ${FIELD_STAFF_MONTHLY}/tech, manager seats at ${MANAGER_MONTHLY}/mo, billed separately.
           </p>
@@ -144,8 +149,8 @@ export default function PricingSection() {
         >
           Example: {EXAMPLE_TECH_COUNT} techs × ${FIELD_STAFF_MONTHLY} = ${EXAMPLE_TECH_COUNT * FIELD_STAFF_MONTHLY} +{' '}
           {EXAMPLE_MANAGER_COUNT} manager × ${MANAGER_MONTHLY} = <span className="text-brand-text/85">${typicalTotal}/mo</span>.
-          Manager seats are billed separately. Honest comparison: ServiceTitan and Housecall Pro are powerful — but overkill
-          for a 10–20 tech HVAC shop.
+          Manager seats are billed separately. ServiceTitan and Housecall Pro are powerful — but priced and built for
+          different scales than a 10–20 tech independent HVAC shop.
         </motion.div>
       </div>
     </section>

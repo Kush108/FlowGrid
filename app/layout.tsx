@@ -27,14 +27,14 @@ export const metadata: Metadata = {
     title: 'FlowGrid — HVAC operations software for Alberta',
     description:
       'Dispatch, fleet, job logs, and payroll export for HVAC companies. Working demo in 48 hours — pay only if you love it.',
-    images: [{ url: '/logo-badge.svg' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'FlowGrid HVAC dispatch board' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'FlowGrid — HVAC operations software',
     description:
       'Dispatch, fleet, job logs, and payroll export for HVAC companies. Working demo in 48 hours.',
-    images: ['/logo-badge.svg'],
+    images: ['/opengraph-image'],
   },
 };
 
@@ -67,15 +67,38 @@ export default function RootLayout({
     name: 'FlowGrid',
     url: 'https://flowgrid.ca/',
     email: 'hello@flowgrid.ca',
+    founder: {
+      '@type': 'Person',
+      name: 'Kushal Grover',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Edmonton',
+      addressRegion: 'AB',
+      addressCountry: 'CA',
+    },
   };
 
-  const productLd = {
+  const softwareLd = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'SoftwareApplication',
     name: 'FlowGrid for HVAC',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
     description: 'Dispatch, fleet, job logs, and payroll export built for Alberta HVAC companies.',
-    brand: { '@type': 'Brand', name: 'FlowGrid' },
+    offers: {
+      '@type': 'Offer',
+      price: '355',
+      priceCurrency: 'CAD',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '355',
+        priceCurrency: 'CAD',
+        unitText: 'MONTH',
+      },
+    },
     url: 'https://flowgrid.ca/#demo',
+    provider: { '@type': 'Organization', name: 'FlowGrid' },
   };
 
   return (
@@ -97,7 +120,7 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareLd) }}
         />
         {children}
       </body>
