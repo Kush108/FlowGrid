@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function TrustItem({ text }: { text: string }) {
   return (
@@ -12,81 +12,11 @@ function TrustItem({ text }: { text: string }) {
   );
 }
 
-const DEMO_LINKS = [
-  { label: 'SummitFlow HVAC Demo', href: '/summitflow/login', tag: 'HVAC prototype' },
-  { label: 'Sphinx Ops Demo', href: '/sphinxops/login', tag: 'Social services (live)' },
-];
+const primaryDemoUrl = '/summitflow/login';
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
-  const [leadCompany, setLeadCompany] = useState('');
-  const [leadContactName, setLeadContactName] = useState('');
-  const [leadCity, setLeadCity] = useState('Edmonton');
-  const [copied, setCopied] = useState(false);
-  const [emailCopied, setEmailCopied] = useState(false);
   useEffect(() => setMounted(true), []);
-
-  const primaryDemoUrl = '/summitflow/login';
-  const outreachDemoUrl = useMemo(() => {
-    const base = 'https://www.flowgrid.ca/summitflow/login';
-    const company = leadCompany.trim();
-    const params = new URLSearchParams();
-    if (company) params.set('company', company);
-    const query = params.toString();
-    return query ? `${base}?${query}` : base;
-  }, [leadCompany]);
-
-  const outreachSubject = useMemo(() => {
-    const company = leadCompany.trim() || 'your HVAC shop';
-    return `How does ${company} handle dispatch when it hits -30°C?`;
-  }, [leadCompany]);
-
-  const outreachEmailBody = useMemo(() => {
-    const contact = leadContactName.trim() || 'there';
-    const company = leadCompany.trim() || 'your team';
-    const city = leadCity.trim() || 'Edmonton';
-
-    return [
-      `Hi ${contact},`,
-      '',
-      `I noticed ${company} runs HVAC crews in ${city}.`,
-      "I'm guessing dispatch, mileage, and payroll are still split across WhatsApp, whiteboards, and a generic app that wasn't built for HVAC.",
-      '',
-      'I built FlowGrid for exactly this — dispatch, fleet, job logs, and payroll export in one platform, priced for Alberta HVAC margins.',
-      'We build you a working branded demo in 48 hours before you pay anything.',
-      '',
-      `Your personalized demo: ${outreachDemoUrl}`,
-      'Book a 15-minute walkthrough: https://calendly.com/flowgrid/15min',
-      '',
-      '- Kushal, FlowGrid',
-    ].join('\n');
-  }, [leadCity, leadCompany, leadContactName, outreachDemoUrl]);
-
-  const outreachMailtoHref = useMemo(() => {
-    const subject = encodeURIComponent(outreachSubject);
-    const body = encodeURIComponent(outreachEmailBody);
-    return `mailto:?subject=${subject}&body=${body}`;
-  }, [outreachEmailBody, outreachSubject]);
-
-  async function copyOutreachUrl() {
-    try {
-      await navigator.clipboard.writeText(outreachDemoUrl);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      setCopied(false);
-    }
-  }
-
-  async function copyOutreachEmail() {
-    try {
-      await navigator.clipboard.writeText(`Subject: ${outreachSubject}\n\n${outreachEmailBody}`);
-      setEmailCopied(true);
-      window.setTimeout(() => setEmailCopied(false), 1800);
-    } catch {
-      setEmailCopied(false);
-    }
-  }
 
   return (
     <section id="top" className="relative min-h-[92vh] flex items-center overflow-hidden">
@@ -181,39 +111,18 @@ export default function Hero() {
             >
               <a
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+                href="#contact"
+              >
+                Get Your Free Demo →
+              </a>
+              <a
+                className="inline-flex items-center justify-center px-6 py-3.5 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
                 href={primaryDemoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Try the HVAC Demo →
+                Try SummitFlow Demo
               </a>
-              <a
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
-                href="#contact"
-              >
-                Get Your Free Demo Built
-              </a>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.58, ease: 'easeOut' }}
-              className="mt-4 flex flex-wrap gap-2"
-            >
-              {DEMO_LINKS.map((d) => (
-                <a
-                  key={d.href}
-                  href={d.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-border bg-brand-surface/60 text-xs text-brand-muted hover:text-brand-text hover:border-brand-green/30 transition-colors"
-                >
-                  <span className="text-brand-green">●</span>
-                  {d.label}
-                  <span className="text-brand-muted/70">({d.tag})</span>
-                </a>
-              ))}
             </motion.div>
 
             <motion.div
@@ -225,78 +134,6 @@ export default function Hero() {
               <TrustItem text="No credit card" />
               <TrustItem text="No contract" />
               <TrustItem text="Demo delivered in 48 hours" />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.78, ease: 'easeOut' }}
-              className="mt-6 rounded-2xl border border-brand-border bg-brand-surface/80 p-4"
-            >
-              <div className="text-xs tracking-[0.14em] uppercase text-brand-muted">Outreach Link Generator</div>
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <input
-                  type="text"
-                  value={leadCompany}
-                  onChange={(e) => setLeadCompany(e.target.value)}
-                  placeholder="Company name (e.g., Arctic Air HVAC)"
-                  className="w-full rounded-xl border border-white/15 bg-brand-bg/40 px-3 py-2.5 text-sm text-brand-text placeholder:text-brand-muted/80 outline-none focus:border-brand-green/45"
-                />
-                <input
-                  type="text"
-                  value={leadContactName}
-                  onChange={(e) => setLeadContactName(e.target.value)}
-                  placeholder="Contact name (optional)"
-                  className="w-full rounded-xl border border-white/15 bg-brand-bg/40 px-3 py-2.5 text-sm text-brand-text placeholder:text-brand-muted/80 outline-none focus:border-brand-green/45"
-                />
-                <input
-                  type="text"
-                  value={leadCity}
-                  onChange={(e) => setLeadCity(e.target.value)}
-                  placeholder="City (optional)"
-                  className="w-full rounded-xl border border-white/15 bg-brand-bg/40 px-3 py-2.5 text-sm text-brand-text placeholder:text-brand-muted/80 outline-none focus:border-brand-green/45 sm:col-span-2"
-                />
-              </div>
-              <div className="mt-3 rounded-xl border border-white/10 bg-brand-bg/35 px-3 py-2 font-[var(--font-mono)] text-[12px] text-brand-green break-all">
-                {outreachDemoUrl}
-              </div>
-              <div className="mt-3 flex flex-col sm:flex-row gap-2">
-                <button
-                  type="button"
-                  onClick={copyOutreachUrl}
-                  className="inline-flex items-center justify-center rounded-full bg-brand-green px-4 py-2 text-sm font-semibold text-brand-bg hover:bg-brand-green/90 transition-colors"
-                >
-                  {copied ? 'Copied' : 'Copy Link'}
-                </button>
-                <a
-                  href={outreachDemoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-brand-text/90 hover:border-white/35 hover:bg-white/5 transition-colors"
-                >
-                  Open Personalized Demo
-                </a>
-              </div>
-              <textarea
-                value={outreachEmailBody}
-                readOnly
-                className="mt-3 min-h-[140px] w-full rounded-xl border border-white/10 bg-brand-bg/35 px-3 py-2 text-[12px] text-brand-muted outline-none"
-              />
-              <div className="mt-2 flex flex-col sm:flex-row gap-2">
-                <button
-                  type="button"
-                  onClick={copyOutreachEmail}
-                  className="inline-flex items-center justify-center rounded-full bg-brand-green px-4 py-2 text-sm font-semibold text-brand-bg hover:bg-brand-green/90 transition-colors"
-                >
-                  {emailCopied ? 'Copied Email Draft' : 'Copy Email Draft'}
-                </button>
-                <a
-                  href={outreachMailtoHref}
-                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-brand-text/90 hover:border-white/35 hover:bg-white/5 transition-colors"
-                >
-                  Open in Email App
-                </a>
-              </div>
             </motion.div>
           </div>
 
@@ -332,7 +169,7 @@ export default function Hero() {
                 <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
                 <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
                 <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                <span className="ml-3 text-xs text-brand-muted">SummitFlow HVAC Demo — live prototype</span>
+                <span className="ml-3 text-xs text-brand-muted">SummitFlow HVAC Demo — interactive prototype</span>
               </div>
               <a href={primaryDemoUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-green hover:underline">
                 Open full screen →

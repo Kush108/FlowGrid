@@ -50,21 +50,9 @@ export default function ContactSection() {
             className="rounded-2xl p-6 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]"
           >
             <div className="font-semibold text-brand-text/90">Request Your Free Demo</div>
-            <div className="mt-3 flex flex-col sm:flex-row gap-2">
-              <a
-                className="inline-flex items-center justify-center px-4 py-2 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
-                href={calendlyUrl}
-                onClick={openCalendly}
-              >
-                Book a 15-min call
-              </a>
-              <a
-                className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-brand-green/10 text-brand-green border border-brand-green/25"
-                href="mailto:hello@flowgrid.ca"
-              >
-                Or email us
-              </a>
-            </div>
+            <p className="mt-2 text-sm text-brand-muted">
+              Fill out the form below — we&apos;ll respond within 4 hours and have your branded prototype ready in 48.
+            </p>
             <form
               className="mt-5 space-y-3"
               onSubmit={async (e) => {
@@ -214,8 +202,18 @@ export default function ContactSection() {
               {error ? (
                 <div className="text-sm text-red-200/90 text-center">{error}</div>
               ) : !sent ? (
-                <div className="text-xs text-brand-muted text-center">
-                  We’ll respond within 4 hours and have your demo ready in 48. No spam. No sales pressure.
+                <div className="text-xs text-brand-muted text-center space-y-2">
+                  <div>No spam. No sales pressure. No payment until you love the demo.</div>
+                  <div>
+                    Prefer to talk first?{' '}
+                    <a className="text-brand-green hover:underline" href={calendlyUrl} onClick={openCalendly}>
+                      Book a 15-min call
+                    </a>
+                    {' · '}
+                    <a className="text-brand-green hover:underline" href="mailto:hello@flowgrid.ca">
+                      hello@flowgrid.ca
+                    </a>
+                  </div>
                 </div>
               ) : (
                 <div className="text-sm text-brand-green text-center">

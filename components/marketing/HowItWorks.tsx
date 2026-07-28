@@ -63,6 +63,7 @@ export default function HowItWorks() {
             real. We think that&apos;s backwards — especially for HVAC owners who need to see dispatch work during a
             cold snap.&rdquo;
           </div>
+          <div className="mt-3 pl-4 text-sm text-brand-muted not-italic">— Kushal, Founder · Our approach, not a client quote</div>
         </motion.div>
       </div>
     </section>

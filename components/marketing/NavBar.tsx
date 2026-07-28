@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { FlowWordmark } from '@/components/marketing/FlowBrand';
 
 const links = [
@@ -15,18 +15,6 @@ const links = [
 export default function NavBar() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
-  const calendlyUrl =
-    process.env.NEXT_PUBLIC_CALENDLY_URL || process.env.NEXT_PUBLIC_BOOKING_URL || 'https://calendly.com/flowgrid/15min';
-
-  const openCalendly = (e?: MouseEvent<HTMLAnchorElement>) => {
-    if (e) e.preventDefault();
-    const w = window as unknown as { Calendly?: { initPopupWidget: (opts: { url: string }) => void } };
-    if (w.Calendly?.initPopupWidget) {
-      w.Calendly.initPopupWidget({ url: calendlyUrl });
-      return;
-    }
-    window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
-  };
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 8);
@@ -70,14 +58,13 @@ export default function NavBar() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              HVAC Demo
+              Try Demo
             </a>
             <a
               className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-brand-green text-brand-bg font-medium text-sm hover:bg-brand-green/90 transition-colors"
-              href={calendlyUrl}
-              onClick={openCalendly}
+              href="#contact"
             >
-              Book a 15-min call
+              Get Free Demo
             </a>
           </div>
 
@@ -122,8 +109,12 @@ export default function NavBar() {
                   >
                     Try HVAC Demo
                   </a>
-                  <a className="block py-2 text-lg" href="#contact" onClick={() => setOpen(false)}>
-                    Request a free demo
+                  <a
+                    className="block py-2 text-lg text-brand-green"
+                    href="#contact"
+                    onClick={() => setOpen(false)}
+                  >
+                    Get your free demo
                   </a>
                 </div>
 
@@ -131,18 +122,6 @@ export default function NavBar() {
                   <a className="text-brand-muted hover:text-brand-text transition-colors" href="mailto:hello@flowgrid.ca">
                     hello@flowgrid.ca
                   </a>
-                  <div className="mt-4">
-                    <a
-                      className="inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-medium hover:bg-brand-green/90 transition-colors"
-                      href={calendlyUrl}
-                      onClick={(e) => {
-                        openCalendly(e);
-                        setOpen(false);
-                      }}
-                    >
-                      Book a 15-min call
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>

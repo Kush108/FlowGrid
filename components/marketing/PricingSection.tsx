@@ -46,18 +46,18 @@ export default function PricingSection() {
               <Feature text="No commitment" />
             </ul>
             <a
+              href="#contact"
+              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+            >
+              Get My Branded Demo →
+            </a>
+            <a
               href="/summitflow/login"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
+              className="mt-2 inline-flex w-full items-center justify-center px-4 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors text-sm"
             >
-              Try SummitFlow Now
-            </a>
-            <a
-              href="#contact"
-              className="mt-2 inline-flex w-full items-center justify-center px-4 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
-            >
-              Get My Branded Demo
+              Or explore SummitFlow prototype
             </a>
           </motion.div>
 

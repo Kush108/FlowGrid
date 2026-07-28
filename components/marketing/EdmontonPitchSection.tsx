@@ -75,18 +75,18 @@ export default function EdmontonPitchSection() {
           </ul>
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
             <a
+              href="#contact"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+            >
+              Get Your Free Demo →
+            </a>
+            <a
               href="/summitflow/login"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors text-sm"
             >
-              Open SummitFlow HVAC Demo
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
-            >
-              Book founder call
+              Explore SummitFlow prototype
             </a>
           </div>
         </motion.div>

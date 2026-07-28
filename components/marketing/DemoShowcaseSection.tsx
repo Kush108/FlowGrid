@@ -13,8 +13,8 @@ const demos = [
   },
   {
     name: 'Sphinx Ops',
-    tag: 'Social services (live)',
-    desc: 'Real prototype for a 60+ staff home care organization — scheduling, fleet, visit logs, and multi-site management across Edmonton.',
+    tag: 'Social services prototype',
+    desc: 'Interactive prototype modeled on a 60+ staff home care workflow — scheduling, fleet, visit logs, and multi-site management across Edmonton.',
     href: '/sphinxops/login',
     color: '#22c55e',
     features: ['Multi-site scheduling', 'Trauma-informed visit logs', 'Fleet reimbursement', 'Funder-ready reports'],
@@ -79,9 +79,9 @@ export default function DemoShowcaseSection() {
                   href={demo.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-green text-brand-bg font-semibold hover:bg-brand-green/90 transition-colors"
+                  className="mt-5 inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
                 >
-                  Open {demo.name} Demo →
+                  Explore {demo.name} →
                 </a>
               </div>
               <div className="bg-brand-bg/30">

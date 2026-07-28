@@ -42,7 +42,7 @@ export default function AnnouncementBar() {
             </a>
             {' · '}
             <a className="text-brand-green hover:text-brand-green/90 transition-colors" href="/sphinxops/login">
-              Sphinx Ops (social services)
+              Sphinx Ops (social services prototype)
             </a>
           </div>
         </div>

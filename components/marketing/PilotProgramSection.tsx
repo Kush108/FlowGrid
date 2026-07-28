@@ -21,9 +21,9 @@ export default function PilotProgramSection() {
           className="mt-10 rounded-2xl p-6 sm:p-8 border border-brand-border bg-brand-surface shadow-[0_12px_30px_rgba(0,0,0,.25)]"
         >
           <p className="text-brand-text/90 leading-relaxed max-w-3xl">
-            FlowGrid is applying to Edmonton Unlimited with a live HVAC prototype and one social-services deployment.
-            We&apos;re onboarding 3 Edmonton HVAC companies as founding pilot clients — full platform, white-glove setup,
-            and locked-in pricing in exchange for feedback that shapes the product.
+            FlowGrid is applying to Edmonton Unlimited with two live prototypes — SummitFlow for HVAC and Sphinx Ops for
+            social services. We&apos;re onboarding 3 Edmonton HVAC companies as founding pilot partners — full platform,
+            white-glove setup, and locked-in pricing in exchange for feedback that shapes the product.
           </p>
           <ul className="mt-6 space-y-3 text-brand-text/85">
             {[
@@ -49,9 +49,9 @@ export default function PilotProgramSection() {
               href="/summitflow/login"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/20 text-brand-text/90 hover:border-white/30 hover:bg-white/5 transition-colors text-sm"
             >
-              Explore SummitFlow Demo
+              Explore prototype first
             </a>
           </div>
         </motion.div>

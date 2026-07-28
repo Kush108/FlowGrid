@@ -26,7 +26,7 @@ const reasons = [
   {
     icon: '📍',
     title: 'Built in Edmonton',
-    body: 'Local founder, local support, Alberta compliance (CRA mileage, provincial labour). Edmonton Unlimited portfolio company in progress.',
+    body: 'Local founder, local support, Alberta compliance (CRA mileage, provincial labour). Applying to Edmonton Unlimited.',
   },
   {
     icon: '🔗',
